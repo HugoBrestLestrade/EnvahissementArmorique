@@ -1,4 +1,5 @@
 package org.example.envahissementarmorique.model.character.interfaces;
 
-public class FIghter {
+public interface Fighter {
+    void takeDamage(int damage);
 }
