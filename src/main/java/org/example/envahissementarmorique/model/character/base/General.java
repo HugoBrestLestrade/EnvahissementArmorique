@@ -1,4 +1,4 @@
 package org.example.envahissementarmorique.model.character.base;
 
-public class Gaul {
+public class General {
 }
