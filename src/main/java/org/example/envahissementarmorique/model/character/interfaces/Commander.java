@@ -1,17 +1,17 @@
 package org.example.envahissementarmorique.model.character.interfaces;
 
-public class Commander {
-    void inspectLocation(){}
+public interface Commander {
+    void inspectLocation();
 
-    void createNewCharacter(){}
+    void createNewCharacter();
 
-    void healCharacter(){}
+    void healCharacter();
 
-    void feedCharacter(){}
+    void feedCharacter();
 
-    void askToCreatePotion(){}
+    void askToCreatePotion();
 
-    void drinkPotion(){}
+    void drinkPotion();
 
-    void transferCharacterToLocation(){}
+    void transferCharacterToLocation();
 }
