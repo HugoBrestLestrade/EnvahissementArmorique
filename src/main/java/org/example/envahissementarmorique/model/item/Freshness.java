@@ -5,6 +5,8 @@ package org.example.envahissementarmorique.model.item;
  * - Fresh
  * - Quite Fresh
  * - Rotten
+ * @author Boudhib Mohamed-Amine
+ * @version 1.0
  */
 
 public enum Freshness {
