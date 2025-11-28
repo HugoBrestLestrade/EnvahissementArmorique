@@ -26,7 +26,7 @@ public enum Freshness {
     /**
      * Advances the decay process of the food.
      * FRESH -> QUITE_FRESH -> ROTTEN -> ROTTEN
-     * * @return The next state of freshness.
+     * @return The next state of freshness.
      */
     public Freshness degrade() {
         return switch(this) {

@@ -25,7 +25,7 @@ public final class Food extends Consumable {
      * @param name The name of the food (e.g., "Sanglier", "Poisson").
      * @param nutritionalValue The amount of hunger this food removes.
      */
-    public Food(String name, int nutritionalValue) {
+    public Food(String name, int nutritionalValue, ) {
         super(name);
         this.nutritionalValue = nutritionalValue;
         this.isFresh = true;
