@@ -4,6 +4,6 @@ module org.example.envahissementarmorique {
 
     requires org.controlsfx.controls;
 
-    opens org.example.envahissementarmorique to javafx.fxml;
-    exports org.example.envahissementarmorique;
+    opens org.example.envahissementarmorique.app to javafx.fxml;
+    exports org.example.envahissementarmorique.app;
 }
