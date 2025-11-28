@@ -1,6 +1,8 @@
 package org.example.envahissementarmorique.model.character.base;
 
-public class Character {
+import org.example.envahissementarmorique.model.character.interfaces.Fighter;
+
+public class Character implements Fighter {
     private String name;
     private String genre;
     private String faction;
@@ -34,6 +36,10 @@ public class Character {
 
     public String getGenre() {
         return genre;
+    }
+
+    public String getFaction() {
+        return faction;
     }
 
     public double getHeight() {
@@ -77,6 +83,10 @@ public class Character {
         this.genre = genre;
     }
 
+    public void setFaction(String faction) {
+        this.faction = faction;
+    }
+
     public void setHeight(double height) {
         this.height = height;
     }
@@ -107,5 +117,12 @@ public class Character {
 
     public void setMagicpotion(int magicpotion) {
         this.magicpotion = magicpotion;
+    }
+
+
+
+    @Override
+    public void takeDamage(int damage) {
+        this.setHealth(this.getHealth() - damage);
     }
 }
