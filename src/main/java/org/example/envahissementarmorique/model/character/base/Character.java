@@ -129,12 +129,12 @@ public class Character implements Fighter {
     public void profile(){
         System.out.println("------------------");
         System.out.println("nom : " +  this.getName());
-        System.out.println("vie : " + this.getHeight());
+        System.out.println("vie : " + Math.max(0, this.getHealth()));
         System.out.println("endurance : " + this.getEndurance());
         System.out.println("------------------");
     }
 
     public boolean stillAlive(){
-        return this.getHealth() <= 0;
+        return this.getHealth() > 0;
     }
 }

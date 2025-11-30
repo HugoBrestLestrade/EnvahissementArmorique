@@ -15,7 +15,7 @@ public class General extends Character implements TypeCombat {
 
     @Override
     public void battre(Character ally) {
-        if (!this.getName().equals(ally.getFaction())) {
+        if (!this.getFaction().equals(ally.getFaction())) {
             System.out.println(ally.getName() + " et " + this.getName() + " ne font pas partie de la même faction !");
             return;
         }
@@ -23,19 +23,46 @@ public class General extends Character implements TypeCombat {
         System.out.println(ally.getName() + " et " + this.getName() + " vont se battre !");
         //SYSTEME DE COMBAT par tours:
 
-        int attaquerDamage = (int) Math.max(1, Math.round(this.getStrength() - ally.getEndurance()) / 0.35);
-        int allyDamage = (int) Math.max(1, Math.round(ally.getStrength() - this.getEndurance()) / 0.35);
+        int attaquerDamage = (int) Math.max(1,
+                Math.round(((double)this.getStrength() - ally.getEndurance()) * 5)
+        );
+        int allyDamage = (int) Math.max(1,
+                Math.round(((double)ally.getStrength() - this.getEndurance()) * 5)
+        );
         boolean tourAttaquant = true;
+
+        if (!ally.stillAlive() || !this.stillAlive()) {
+            System.out.println("Un des combattants est mort, le combat ne peut pas trop commencer");
+            return;
+        }
+
         while (ally.stillAlive() && this.stillAlive()) {
             if (tourAttaquant) {
                 ally.takeDamage(attaquerDamage);
+                System.out.println(ally.getName() + "fait " + allyDamage + " dégâts");
                 ally.profile();
                 this.profile();
+                if (ally.stillAlive()) {
+                    System.out.println("Tour de :" + ally.getName());
+                }
+                else {
+                    System.out.println(ally.getName() + " est mort, la gagnant est : " + this.getName());
+                    ally.setHealth(0);
+                }
+
             }
             else {
                 this.takeDamage(allyDamage);
+                System.out.println(this.getName() + "fait " + attaquerDamage + " dégâts");
                 ally.profile();
                 this.profile();
+                if (this.stillAlive()) {
+                    System.out.println("Tour de :" + this.getName());
+                }
+                else {
+                    System.out.println(this.getName() + " est mort, la gagnant est : " + ally.getName());
+                    this.setHealth(0);
+                }
             }
             tourAttaquant = !tourAttaquant;
         }
