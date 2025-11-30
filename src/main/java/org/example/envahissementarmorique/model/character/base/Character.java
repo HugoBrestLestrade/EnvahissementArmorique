@@ -125,4 +125,16 @@ public class Character implements Fighter {
     public void takeDamage(int damage) {
         this.setHealth(this.getHealth() - damage);
     }
+
+    public void profile(){
+        System.out.println("------------------");
+        System.out.println("nom : " +  this.getName());
+        System.out.println("vie : " + this.getHeight());
+        System.out.println("endurance : " + this.getEndurance());
+        System.out.println("------------------");
+    }
+
+    public boolean stillAlive(){
+        return this.getHealth() <= 0;
+    }
 }
