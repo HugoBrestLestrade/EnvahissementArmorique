@@ -14,27 +14,27 @@ public abstract sealed class Consumable permits Food, Potion {
     /**
      * The type of the food (e.g., BOAR, FRESH_FISH, WINE, etc.).
      */
-    protected final FoodType foodType;
+    protected final Foods foods;
 
     /**
      * Constructor for a consumable item.
      *
-     * @param foodType The type of food (cannot be null).
+     * @param foods The type of food (cannot be null).
      */
-    public Consumable(FoodType foodType) {
-        if (foodType == null) {
-            throw new IllegalArgumentException("FoodType cannot be null.");
+    public Consumable(Foods foods) {
+        if (foods == null) {
+            throw new IllegalArgumentException("Foods cannot be null.");
         }
-        this.foodType = foodType;
+        this.foods = foods;
     }
 
     /**
      * Gets the type of the consumable.
      *
-     * @return The FoodType.
+     * @return The Foods.
      */
-    public FoodType getFoodType() {
-        return foodType;
+    public Foods getFoods() {
+        return foods;
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract sealed class Consumable permits Food, Potion {
      * @return The name as a String.
      */
     public String getName() {
-        return foodType.getLabel();
+        return foods.getLabel();
     }
 
     /**
@@ -62,6 +62,6 @@ public abstract sealed class Consumable permits Food, Potion {
 
     @Override
     public String toString() {
-        return foodType.getLabel();
+        return foods.getLabel();
     }
 }

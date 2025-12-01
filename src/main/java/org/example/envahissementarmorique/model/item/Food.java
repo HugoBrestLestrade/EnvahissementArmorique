@@ -21,21 +21,21 @@ public final class Food extends Consumable {
      * Creates a new Food item.
      * By default, food appears fresh when created.
      *
-     * @param foodType The type of food (e.g., BOAR, FRESH_FISH, etc.).
+     * @param foods The type of food (e.g., BOAR, FRESH_FISH, etc.).
      */
-    public Food(FoodType foodType) {
-        super(foodType);
+    public Food(Foods foods) {
+        super(foods);
         this.freshness = Freshness.FRESH;
     }
 
     /**
      * Creates a new Food item with a specific freshness level.
      *
-     * @param foodType The type of food (e.g., BOAR, FRESH_FISH, etc.).
+     * @param foods The type of food (e.g., BOAR, FRESH_FISH, etc.).
      * @param freshness The initial freshness state of the food.
      */
-    public Food(FoodType foodType, Freshness freshness) {
-        super(foodType);
+    public Food(Foods foods, Freshness freshness) {
+        super(foods);
         this.freshness = freshness;
     }
 
@@ -62,7 +62,7 @@ public final class Food extends Consumable {
      * @return The nutritional value.
      */
     public int getNutritionalValue() {
-        return foodType.getNutrition();
+        return foods.getNutrition();
     }
 
     /**
@@ -80,13 +80,13 @@ public final class Food extends Consumable {
         
         // Eating rotten fish or rotten food affects health negatively
         if (freshness == Freshness.ROTTEN && 
-            (foodType == FoodType.ROTTEN_FISH || foodType == FoodType.FRESH_FISH)) {
+            (foods == Foods.ROTTEN_FISH || foods == Foods.FRESH_FISH)) {
             // Bad for health - implementation depends on Character class
         }
     }
 
     @Override
     public String toString() {
-        return foodType.getLabel() + " (" + freshness.getLabel() + ")";
+        return foods.getLabel() + " (" + freshness.getLabel() + ")";
     }
 }

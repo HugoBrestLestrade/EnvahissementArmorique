@@ -16,12 +16,12 @@ public final class Potion extends Consumable {
 
     /**
      * Creates a new Potion.
-     * Potions use special FoodType ingredients like SECRET_INGREDIENT.
+     * Potions use special Foods ingredients like SECRET_INGREDIENT.
      *
-     * @param foodType The type of potion ingredient.
+     * @param foods The type of potion ingredient.
      */
-    public Potion(FoodType foodType) {
-        super(foodType);
+    public Potion(Foods foods) {
+        super(foods);
     }
 
     /**
@@ -39,6 +39,6 @@ public final class Potion extends Consumable {
 
     @Override
     public String toString() {
-        return "Potion: " + foodType.getLabel();
+        return "Potion: " + foods.getLabel();
     }
 }
