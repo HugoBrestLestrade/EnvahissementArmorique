@@ -1,7 +1,10 @@
 package org.example.envahissementarmorique.model.place;
 
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
+import org.example.envahissementarmorique.model.character.base.ClanLeader;
 
 /**
+
  * Village gaulois
  * Ne peut contenir que des Gaulois et des créatures fantastiques
  */
@@ -12,15 +15,39 @@ public class Village extends Place {
     }
 
     /**
-     * Seuls les Gaulois et les créatures fantastiques sont autorisés
+
+     * Vérifie si le personnage peut entrer dans le village
      */
     @Override
-    protected boolean canAddCharacter(Character c) {
-        return (c instanceof Gaul || c instanceof FantasticCreature);
+    protected boolean canAddCharacter(GameCharacter c) {
+        return c.getFaction().equals("Gaulois") || c instanceof FantasticCreature;
     }
 
     /**
-     * Affichage personnalisé
+
+     * Ajout d'un personnage dans le village
+     */
+    @Override
+    public boolean addCharacter(GameCharacter c) {
+        if (c == null) {
+            System.out.println("Erreur : personnage null");
+            return false;
+        }
+
+        if (!canAddCharacter(c)) {
+            System.out.println(c.getName() + " n'est pas autorisé à entrer dans le village !");
+            System.out.println("(Seuls les Gaulois et les créatures fantastiques sont acceptés)");
+            return false;
+        }
+
+        characters.add(c);
+        System.out.println(c.getName() + " entre dans le village " + name);
+        return true;
+    }
+
+    /**
+
+     * Affichage du village
      */
     @Override
     public void display() {
@@ -36,9 +63,10 @@ public class Village extends Place {
 
         System.out.println("\nHabitants présents : " + characters.size());
         if (!characters.isEmpty()) {
-            for (Character c : characters) {
-                System.out.println("  • " + c.toString() +
-                        " [Santé: " + c.getHealth() + "]");
+            for (GameCharacter c : characters) {
+                System.out.println("  • " + c.getName() +
+                        " [Faction: " + c.getFaction() +
+                        ", Santé: " + c.getHealth() + "]");
             }
         } else {
             System.out.println("  (Aucun habitant)");
@@ -46,34 +74,13 @@ public class Village extends Place {
 
         System.out.println("\nNourriture disponible : " + foods.size());
         if (!foods.isEmpty()) {
-            for (var food : foods) {
-                System.out.println("  • " + food);
+            for (var f : foods) {
+                System.out.println("  • " + f);
             }
         } else {
             System.out.println("  (Aucune nourriture)");
         }
 
         System.out.println("========================================\n");
-    }
-
-    /**
-     * Tentative d'ajout d'un personnage dans le village
-     */
-    @Override
-    public boolean addCharacter(Character c) {
-        if (c == null) {
-            System.out.println("Erreur : personnage null");
-            return false;
-        }
-
-        if (!canAddCharacter(c)) {
-            System.out.println(c.getName() + " n'est pas autorisé à entrer dans le village !");
-            System.out.println("   (Seuls les Gaulois et créatures fantastiques sont acceptés)");
-            return false;
-        }
-
-        characters.add(c);
-        System.out.println(c.getName() + " entre dans le village " + name);
-        return true;
     }
 }

@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
  * Represents an item that can be consumed by a character in the simulation.
@@ -58,7 +58,7 @@ public abstract sealed class Consumable permits Food, Potion {
      *
      * @param consumer The character consuming the item.
      */
-    public abstract void consume(Character consumer);
+    public abstract void consume(GameCharacter consumer);
 
     @Override
     public String toString() {

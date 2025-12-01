@@ -3,7 +3,7 @@ package org.example.envahissementarmorique.model.character.base;
 import org.example.envahissementarmorique.model.character.interfaces.Fighter;
 import org.example.envahissementarmorique.model.item.Food;
 
-public class Character implements Fighter {
+public class GameCharacter implements Fighter {
     private String name;
     private String genre;
     private String faction;
@@ -18,7 +18,7 @@ public class Character implements Fighter {
     protected int maxHealth;
 
 
-    public Character(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public GameCharacter(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         this.name = name;
         this.genre = genre;
         this.faction = faction;
