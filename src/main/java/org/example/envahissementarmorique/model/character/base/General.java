@@ -2,9 +2,7 @@ package org.example.envahissementarmorique.model.character.base;
 
 import org.example.envahissementarmorique.model.character.interfaces.TypeCombat;
 
-import java.util.Objects;
-
-public class General extends Character implements TypeCombat {
+public class General extends GameCharacter implements TypeCombat {
 
     public General(String name, String genre, String faction, double height, int age,
                    int strength, int endurance, int health, int hunger,
@@ -14,7 +12,7 @@ public class General extends Character implements TypeCombat {
     }
 
     @Override
-    public void battre(Character ally) {
+    public void battre(GameCharacter ally) {
         if (!this.getName().equals(ally.getFaction())) {
             System.out.println(ally.getName() + " et " + this.getName() + " ne font pas partie de la même faction !");
             return;
@@ -28,7 +26,7 @@ public class General extends Character implements TypeCombat {
     }
 
     @Override
-    public void combattre(Character ennemy, String location) {
+    public void combattre(GameCharacter ennemy, String location) {
         if (this.getFaction().equals(ennemy.getFaction())) {
             System.out.println(ennemy.getName() + " et " + this.getName() + " font partie de la même faction !");
             return;

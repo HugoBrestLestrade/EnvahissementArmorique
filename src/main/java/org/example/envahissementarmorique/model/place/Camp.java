@@ -1,7 +1,17 @@
 package org.example.envahissementarmorique.model.place;
 
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
+import org.example.envahissementarmorique.model.character.base.ClanLeader;
+import org.example.envahissementarmorique.model.character.base.Fighter;
+import org.example.envahissementarmorique.model.character.base.Roman;
+import org.example.envahissementarmorique.model.character.base.FantasticCreature;
+import org.example.envahissementarmorique.model.item.Food;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+
  * Camp retranché romain - ne peut contenir que des combattants romains et des créatures fantastiques
  */
 public class Camp extends Place {
@@ -11,25 +21,16 @@ public class Camp extends Place {
     }
 
     @Override
-    protected boolean canAddCharacter(Character c) {
-        // Accepte les créatures fantastiques
-        if (c instanceof FantasticCreature) {
-            return true;
-        }
-
-        // Accepte uniquement les Romains qui sont aussi des combattants
-        // (Légionnaires, Généraux - mais pas les Préfets qui ne combattent pas)
-        if (c instanceof Roman && c instanceof Fighter) {
-            return true;
-        }
-
+    protected boolean canAddCharacter(GameCharacter c) {
+        if (c instanceof FantasticCreature) return true;
+        if (c instanceof Roman && c instanceof Fighter) return true;
         return false;
     }
 
     @Override
     public void display() {
         System.out.println("\n========================================");
-        System.out.println("🏛️  CAMP RETRANCHÉ ROMAIN : " + name);
+        System.out.println("CAMP RETRANCHÉ ROMAIN : " + name);
         System.out.println("Superficie : " + area + " m²");
 
         if (chief != null) {
@@ -45,11 +46,10 @@ public class Camp extends Place {
             int generaux = 0;
             int creatures = 0;
 
-            for (Character c : characters) {
+            for (GameCharacter c : characters) {
                 String status = c.isDead() ? " [MORT]" : " [Santé: " + c.getHealth() + "]";
                 System.out.println("  • " + c.toString() + status);
 
-                // Comptage par type
                 if (c instanceof FantasticCreature) {
                     creatures++;
                 } else if (c.getClass().getSimpleName().equals("General")) {
@@ -77,27 +77,21 @@ public class Camp extends Place {
             System.out.println("  (Aucune provision)");
         }
         System.out.println("========================================\n");
+
+
     }
 
-    /**
-     * Vérifie si le camp a assez de combattants pour se défendre
-     */
     public boolean isDefended() {
         int aliveFighters = 0;
-        for (Character c : characters) {
-            if (!c.isDead() && c instanceof Fighter) {
-                aliveFighters++;
-            }
+        for (GameCharacter c : characters) {
+            if (!c.isDead() && c instanceof Fighter) aliveFighters++;
         }
-        return aliveFighters >= 3; // Minimum 3 combattants pour défendre le camp
+        return aliveFighters >= 3;
     }
 
-    /**
-     * Obtient tous les légionnaires du camp
-     */
-    public List<Character> getLegionnaires() {
-        List<Character> legionnaires = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getLegionnaires() {
+        List<GameCharacter> legionnaires = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (c.getClass().getSimpleName().equals("Legionnaire")) {
                 legionnaires.add(c);
             }
@@ -105,12 +99,9 @@ public class Camp extends Place {
         return legionnaires;
     }
 
-    /**
-     * Obtient tous les généraux du camp
-     */
-    public List<Character> getGenerals() {
-        List<Character> generals = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getGenerals() {
+        List<GameCharacter> generals = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (c.getClass().getSimpleName().equals("General")) {
                 generals.add(c);
             }
@@ -118,35 +109,24 @@ public class Camp extends Place {
         return generals;
     }
 
-    /**
-     * Prépare les combattants pour une bataille
-     */
     public void prepareForBattle() {
-        System.out.println("\n🎺 " + name + " prépare ses troupes pour la bataille !");
-
-        for (Character c : characters) {
+        System.out.println("\n" + name + " prépare ses troupes pour la bataille !");
+        for (GameCharacter c : characters) {
             if (!c.isDead() && c instanceof Fighter) {
-                // Améliorer l'endurance et la belligérance avant le combat
                 System.out.println("  - " + c.getName() + " se prépare au combat");
             }
         }
     }
 
-    /**
-     * Organise l'entraînement des légionnaires
-     */
     public void trainTroops() {
-        System.out.println("\n⚔️ Entraînement au camp " + name);
-
+        System.out.println("\nEntraînement au camp " + name);
         int trained = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (!c.isDead() && c.getClass().getSimpleName().equals("Legionnaire")) {
-                // Augmenter légèrement la force et l'endurance
                 System.out.println("  - " + c.getName() + " s'entraîne");
                 trained++;
             }
         }
-
         if (trained == 0) {
             System.out.println("  Aucun légionnaire disponible pour l'entraînement");
         } else {
@@ -154,24 +134,19 @@ public class Camp extends Place {
         }
     }
 
-    /**
-     * Affiche l'état de la garnison
-     */
     public void displayGarrisonStatus() {
-        System.out.println("\n📊 État de la garnison - " + name);
-
+        System.out.println("\nÉtat de la garnison - " + name);
         int total = 0;
         int alive = 0;
         int wounded = 0;
 
-        for (Character c : characters) {
+
+        for (GameCharacter c : characters) {
             if (c instanceof Roman) {
                 total++;
                 if (!c.isDead()) {
                     alive++;
-                    if (c.getHealth() < 50) {
-                        wounded++;
-                    }
+                    if (c.getHealth() < 50) wounded++;
                 }
             }
         }
@@ -182,9 +157,10 @@ public class Camp extends Place {
         System.out.println("Morts : " + (total - alive) + " soldats");
 
         if (isDefended()) {
-            System.out.println("Statut : ✅ Camp bien défendu");
+            System.out.println("Statut : Camp bien défendu");
         } else {
-            System.out.println("Statut : ⚠️ Camp vulnérable - renforts nécessaires");
+            System.out.println("Statut : Camp vulnérable - renforts nécessaires");
         }
+
     }
 }

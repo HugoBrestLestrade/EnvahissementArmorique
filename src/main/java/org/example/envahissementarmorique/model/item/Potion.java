@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
  * Represents a magic potion in the simulation.
@@ -31,7 +31,7 @@ public final class Potion extends Consumable {
      * @param consumer The character consuming the potion.
      */
     @Override
-    public void consume(Character consumer) {
+    public void consume(GameCharacter consumer) {
         // Potion increases magic potion level
         // Note: Waining to implement magic potion level in Character class (Work of Hugo)
         // which should not be modified per requirements

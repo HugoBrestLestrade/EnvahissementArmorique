@@ -1,7 +1,8 @@
 package org.example.envahissementarmorique.model.place;
 
-
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 import org.example.envahissementarmorique.model.item.Food;
+import org.example.envahissementarmorique.model.character.base.ClanLeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public abstract class Place {
     protected String name;
     protected float area;
     protected ClanLeader chief;
-    protected List<Character> characters = new ArrayList<>();
+    protected List<GameCharacter> characters = new ArrayList<>();
     protected List<Food> foods = new ArrayList<>();
 
     public Place(String name, float area, ClanLeader chief) {
@@ -25,7 +26,7 @@ public abstract class Place {
     public float getArea() { return area; }
     public ClanLeader getChief() { return chief; }
     public void setChief(ClanLeader chief) { this.chief = chief; }
-    public List<Character> getCharacters() { return characters; }
+    public List<GameCharacter> getCharacters() { return characters; }
     public List<Food> getFoods() { return foods; }
     public int getNumberOfCharacters() { return characters.size(); }
 
@@ -44,7 +45,7 @@ public abstract class Place {
         System.out.println("\nNombre de personnages : " + characters.size());
         if (!characters.isEmpty()) {
             System.out.println("Personnages présents :");
-            for (Character c : characters) {
+            for (GameCharacter c : characters) {
                 System.out.println("  • " + c.toString());
             }
         } else {
@@ -64,7 +65,7 @@ public abstract class Place {
     }
 
     // ============== PERSONNAGES ==============
-    public boolean addCharacter(Character c) {
+    public boolean addCharacter(GameCharacter c) {
         if (c == null) {
             System.out.println("Erreur : personnage null");
             return false;
@@ -80,7 +81,7 @@ public abstract class Place {
         return false;
     }
 
-    public boolean removeCharacter(Character c) {
+    public boolean removeCharacter(GameCharacter c) {
         if (characters.remove(c)) {
             System.out.println(c.getName() + " quitte " + name);
             return true;
@@ -89,11 +90,11 @@ public abstract class Place {
     }
 
     public void removeDeadCharacters() {
-        characters.removeIf(c -> c.isDead());
+        characters.removeIf(GameCharacter::isDead);
     }
 
-    public Character getCharacterByName(String name) {
-        for (Character c : characters) {
+    public GameCharacter getCharacterByName(String name) {
+        for (GameCharacter c : characters) {
             if (c.getName().equals(name)) {
                 return c;
             }
@@ -101,9 +102,9 @@ public abstract class Place {
         return null;
     }
 
-    public List<Character> getCharactersByType(Class<?> type) {
-        List<Character> result = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getCharactersByType(Class<?> type) {
+        List<GameCharacter> result = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (type.isInstance(c)) {
                 result.add(c);
             }
@@ -113,17 +114,15 @@ public abstract class Place {
 
     public int getAliveCharactersCount() {
         int count = 0;
-        for (Character c : characters) {
-            if (!c.isDead()) {
-                count++;
-            }
+        for (GameCharacter c : characters) {
+            if (!c.isDead()) count++;
         }
         return count;
     }
 
     // ============== SOINS ==============
     public void healAll(int amount) {
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (!c.isDead()) {
                 c.heal(amount);
             }
@@ -132,7 +131,7 @@ public abstract class Place {
 
     // ============== NOURRITURE ==============
     public void feedAll() {
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (c.needsFood()) {
                 Food food = findSuitableFood(c);
                 if (food != null) {
@@ -143,31 +142,19 @@ public abstract class Place {
         }
     }
 
-    private Food findSuitableFood(Character c) {
+    private Food findSuitableFood(GameCharacter c) {
         for (Food food : foods) {
-            if (c.canEat(food)) {
-                return food;
-            }
+            if (c.canEat(food)) return food;
         }
         return null;
     }
 
-    public void addFood(Food food) {
-        foods.add(food);
-    }
-
-    public void addFoods(List<Food> foodList) {
-        foods.addAll(foodList);
-    }
-
-    public void removeFood(Food food) {
-        foods.remove(food);
-    }
-
-    public void clearFoods() {
-        foods.clear();
-    }
+    public void addFood(Food food) { foods.add(food); }
+    public void addFoods(List<Food> foodList) { foods.addAll(foodList); }
+    public void removeFood(Food food) { foods.remove(food); }
+    public void clearFoods() { foods.clear(); }
 
     // ============== Filtrage par type de lieu ==============
-    protected abstract boolean canAddCharacter(Character c);
+    protected abstract boolean canAddCharacter(GameCharacter c);
+
 }
