@@ -12,20 +12,29 @@ import org.example.envahissementarmorique.model.character.base.Character;
 public abstract sealed class Consumable permits Food, Potion {
 
     /**
-     * The name of the consumable (e.g., "Sanglier", "Potion Magique").
+     * The type of the food (e.g., BOAR, FRESH_FISH, WINE, etc.).
      */
-    protected final String name;
+    protected final Foods foods;
 
     /**
      * Constructor for a consumable item.
      *
-     * @param name The name of the item (cannot be null).
+     * @param foods The type of food (cannot be null).
      */
-    public Consumable(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Consumable name cannot be empty.");
+    public Consumable(Foods foods) {
+        if (foods == null) {
+            throw new IllegalArgumentException("Foods cannot be null.");
         }
-        this.name = name;
+        this.foods = foods;
+    }
+
+    /**
+     * Gets the type of the consumable.
+     *
+     * @return The Foods.
+     */
+    public Foods getFoods() {
+        return foods;
     }
 
     /**
@@ -34,7 +43,7 @@ public abstract sealed class Consumable permits Food, Potion {
      * @return The name as a String.
      */
     public String getName() {
-        return name;
+        return foods.getLabel();
     }
 
     /**
@@ -53,6 +62,6 @@ public abstract sealed class Consumable permits Food, Potion {
 
     @Override
     public String toString() {
-        return this.name;
+        return foods.getLabel();
     }
 }
