@@ -29,6 +29,16 @@ public class General extends Character implements TypeCombat {
         int allyDamage = (int) Math.max(1,
                 Math.round(((double)ally.getStrength() - this.getEndurance()) * 5)
         );
+        if (attaquerDamage == 1) {
+            attaquerDamage = (int) Math.max(1,
+                    Math.round(((double)this.getStrength() - (ally.getEndurance()/2)) * 1.75)
+            );
+        }
+        else if (allyDamage == 1) {
+            allyDamage = (int) Math.max(1,
+                    Math.round(((double)ally.getStrength() - (this.getEndurance()/2)) * 1.75)
+            );
+        }
         boolean tourAttaquant = true;
 
         if (!ally.stillAlive() || !this.stillAlive()) {
