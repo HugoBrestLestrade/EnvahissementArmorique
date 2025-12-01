@@ -2,21 +2,21 @@ package org.example.envahissementarmorique.model.place;
 
 
 /**
- * Village gaulois
- * Ne peut contenir que des Gaulois et des créatures fantastiques
+ * Camp retranché romain
+ * Ne peut contenir que des combattants romains et des créatures fantastiques
  */
-public class Village extends Place {
+public class RomanCamp extends Place {
 
-    public Village(String name, float area, ClanLeader chief) {
+    public RomanCamp(String name, float area, ClanLeader chief) {
         super(name, area, chief);
     }
 
     /**
-     * Seuls les Gaulois et les créatures fantastiques sont autorisés
+     * Seuls les Romains et les créatures fantastiques sont autorisés
      */
     @Override
     protected boolean canAddCharacter(Character c) {
-        return (c instanceof Gaul || c instanceof FantasticCreature);
+        return (c instanceof Roman || c instanceof FantasticCreature);
     }
 
     /**
@@ -25,39 +25,39 @@ public class Village extends Place {
     @Override
     public void display() {
         System.out.println("\n========================================");
-        System.out.println("VILLAGE : " + name);
+        System.out.println("CAMP ROMAIN : " + name);
         System.out.println("Superficie : " + area + " m²");
 
         if (chief != null) {
-            System.out.println("Chef du village : " + chief.getName());
+            System.out.println("Commandant : " + chief.getName());
         } else {
-            System.out.println("Chef du village : Aucun");
+            System.out.println("Commandant : Aucun");
         }
 
-        System.out.println("\nHabitants présents : " + characters.size());
+        System.out.println("\nSoldats présents : " + characters.size());
         if (!characters.isEmpty()) {
             for (Character c : characters) {
                 System.out.println("  • " + c.toString() +
                         " [Santé: " + c.getHealth() + "]");
             }
         } else {
-            System.out.println("  (Aucun habitant)");
+            System.out.println("  (Aucun soldat dans le camp)");
         }
 
-        System.out.println("\nNourriture disponible : " + foods.size());
+        System.out.println("\nRavitaillement : " + foods.size());
         if (!foods.isEmpty()) {
             for (var food : foods) {
                 System.out.println("  • " + food);
             }
         } else {
-            System.out.println("  (Aucune nourriture)");
+            System.out.println("  (Aucune ration)");
         }
 
         System.out.println("========================================\n");
     }
 
     /**
-     * Tentative d'ajout d'un personnage dans le village
+     * Tentative d'ajout d'un personnage dans le camp
      */
     @Override
     public boolean addCharacter(Character c) {
@@ -67,13 +67,14 @@ public class Village extends Place {
         }
 
         if (!canAddCharacter(c)) {
-            System.out.println(c.getName() + " n'est pas autorisé à entrer dans le village !");
-            System.out.println("   (Seuls les Gaulois et créatures fantastiques sont acceptés)");
+            System.out.println(c.getName()
+                    + " ne peut pas entrer dans le camp romain !");
+            System.out.println("   (Seuls les Romains et créatures fantastiques sont acceptés)");
             return false;
         }
 
         characters.add(c);
-        System.out.println(c.getName() + " entre dans le village " + name);
+        System.out.println(c.getName() + " entre dans le camp " + name);
         return true;
     }
 }
