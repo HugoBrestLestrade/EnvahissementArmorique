@@ -16,6 +16,7 @@ public class General extends Character implements TypeCombat {
     @Override
     public void battre(Character ally) {
         if (!this.getFaction().equals(ally.getFaction())) {
+
             System.out.println(ally.getName() + " et " + this.getName() + " ne font pas partie de la même faction !");
             return;
         }
@@ -49,11 +50,13 @@ public class General extends Character implements TypeCombat {
         while (ally.stillAlive() && this.stillAlive()) {
             if (tourAttaquant) {
                 ally.takeDamage(attaquerDamage);
-                System.out.println(ally.getName() + "fait " + allyDamage + " dégâts");
+                System.out.println();
+                System.out.println(this.getName() + " attaque " + ally.getName() + " et lui fait " + attaquerDamage + " dégâts");
                 ally.profile();
                 this.profile();
+                System.out.println();
                 if (ally.stillAlive()) {
-                    System.out.println("Tour de :" + ally.getName());
+                    System.out.println("Tour de : " + ally.getName());
                 }
                 else {
                     System.out.println(ally.getName() + " est mort, la gagnant est : " + this.getName());
@@ -63,9 +66,11 @@ public class General extends Character implements TypeCombat {
             }
             else {
                 this.takeDamage(allyDamage);
-                System.out.println(this.getName() + "fait " + attaquerDamage + " dégâts");
+                System.out.println();
+                System.out.println(ally.getName() + " attaque " + this.getName() + " et lui fait " + allyDamage + " dégâts");
                 ally.profile();
                 this.profile();
+                System.out.println();
                 if (this.stillAlive()) {
                     System.out.println("Tour de :" + this.getName());
                 }
@@ -79,17 +84,4 @@ public class General extends Character implements TypeCombat {
 
     }
 
-    @Override
-    public void combattre(Character ennemy, String location) {
-        if (this.getFaction().equals(ennemy.getFaction())) {
-            System.out.println(ennemy.getName() + " et " + this.getName() + " font partie de la même faction !");
-            return;
-        }
-        if (ennemy.getStrength() < this.getStrength()) {
-            System.out.println(this.getName() + " est plus fort que " + ennemy.getName());
-        }
-        else { //TODO : Ensure that both combatants lose life
-            System.out.println(ennemy.getName() + " est plus fort que " + this.getName());
-        }
-    } // TODO
 }
