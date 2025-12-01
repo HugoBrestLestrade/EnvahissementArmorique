@@ -1,6 +1,7 @@
 package org.example.envahissementarmorique.model.character.base;
 
 import org.example.envahissementarmorique.model.character.interfaces.Fighter;
+import org.example.envahissementarmorique.model.item.Food;
 
 public class Character implements Fighter {
     private String name;
@@ -14,6 +15,8 @@ public class Character implements Fighter {
     private int hunger;
     private int belligerence;
     private int magicpotion;
+    protected int maxHealth;
+
 
     public Character(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         this.name = name;
@@ -119,7 +122,44 @@ public class Character implements Fighter {
         this.magicpotion = magicpotion;
     }
 
+    //methods
+    public void ToHeal(int amount) {
+        if (amount <= 0) return;
 
+        this.health += amount;
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+
+
+    }
+    public boolean canEat(Food food) {
+        if (this.health <= 0) return false;
+
+        if (this.faction.equals("Gaulois") && food.getName().equals("poisson") && !food.isFresh()) {
+            return false;
+        }
+
+        return true;
+    }
+    public void ToEat(Food food) {
+        if (!canEat(food)) {
+            System.out.println(name + " refuse de manger " + food.getName());
+            return;
+        }
+
+        this.health += food.getNutrition();
+
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+
+        if (!food.isFresh()) {
+            this.health -= 5;
+        }
+
+        System.out.println(name + " mange " + food.getName() + " et a maintenant " + this.health + " PV.");
+    }
 
     @Override
     public void takeDamage(int damage) {
