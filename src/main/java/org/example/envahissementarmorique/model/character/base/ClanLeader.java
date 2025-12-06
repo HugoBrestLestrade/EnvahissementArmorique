@@ -3,6 +3,7 @@ package org.example.envahissementarmorique.model.character.base;
 
 import org.example.envahissementarmorique.model.item.Potion;
 import org.example.envahissementarmorique.model.place.Place;
+import org.example.envahissementarmorique.model.item.Food;
 
 import java.util.ArrayList;
 
@@ -11,12 +12,44 @@ public class ClanLeader {
     private String name;
     private String genre;
     private int age;
-    private Place place; // Le chef est rattaché à un lieu [cite: 81]
+    private Place place;
 
     public ClanLeader(String name, String genre, int age, Place place) {
         this.name = name;
         this.genre = genre;
         this.age = age;
+        this.place = place;
+    }
+    //Getters et Setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Place getPlace() {
+        return place;
+    }
+
+    public void setPlace(Place place) {
         this.place = place;
     }
 
@@ -51,7 +84,7 @@ public class ClanLeader {
         }
     }
 
-    public void feedTeam(ArrayList<GameCharacter> gameCharacters, Foods food){
+    public void feedTeam(ArrayList<GameCharacter> gameCharacters, Food food){
         for (GameCharacter gameCharacter : gameCharacters) {
             gameCharacter.setHunger(gameCharacter.getHunger() + food.getNutrition());
 

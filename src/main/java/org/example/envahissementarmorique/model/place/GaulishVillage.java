@@ -1,6 +1,12 @@
 package org.example.envahissementarmorique.model.place;
 
-
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
+import org.example.envahissementarmorique.model.character.base.Gaulois;
+import org.example.envahissementarmorique.model.character.base.Druid;
+import org.example.envahissementarmorique.model.character.base.FantasticCreature;
+import org.example.envahissementarmorique.model.character.base.ClanLeader;
+import org.example.envahissementarmorique.model.item.Food;
+import org.example.envahissementarmorique.model.item.Potion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +18,7 @@ public class GaulishVillage extends Place {
 
     private int resistanceLevel;      // Niveau de résistance (0-100)
     private int moraleLevel;          // Moral des habitants (0-100)
-    private List<MagicPotion> potions; // Stock de potions magiques
+    private List<Potion> potions; // Stock de potions magiques
 
     public GaulishVillage(String name, float area, ClanLeader chief) {
         super(name, area, chief);
@@ -29,13 +35,13 @@ public class GaulishVillage extends Place {
     }
 
     @Override
-    protected boolean canAddCharacter(Character c) {
+    protected boolean canAddCharacter(GameCharacter c) {
         // Accepte uniquement les Gaulois et les créatures fantastiques
         return (c instanceof Gaulois || c instanceof FantasticCreature);
     }
 
     @Override
-    public boolean addCharacter(Character c) {
+    public boolean addCharacter(GameCharacter c) {
         if (c == null) {
             System.out.println("Erreur : personnage null");
             return false;
@@ -93,7 +99,7 @@ public class GaulishVillage extends Place {
 
         if (!characters.isEmpty()) {
             System.out.println("\nHabitants présents :");
-            for (Character c : characters) {
+            for (GameCharacter c : characters) {
                 String status = c.isDead() ? " [MORT]" : " [Santé: " + c.getHealth() + ", Potion: " + c.getMagicPotionLevel() + "]";
                 String type = getCharacterType(c);
                 System.out.println("  • " + c.toString() + type + status);
@@ -124,7 +130,7 @@ public class GaulishVillage extends Place {
     /**
      * Obtient le type de personnage pour l'affichage
      */
-    private String getCharacterType(Character c) {
+    private String getCharacterType(GameCharacter c) {
         if (c instanceof Druid) {
             return " [Druide]";
         } else if (c instanceof FantasticCreature) {
@@ -141,7 +147,7 @@ public class GaulishVillage extends Place {
      */
     private int countGaulois() {
         int count = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (c instanceof Gaulois && !c.isDead()) {
                 count++;
             }
@@ -154,7 +160,7 @@ public class GaulishVillage extends Place {
      */
     private int countDruids() {
         int count = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (c instanceof Druid && !c.isDead()) {
                 count++;
             }
@@ -167,7 +173,7 @@ public class GaulishVillage extends Place {
      */
     private int countCreatures() {
         int count = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (c instanceof FantasticCreature && !c.isDead()) {
                 count++;
             }
@@ -178,9 +184,9 @@ public class GaulishVillage extends Place {
     /**
      * Obtient tous les Gaulois du village
      */
-    public List<Character> getGaulois() {
-        List<Character> gaulois = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getGaulois() {
+        List<GameCharacter> gaulois = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (c instanceof Gaulois) {
                 gaulois.add(c);
             }
@@ -191,9 +197,9 @@ public class GaulishVillage extends Place {
     /**
      * Obtient tous les Druides du village
      */
-    public List<Character> getDruids() {
-        List<Character> druids = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getDruids() {
+        List<GameCharacter> druids = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (c instanceof Druid) {
                 druids.add(c);
             }
@@ -223,7 +229,7 @@ public class GaulishVillage extends Place {
         }
 
         int fighters = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (!c.isDead() && c.getStrength() > 30) {
                 fighters++;
             }
@@ -239,7 +245,7 @@ public class GaulishVillage extends Place {
     /**
      * Ajoute une potion magique au stock
      */
-    public void addPotion(MagicPotion potion) {
+    public void addPotion(Potion potion) {
         potions.add(potion);
         System.out.println("✨ Une potion magique a été ajoutée au stock du village !");
         increaseMorale(5);
@@ -258,12 +264,12 @@ public class GaulishVillage extends Place {
         System.out.println("\n✨ Distribution de potion magique à " + name);
 
         int distributed = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (distributed >= numberOfDoses) break;
 
             if (!c.isDead() && c instanceof Gaulois && c.getMagicPotionLevel() < 100) {
                 if (!potions.isEmpty()) {
-                    MagicPotion potion = potions.remove(0);
+                    Potion potion = potions.remove(0);
                     c.drinkMagicPotion(potion);
                     distributed++;
                     System.out.println("  - " + c.getName() + " boit une dose de potion magique");
@@ -309,7 +315,7 @@ public class GaulishVillage extends Place {
         System.out.println("\n🛡️ Préparation de la défense du village " + name);
 
         int fighters = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (!c.isDead() && c instanceof Gaulois) {
                 c.setBelligerence(Math.min(100, c.getBelligerence() + 20));
                 fighters++;
@@ -357,14 +363,14 @@ public class GaulishVillage extends Place {
     public void requestMagicPotion() {
         System.out.println("\n🧪 Demande de confection de potion magique...");
 
-        List<Character> druids = getDruids();
+        List<GameCharacter> druids = getDruids();
         if (druids.isEmpty()) {
             System.out.println("  ❌ Aucun druide disponible dans le village !");
             return;
         }
 
         Druid druid = (Druid) druids.get(0);
-        MagicPotion potion = druid.concoctPotion();
+        Potion potion = druid.concoctPotion();
 
         if (potion != null) {
             addPotion(potion);
@@ -470,7 +476,7 @@ public class GaulishVillage extends Place {
         this.moraleLevel = Math.max(0, Math.min(100, moraleLevel));
     }
 
-    public List<MagicPotion> getPotions() {
+    public List<Potion> getPotions() {
         return potions;
     }
 
