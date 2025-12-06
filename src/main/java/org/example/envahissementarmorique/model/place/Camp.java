@@ -2,7 +2,7 @@ package org.example.envahissementarmorique.model.place;
 
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
 import org.example.envahissementarmorique.model.character.base.ClanLeader;
-import org.example.envahissementarmorique.model.character.base.Fighter;
+import org.example.envahissementarmorique.model.character.interfaces.Fighter;
 import org.example.envahissementarmorique.model.character.base.Roman;
 import org.example.envahissementarmorique.model.character.base.FantasticCreature;
 import org.example.envahissementarmorique.model.item.Food;
@@ -84,7 +84,7 @@ public class Camp extends Place {
     public boolean isDefended() {
         int aliveFighters = 0;
         for (GameCharacter c : characters) {
-            if (!c.isDead() && c instanceof Fighter) aliveFighters++;
+            if (!c.isDead() && c instanceof org.example.envahissementarmorique.model.character.interfaces.Fighter) aliveFighters++;
         }
         return aliveFighters >= 3;
     }

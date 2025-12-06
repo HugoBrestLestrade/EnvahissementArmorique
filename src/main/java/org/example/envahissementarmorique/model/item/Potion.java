@@ -32,10 +32,11 @@ public final class Potion extends Consumable {
      */
     @Override
     public void consume(GameCharacter consumer) {
-        // Potion increases magic potion level
-        // Note: Waining to implement magic potion level in Character class (Work of Hugo)
-        // which should not be modified per requirements
+        if (consumer != null && !consumer.isDead()) {
+            consumer.drinkMagicPotion(this);
+        }
     }
+
 
     @Override
     public String toString() {

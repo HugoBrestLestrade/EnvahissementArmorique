@@ -1,6 +1,11 @@
 package org.example.envahissementarmorique.model.place;
 
 
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
+import org.example.envahissementarmorique.model.character.base.Roman;
+import org.example.envahissementarmorique.model.character.base.FantasticCreature;
+import org.example.envahissementarmorique.model.character.base.ClanLeader;
+
 /**
  * Camp retranché romain
  * Ne peut contenir que des combattants romains et des créatures fantastiques
@@ -15,7 +20,7 @@ public class RomanCamp extends Place {
      * Seuls les Romains et les créatures fantastiques sont autorisés
      */
     @Override
-    protected boolean canAddCharacter(Character c) {
+    protected boolean canAddCharacter(GameCharacter c) {
         return (c instanceof Roman || c instanceof FantasticCreature);
     }
 
@@ -36,7 +41,7 @@ public class RomanCamp extends Place {
 
         System.out.println("\nSoldats présents : " + characters.size());
         if (!characters.isEmpty()) {
-            for (Character c : characters) {
+            for (GameCharacter c : characters) {
                 System.out.println("  • " + c.toString() +
                         " [Santé: " + c.getHealth() + "]");
             }
@@ -60,7 +65,7 @@ public class RomanCamp extends Place {
      * Tentative d'ajout d'un personnage dans le camp
      */
     @Override
-    public boolean addCharacter(Character c) {
+    public boolean addCharacter(GameCharacter c) {
         if (c == null) {
             System.out.println("Erreur : personnage null");
             return false;

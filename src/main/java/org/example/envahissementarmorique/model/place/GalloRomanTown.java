@@ -1,6 +1,10 @@
 package org.example.envahissementarmorique.model.place;
 
-
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
+import org.example.envahissementarmorique.model.character.base.Gaulois;
+import org.example.envahissementarmorique.model.character.base.Roman;
+import org.example.envahissementarmorique.model.character.base.ClanLeader;
+import org.example.envahissementarmorique.model.item.Food;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +30,14 @@ public class GalloRomanTown extends Place {
     }
 
     @Override
-    protected boolean canAddCharacter(Character c) {
+    protected boolean canAddCharacter(GameCharacter c) {
         // Accepte uniquement les Gaulois et les Romains
         // PAS de créatures fantastiques (zone civilisée)
         return (c instanceof Gaulois || c instanceof Roman);
     }
 
     @Override
-    public boolean addCharacter(Character c) {
+    public boolean addCharacter(GameCharacter c) {
         if (c == null) {
             System.out.println("Erreur : personnage null");
             return false;
@@ -87,7 +91,7 @@ public class GalloRomanTown extends Place {
 
         if (!characters.isEmpty()) {
             System.out.println("\nHabitants présents :");
-            for (Character c : characters) {
+            for (GameCharacter c : characters) {
                 String status = c.isDead() ? " [MORT]" : " [Santé: " + c.getHealth() + "]";
                 String origin = (c instanceof Gaulois) ? " [Gaulois]" : " [Romain]";
                 System.out.println("  • " + c.toString() + origin + status);
@@ -120,7 +124,7 @@ public class GalloRomanTown extends Place {
      */
     private int countGaulois() {
         int count = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (c instanceof Gaulois && !c.isDead()) {
                 count++;
             }
@@ -133,7 +137,7 @@ public class GalloRomanTown extends Place {
      */
     private int countRomans() {
         int count = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (c instanceof Roman && !c.isDead()) {
                 count++;
             }
@@ -144,9 +148,9 @@ public class GalloRomanTown extends Place {
     /**
      * Obtient les Gaulois de la bourgade
      */
-    public List<Character> getGaulois() {
-        List<Character> gaulois = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getGaulois() {
+        List<GameCharacter> gaulois = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (c instanceof Gaulois) {
                 gaulois.add(c);
             }
@@ -157,9 +161,9 @@ public class GalloRomanTown extends Place {
     /**
      * Obtient les Romains de la bourgade
      */
-    public List<Character> getRomans() {
-        List<Character> romans = new ArrayList<>();
-        for (Character c : characters) {
+    public List<GameCharacter> getRomans() {
+        List<GameCharacter> romans = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (c instanceof Roman) {
                 romans.add(c);
             }
@@ -181,7 +185,7 @@ public class GalloRomanTown extends Place {
         }
 
         int belligerentCount = 0;
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (!c.isDead() && c.getBelligerence() > 60) {
                 belligerentCount++;
             }
@@ -243,7 +247,7 @@ public class GalloRomanTown extends Place {
         feedAll();
 
         // Améliorer la paix et réduire la belligérance
-        for (Character c : characters) {
+        for (GameCharacter c : characters) {
             if (!c.isDead()) {
                 c.setBelligerence(Math.max(0, c.getBelligerence() - 15));
             }
@@ -259,8 +263,8 @@ public class GalloRomanTown extends Place {
     public void manageConflicts() {
         System.out.println("\n⚖️ Gestion des conflits à " + name);
 
-        List<Character> troublemakers = new ArrayList<>();
-        for (Character c : characters) {
+        List<GameCharacter> troublemakers = new ArrayList<>();
+        for (GameCharacter c : characters) {
             if (!c.isDead() && c.getBelligerence() > 75) {
                 troublemakers.add(c);
             }
@@ -271,7 +275,7 @@ public class GalloRomanTown extends Place {
             increasePeacefulness(5);
         } else {
             System.out.println("  " + troublemakers.size() + " fauteur(s) de troubles identifié(s)");
-            for (Character t : troublemakers) {
+            for (GameCharacter t : troublemakers) {
                 System.out.println("    - " + t.getName() + " est calmé");
                 t.setBelligerence(t.getBelligerence() - 25);
             }

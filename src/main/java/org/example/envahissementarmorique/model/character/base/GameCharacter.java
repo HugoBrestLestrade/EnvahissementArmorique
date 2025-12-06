@@ -2,6 +2,7 @@ package org.example.envahissementarmorique.model.character.base;
 
 import org.example.envahissementarmorique.model.character.interfaces.Fighter;
 import org.example.envahissementarmorique.model.item.Food;
+import org.example.envahissementarmorique.model.place.Place;
 
 public class GameCharacter implements Fighter {
     private String name;
@@ -159,6 +160,29 @@ public class GameCharacter implements Fighter {
         }
 
         System.out.println(name + " mange " + food.getName() + " et a maintenant " + this.health + " PV.");
+    }
+    public boolean isDead() {
+        return this.health <= 0;
+    }
+
+    public boolean isBelligerent() {
+        return this.belligerence > 0;
+    }
+
+    public void fight(GameCharacter opponent) {
+        if (opponent == null || opponent.isDead()) return;
+
+        int damage = this.strength + (this.belligerence / 10);
+        opponent.takeDamage(damage);
+
+        if (!opponent.isDead()) {
+            int counterDamage = opponent.getStrength() + (opponent.getBelligerence() / 10);
+            this.takeDamage(counterDamage);
+        }
+    }
+
+    public Place getOriginPlace() {
+        return null; // À implémenter selon votre logique
     }
 
     @Override
