@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.GameCharacter;
+import org.example.envahissementarmorique.model.character.base.Character;
 
 /**
  * Represents a food item in the simulation.
@@ -68,21 +68,26 @@ public final class Food extends Consumable {
     /**
      * Applies the effect of this food on the specified character.
      * Food improves the hunger indicator based on its nutritional value.
-     * Eating rotten fish is bad for health.
+     * Eating rotten food is bad for health.
      *
      * @param consumer The character consuming the food.
      */
     @Override
-    public void consume(GameCharacter consumer) {
-        // Food improves hunger based on nutritional value
-        // Note: The actual implementation depends on Character class methods (Wainting Hugo's Work)
-        // which should not be modified per requirements
-        
-        // Eating rotten fish or rotten food affects health negatively
-        if (freshness == Freshness.ROTTEN && 
-            (foods == Foods.ROTTEN_FISH || foods == Foods.FRESH_FISH)) {
-            // Bad for health - implementation depends on Character class
+    public void consume(Character consumer) {
+        if (freshness == Freshness.ROTTEN) {
+
+            int healthLoss = consumer.getHealth() / 5;
+            consumer.setHealth(consumer.getHealth() - healthLoss);
+
+            int hungerLoss = consumer.getHunger() / 3;
+            consumer.setHunger(consumer.getHunger() - hungerLoss);
+        } else if (consumer.getHunger() < 100) {
+            int newHunger = consumer.getHunger() + foods.getNutrition();
+            consumer.setHunger(newHunger);
+        } else {
+            System.out.println(consumer.getName() + " is already full and cannot eat more !");
         }
+
     }
 
     @Override
