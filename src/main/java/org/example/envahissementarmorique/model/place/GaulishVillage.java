@@ -7,6 +7,7 @@ import org.example.envahissementarmorique.model.character.base.FantasticCreature
 import org.example.envahissementarmorique.model.character.base.ClanLeader;
 import org.example.envahissementarmorique.model.item.Food;
 import org.example.envahissementarmorique.model.item.Potion;
+
 import java.util.ArrayList;
 import java.util.List;
 

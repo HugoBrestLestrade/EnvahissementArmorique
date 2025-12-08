@@ -16,6 +16,9 @@ import org.example.envahissementarmorique.model.character.base.GameCharacter;
 public final class Food extends Consumable {
 
     private Freshness freshness;
+    private boolean fresh = true;
+    private int nutrition = 10;
+
 
     /**
      * Creates a new Food item.
@@ -84,6 +87,22 @@ public final class Food extends Consumable {
             // Bad for health - implementation depends on Character class
         }
     }
+
+
+    public boolean isFresh() {
+        return fresh;
+    }
+    public void setFresh(boolean fresh) {
+        this.fresh = fresh;
+    }
+    public int getNutrition() {
+        return nutrition;
+    }
+
+    public void setNutrition(int nutrition) {
+        this.nutrition = nutrition;
+    }
+
 
     @Override
     public String toString() {

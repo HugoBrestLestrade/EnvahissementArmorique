@@ -2,6 +2,7 @@ package org.example.envahissementarmorique.model.character.base;
 
 import org.example.envahissementarmorique.model.character.interfaces.Fighter;
 import org.example.envahissementarmorique.model.item.Food;
+import org.example.envahissementarmorique.model.item.Potion;
 import org.example.envahissementarmorique.model.place.Place;
 
 public class GameCharacter implements Fighter {
@@ -180,6 +181,26 @@ public class GameCharacter implements Fighter {
             this.takeDamage(counterDamage);
         }
     }
+    public void drinkMagicPotion(Potion potion) {
+        // version totalement minimaliste (compilation OK)
+        System.out.println("Potion bue.");
+    }
+    public void heal(int amount) {
+    }
+    public boolean needsFood() {
+        return false;
+    }
+    public void eat(Food food) {
+        if (food == null) return;
+        this.hunger = Math.max(0, this.hunger - food.getNutrition());
+    }
+    public int getMagicPotionLevel() {
+        return this.magicpotion;
+    }
+
+
+
+
 
     public Place getOriginPlace() {
         return null; // À implémenter selon votre logique

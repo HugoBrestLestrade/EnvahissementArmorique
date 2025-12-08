@@ -24,6 +24,7 @@ public final class Potion extends Consumable {
         super(foodType);
     }
 
+
     /**
      * Applies the effect of this potion on the specified character.
      * Potion increases the magic potion level of the consumer.
