@@ -86,7 +86,7 @@ public class ClanLeader {
 
     public void feedTeam(ArrayList<GameCharacter> gameCharacters, Food food){
         for (GameCharacter gameCharacter : gameCharacters) {
-            gameCharacter.setHunger(gameCharacter.getHunger() + food.getNutrition());
+            gameCharacter.setHunger(gameCharacter.getHunger() + food.getNutritionalValue());
 
             // Logique supplémentaire suggérée : vérifier si la nourriture est "pas fraiche"
             // "Manger du poisson pas frais est mauvais pour la santé" [cite: 46]
