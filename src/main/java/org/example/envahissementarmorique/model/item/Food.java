@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
  * Represents a food item in the simulation.
@@ -73,7 +73,7 @@ public final class Food extends Consumable {
      * @param consumer The character consuming the food.
      */
     @Override
-    public void consume(Character consumer) {
+    public void consume(GameCharacter consumer) {
         // Food improves hunger based on nutritional value
         // Note: The actual implementation depends on Character class methods (Wainting Hugo's Work)
         // which should not be modified per requirements
