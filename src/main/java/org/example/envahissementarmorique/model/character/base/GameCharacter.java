@@ -33,7 +33,6 @@ public class GameCharacter implements Fighter {
         this.magicpotion = 0;
     }
 
-
     // Getters
     public String getName() {
         return name;
@@ -124,19 +123,67 @@ public class GameCharacter implements Fighter {
         this.magicpotion = magicpotion;
     }
 
-    public void profile(){
-        System.out.println("------------------");
-        System.out.println("nom : " +  this.getName());
-        System.out.println("vie : " + Math.max(0, this.getHealth()));
-        System.out.println("endurance : " + this.getEndurance());
-        System.out.println("------------------");
+    //methods
+    public void ToHeal(int amount) {
+        if (amount <= 0) return;
+
+        this.health += amount;
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+
+
+    }
+//    public boolean canEat(Food food) {
+//        if (this.health <= 0) return false;
+//
+//        if (this.faction.equals("Gaulois") && food.getName().equals("poisson") && !food.isFresh()) {
+//            return false;
+//        }
+//
+//        return true;
+//    }
+//    public void ToEat(Food food) {
+//        if (!canEat(food)) {
+//            System.out.println(name + " refuse de manger " + food.getName());
+//            return;
+//        }
+//
+//        this.health += food.getNutrition();
+//
+//        if (this.health > this.maxHealth) {
+//            this.health = this.maxHealth;
+//        }
+//
+//        if (!food.isFresh()) {
+//            this.health -= 5;
+//        }
+//
+//        System.out.println(name + " mange " + food.getName() + " et a maintenant " + this.health + " PV.");
+//    }
+    public boolean isDead() {
+        return this.health <= 0;
     }
 
-    public boolean stillAlive(){
-        return this.getHealth() > 0;
+    public boolean isBelligerent() {
+        return this.belligerence > 0;
     }
 
+    public void fight(GameCharacter opponent) {
+        if (opponent == null || opponent.isDead()) return;
 
+        int damage = this.strength + (this.belligerence / 10);
+        opponent.takeDamage(damage);
+
+        if (!opponent.isDead()) {
+            int counterDamage = opponent.getStrength() + (opponent.getBelligerence() / 10);
+            this.takeDamage(counterDamage);
+        }
+    }
+
+    public Place getOriginPlace() {
+        return null; // À implémenter selon votre logique
+    }
 
     @Override
     public void takeDamage(int damage) {
@@ -213,5 +260,15 @@ public class GameCharacter implements Fighter {
 
     }
 
+    public void profile(){
+        System.out.println("------------------");
+        System.out.println("nom : " +  this.getName());
+        System.out.println("vie : " + Math.max(0, this.getHealth()));
+        System.out.println("endurance : " + this.getEndurance());
+        System.out.println("------------------");
+    }
 
+    public boolean stillAlive(){
+        return this.getHealth() > 0;
+    }
 }
