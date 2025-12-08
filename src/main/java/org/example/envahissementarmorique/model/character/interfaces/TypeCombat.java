@@ -1,8 +1,8 @@
 package org.example.envahissementarmorique.model.character.interfaces;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 public interface TypeCombat {
-    void battre(Character ally); // même clan
-    void combattre(Character enemy, String location);
+    void battre(GameCharacter ally); // même clan
+    void combattre(GameCharacter enemy, String location);
 }
