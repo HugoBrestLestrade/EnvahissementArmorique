@@ -1,7 +1,7 @@
 package org.example.envahissementarmorique.model.place;
 
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
-import org.example.envahissementarmorique.model.item.Food;
+import org.example.envahissementarmorique.model.item.*;
 import org.example.envahissementarmorique.model.character.base.ClanLeader;
 
 import java.util.ArrayList;
@@ -135,7 +135,7 @@ public abstract class Place {
             if (c.needsFood()) {
                 Food food = findSuitableFood(c);
                 if (food != null) {
-                    c.eat(food);
+                    c.consume(food);
                     foods.remove(food);
                 }
             }

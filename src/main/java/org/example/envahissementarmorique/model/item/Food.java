@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
  * Represents a food item in the simulation.
@@ -73,7 +73,7 @@ public final class Food extends Consumable {
      * @param consumer The character consuming the food.
      */
     @Override
-    public void consume(Character consumer) {
+    public void consume(GameCharacter consumer) {
         if (freshness == Freshness.ROTTEN) {
 
             int healthLoss = consumer.getHealth() / 5;

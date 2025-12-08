@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -152,7 +152,7 @@ public final class Potion extends Consumable {
      * @param consumer The character consuming the potion.
      */
     @Override
-    public void consume(Character consumer) {
+    public void consume(GameCharacter consumer) {
         int currentPotionLevel = consumer.getMagicpotion();
         int newPotionLevel = currentPotionLevel + doses;
 
