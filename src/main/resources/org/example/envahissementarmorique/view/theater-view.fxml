@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.envahissementarmorique.controller.TheaterController"
+            prefHeight="800.0" prefWidth="1200.0"
+            stylesheets="@../css/app-style.css">
+
+    <!-- Top: Header -->
+    <top>
+        <VBox spacing="10" styleClass="header-box">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="🏛️ Invasion Theater Simulation" styleClass="title">
+                <font>
+                    <Font name="System Bold" size="32.0"/>
+                </font>
+            </Label>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Theater:" styleClass="info-label">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="theaterNameLabel" text="Armorique" styleClass="info-value">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+
+                <Label text="Places:" styleClass="info-label">
+                    <padding>
+                        <Insets left="20"/>
+                    </padding>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="placesCountLabel" text="0/10" styleClass="info-value">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+
+                <Label text="Characters:" styleClass="info-label">
+                    <padding>
+                        <Insets left="20"/>
+                    </padding>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="totalCharactersLabel" text="0" styleClass="info-value">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: Main Content -->
+    <center>
+        <SplitPane dividerPositions="0.3">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+
+            <!-- Left: Places List -->
+            <VBox spacing="10" styleClass="content-box">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="📍 Places" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="18.0"/>
+                    </font>
+                </Label>
+
+                <ListView fx:id="placesListView" VBox.vgrow="ALWAYS"/>
+
+                <HBox spacing="10">
+                    <Button fx:id="addPlaceButton" text="➕ Add Place" onAction="#handleAddPlace"
+                            styleClass="primary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button fx:id="removePlaceButton" text="➖ Remove" onAction="#handleRemovePlace"
+                            styleClass="danger-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </HBox>
+
+                <Button fx:id="viewPlaceButton" text="👁️ View Details" onAction="#handleViewPlace"
+                        styleClass="secondary-button" maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- Right: Details and Controls -->
+            <VBox spacing="15" styleClass="content-box">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <!-- Simulation Controls -->
+                <VBox spacing="10" styleClass="section-box">
+                    <Label text="⚙️ Simulation Controls" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Intervals:">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Spinner fx:id="intervalsSpinner" min="1" max="100" initialValue="5"
+                                 prefWidth="100" editable="true"/>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button fx:id="startSimulationButton" text="▶️ Start Simulation"
+                                onAction="#handleStartSimulation" styleClass="success-button"
+                                prefWidth="180"/>
+                    </HBox>
+
+                    <HBox spacing="10">
+                        <Button fx:id="pauseSimulationButton" text="⏸️ Pause"
+                                onAction="#handlePauseSimulation" styleClass="warning-button"
+                                disable="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button fx:id="stopSimulationButton" text="⏹️ Stop"
+                                onAction="#handleStopSimulation" styleClass="danger-button"
+                                disable="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+
+                    <ProgressBar fx:id="simulationProgressBar" progress="0" maxWidth="Infinity"/>
+                    <Label fx:id="simulationStatusLabel" text="Ready to simulate" styleClass="status-label">
+                        <font>
+                            <Font size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <!-- Clan Leaders -->
+                <VBox spacing="10" styleClass="section-box" VBox.vgrow="ALWAYS">
+                    <Label text="👑 Clan Leaders" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+
+                    <ListView fx:id="clanLeadersListView" VBox.vgrow="ALWAYS"/>
+
+                    <HBox spacing="10">
+                        <Button fx:id="addLeaderButton" text="➕ Add Leader" onAction="#handleAddLeader"
+                                styleClass="primary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button fx:id="removeLeaderButton" text="➖ Remove" onAction="#handleRemoveLeader"
+                                styleClass="danger-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Quick Actions -->
+                <VBox spacing="10" styleClass="section-box">
+                    <Label text="⚡ Quick Actions" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+
+                    <HBox spacing="10">
+                        <Button text="📊 View Statistics" onAction="#handleViewStatistics"
+                                styleClass="secondary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button text="👥 All Characters" onAction="#handleViewAllCharacters"
+                                styleClass="secondary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <!-- Bottom: Console Output -->
+    <bottom>
+        <VBox spacing="5" styleClass="console-box">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="📜 Console Output" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button text="🗑️ Clear" onAction="#handleClearConsole" styleClass="small-button"/>
+            </HBox>
+
+            <TextArea fx:id="consoleTextArea" editable="false" wrapText="true"
+                      prefHeight="150" styleClass="console-text"/>
+        </VBox>
+    </bottom>
+</BorderPane>
+

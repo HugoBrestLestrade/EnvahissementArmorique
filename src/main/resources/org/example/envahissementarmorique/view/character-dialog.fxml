@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.envahissementarmorique.controller.CharacterDialogController"
+            prefHeight="600.0" prefWidth="500.0"
+            stylesheets="@../css/app-style.css">
+
+    <!-- Top: Title -->
+    <top>
+        <VBox spacing="10" styleClass="header-box">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="✨ Create Character" styleClass="title">
+                <font>
+                    <Font name="System Bold" size="24.0"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+
+    <!-- Center: Form -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+            <VBox spacing="15" styleClass="content-box">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Basic Info -->
+                <VBox spacing="10">
+                    <Label text="📋 Basic Information" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+
+                    <GridPane hgap="10" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="35"/>
+                            <ColumnConstraints percentWidth="65"/>
+                        </columnConstraints>
+
+                        <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="nameField" promptText="Enter character name"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <ComboBox fx:id="typeComboBox" promptText="Select type" maxWidth="Infinity"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Gender:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <ToggleGroup fx:id="genderToggleGroup"/>
+                            <RadioButton text="Male" selected="true" toggleGroup="$genderToggleGroup"/>
+                            <RadioButton text="Female" toggleGroup="$genderToggleGroup"/>
+                        </HBox>
+
+                        <Label text="Faction:" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <ComboBox fx:id="factionComboBox" promptText="Select faction" maxWidth="Infinity"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Physical Attributes -->
+                <VBox spacing="10">
+                    <Label text="📏 Physical Attributes" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+
+                    <GridPane hgap="10" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="35"/>
+                            <ColumnConstraints percentWidth="65"/>
+                        </columnConstraints>
+
+                        <Label text="Height (m):" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Spinner fx:id="heightSpinner" min="0.5" max="3.0" initialValue="1.70"
+                                 amountToStepBy="0.05" editable="true" maxWidth="Infinity"
+                                 GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Age:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Spinner fx:id="ageSpinner" min="1" max="100" initialValue="30"
+                                 editable="true" maxWidth="Infinity"
+                                 GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    </GridPane>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Combat Stats -->
+                <VBox spacing="10">
+                    <Label text="⚔️ Combat Stats" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+
+                    <GridPane hgap="10" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="35"/>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="15"/>
+                        </columnConstraints>
+
+                        <Label text="Strength:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Slider fx:id="strengthSlider" min="10" max="100" value="50"
+                                showTickMarks="true" showTickLabels="true" majorTickUnit="25"
+                                GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        <Label fx:id="strengthValueLabel" text="50" styleClass="value-label"
+                               GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+
+                        <Label text="Endurance:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Slider fx:id="enduranceSlider" min="10" max="100" value="50"
+                                showTickMarks="true" showTickLabels="true" majorTickUnit="25"
+                                GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Label fx:id="enduranceValueLabel" text="50" styleClass="value-label"
+                               GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+
+                        <Label text="Health:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Slider fx:id="healthSlider" min="50" max="150" value="100"
+                                showTickMarks="true" showTickLabels="true" majorTickUnit="25"
+                                GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label fx:id="healthValueLabel" text="100" styleClass="value-label"
+                               GridPane.columnIndex="2" GridPane.rowIndex="2">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+
+                        <Label text="Hunger:" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Slider fx:id="hungerSlider" min="0" max="100" value="100"
+                                showTickMarks="true" showTickLabels="true" majorTickUnit="25"
+                                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Label fx:id="hungerValueLabel" text="100" styleClass="value-label"
+                               GridPane.columnIndex="2" GridPane.rowIndex="3">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+
+                        <Label text="Belligerence:" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Slider fx:id="belligerenceSlider" min="0" max="100" value="50"
+                                showTickMarks="true" showTickLabels="true" majorTickUnit="25"
+                                GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <Label fx:id="belligerenceValueLabel" text="50" styleClass="value-label"
+                               GridPane.columnIndex="2" GridPane.rowIndex="4">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+                    </GridPane>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- Bottom: Buttons -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" styleClass="footer-box">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Button text="✅ Create" onAction="#handleCreate" styleClass="success-button" prefWidth="150">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Button>
+            <Button text="✖️ Cancel" onAction="#handleCancel" styleClass="danger-button" prefWidth="150">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Button>
+        </HBox>
+    </bottom>
+</BorderPane>
+

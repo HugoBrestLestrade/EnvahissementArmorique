@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.envahissementarmorique.controller.StatisticsController"
+            prefHeight="700.0" prefWidth="1000.0"
+            stylesheets="@../css/app-style.css">
+
+    <!-- Top: Title -->
+    <top>
+        <VBox spacing="10" styleClass="header-box">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="📊 Theater Statistics" styleClass="title">
+                <font>
+                    <Font name="System Bold" size="28.0"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+
+    <!-- Center: Statistics -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+            <VBox spacing="20" styleClass="content-box">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Overview Cards -->
+                <HBox spacing="15">
+                    <VBox spacing="5" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Label text="🏛️" styleClass="stat-icon">
+                            <font>
+                                <Font size="32.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Total Places" styleClass="stat-label">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="totalPlacesLabel" text="0" styleClass="stat-value">
+                            <font>
+                                <Font name="System Bold" size="36.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Label text="👥" styleClass="stat-icon">
+                            <font>
+                                <Font size="32.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Total Characters" styleClass="stat-label">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="totalCharactersLabel" text="0" styleClass="stat-value">
+                            <font>
+                                <Font name="System Bold" size="36.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Label text="💀" styleClass="stat-icon">
+                            <font>
+                                <Font size="32.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Casualties" styleClass="stat-label">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="casualtiesLabel" text="0" styleClass="stat-value">
+                            <font>
+                                <Font name="System Bold" size="36.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Label text="🍖" styleClass="stat-icon">
+                            <font>
+                                <Font size="32.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Food Items" styleClass="stat-label">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="totalFoodLabel" text="0" styleClass="stat-value">
+                            <font>
+                                <Font name="System Bold" size="36.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+
+                <Separator/>
+
+                <!-- Faction Distribution -->
+                <VBox spacing="10">
+                    <Label text="⚔️ Faction Distribution" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+
+                    <PieChart fx:id="factionPieChart" legendVisible="true" prefHeight="300"/>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Health Statistics -->
+                <VBox spacing="10">
+                    <Label text="💊 Average Health by Faction" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+
+                    <BarChart fx:id="healthBarChart" prefHeight="250">
+                        <xAxis>
+                            <CategoryAxis label="Faction"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Average Health" upperBound="100"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Place Details -->
+                <VBox spacing="10">
+                    <Label text="📍 Places Overview" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+
+                    <TableView fx:id="placesTableView" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="placeNameColumn" text="Place Name" prefWidth="200"/>
+                            <TableColumn fx:id="placeTypeColumn" text="Type" prefWidth="150"/>
+                            <TableColumn fx:id="placeCharactersColumn" text="Characters" prefWidth="100"/>
+                            <TableColumn fx:id="placeFoodColumn" text="Food" prefWidth="80"/>
+                            <TableColumn fx:id="placeAreaColumn" text="Area (m²)" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- Bottom: Buttons -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" styleClass="footer-box">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Button text="🔄 Refresh" onAction="#handleRefresh" styleClass="secondary-button" prefWidth="120"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="✖️ Close" onAction="#handleClose" styleClass="danger-button" prefWidth="120"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+

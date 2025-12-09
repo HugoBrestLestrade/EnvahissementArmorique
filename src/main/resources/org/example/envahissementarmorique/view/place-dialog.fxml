@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.envahissementarmorique.controller.PlaceDialogController"
+            prefHeight="450.0" prefWidth="500.0"
+            stylesheets="@../css/app-style.css">
+
+    <!-- Top: Title -->
+    <top>
+        <VBox spacing="10" styleClass="header-box">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="🏛️ Create Place" styleClass="title">
+                <font>
+                    <Font name="System Bold" size="24.0"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+
+    <!-- Center: Form -->
+    <center>
+        <VBox spacing="20" styleClass="content-box">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Place Type Selection -->
+            <VBox spacing="10">
+                <Label text="📍 Place Type" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Label>
+
+                <ComboBox fx:id="placeTypeComboBox" promptText="Select place type" maxWidth="Infinity">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </ComboBox>
+
+                <Label fx:id="placeTypeDescriptionLabel" text="Select a place type to see its description"
+                       wrapText="true" styleClass="description-label">
+                    <font>
+                        <Font size="12.0"/>
+                    </font>
+                </Label>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Basic Information -->
+            <VBox spacing="15">
+                <Label text="📋 Basic Information" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Label>
+
+                <GridPane hgap="15" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="70"/>
+                    </columnConstraints>
+
+                    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="placeNameField" promptText="Enter place name"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </TextField>
+
+                    <Label text="Area (m²):" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                    <Spinner fx:id="areaSpinner" min="100" max="10000" initialValue="1000"
+                             amountToStepBy="100" editable="true" maxWidth="Infinity"
+                             GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <valueFactory>
+                            <SpinnerValueFactory.IntegerSpinnerValueFactory min="100" max="10000"
+                                                                          initialValue="1000" amountToStepBy="100"/>
+                        </valueFactory>
+                    </Spinner>
+                </GridPane>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Chief Selection (Optional) -->
+            <VBox spacing="10">
+                <Label text="👑 Chief (Optional)" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Label>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <CheckBox fx:id="assignChiefCheckBox" text="Assign a clan leader">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </CheckBox>
+                </HBox>
+
+                <ComboBox fx:id="chiefComboBox" promptText="Select clan leader" maxWidth="Infinity"
+                          disable="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </ComboBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <!-- Bottom: Buttons -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" styleClass="footer-box">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Button text="✅ Create" onAction="#handleCreate" styleClass="success-button" prefWidth="150">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Button>
+            <Button text="✖️ Cancel" onAction="#handleCancel" styleClass="danger-button" prefWidth="150">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Button>
+        </HBox>
+    </bottom>
+</BorderPane>
+

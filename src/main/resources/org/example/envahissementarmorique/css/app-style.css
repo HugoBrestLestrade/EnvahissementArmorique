@@ -1,0 +1,433 @@
+/**
+ * Invasion Theater - JavaFX Stylesheet
+ * Modern and clean design for the invasion simulation
+ */
+
+/* ============================================
+   ROOT AND GENERAL STYLES
+   ============================================ */
+
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-base: #f5f5f5;
+    -fx-background: #ffffff;
+}
+
+/* ============================================
+   LAYOUT CONTAINERS
+   ============================================ */
+
+.header-box {
+    -fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);
+    -fx-text-fill: white;
+}
+
+.content-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.section-box {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 15px;
+}
+
+.footer-box {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.console-box {
+    -fx-background-color: #263238;
+}
+
+.info-box {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-padding: 15px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.stat-card {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.info-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 12px;
+}
+
+.info-value {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.status-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+}
+
+.value-label {
+    -fx-text-fill: #3498db;
+    -fx-font-weight: bold;
+}
+
+.description-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-wrap-text: true;
+}
+
+.icon-label {
+    -fx-text-fill: #3498db;
+}
+
+.stat-icon {
+    -fx-text-fill: #3498db;
+}
+
+.stat-label {
+    -fx-text-fill: #7f8c8d;
+}
+
+.stat-value {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.button {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+}
+
+.button:pressed {
+    -fx-translate-y: 1px;
+}
+
+.primary-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.primary-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.secondary-button {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #7f8c8d;
+}
+
+.success-button {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+}
+
+.success-button:hover {
+    -fx-background-color: #229954;
+}
+
+.danger-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+.danger-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+.warning-button {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+}
+
+.warning-button:hover {
+    -fx-background-color: #e67e22;
+}
+
+.small-button {
+    -fx-font-size: 12px;
+    -fx-padding: 5px 10px;
+}
+
+/* ============================================
+   INPUT CONTROLS
+   ============================================ */
+
+.text-field, .text-area {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-padding: 8px;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.combo-box:focused {
+    -fx-border-color: #3498db;
+}
+
+.spinner {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 3px;
+}
+
+.spinner:focused {
+    -fx-border-color: #3498db;
+}
+
+.slider {
+    -fx-padding: 5px 0;
+}
+
+.slider .thumb {
+    -fx-background-color: #3498db;
+}
+
+.slider .track {
+    -fx-background-color: #dcdcdc;
+}
+
+.check-box {
+    -fx-text-fill: #2c3e50;
+}
+
+.radio-button {
+    -fx-text-fill: #2c3e50;
+}
+
+/* ============================================
+   LISTS AND TABLES
+   ============================================ */
+
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+}
+
+.list-view .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 8px;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #ecf0f1;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 8px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #ecf0f1;
+}
+
+/* ============================================
+   PROGRESS AND STATUS
+   ============================================ */
+
+.progress-bar {
+    -fx-accent: #3498db;
+}
+
+.progress-bar .bar {
+    -fx-background-color: #3498db;
+    -fx-background-radius: 3px;
+}
+
+.progress-bar .track {
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 3px;
+}
+
+/* ============================================
+   CONSOLE
+   ============================================ */
+
+.console-text {
+    -fx-control-inner-background: #263238;
+    -fx-text-fill: #a5d6a7;
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+    -fx-highlight-fill: #37474f;
+    -fx-highlight-text-fill: white;
+}
+
+/* ============================================
+   SCROLL PANE
+   ============================================ */
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: #f5f5f5;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #bdc3c7;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #95a5a6;
+}
+
+/* ============================================
+   SPLIT PANE
+   ============================================ */
+
+.split-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.split-pane-divider {
+    -fx-background-color: #dcdcdc;
+    -fx-padding: 0 2px 0 2px;
+}
+
+/* ============================================
+   CHARTS
+   ============================================ */
+
+.chart {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.chart-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.chart-legend {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
+/* ============================================
+   SEPARATOR
+   ============================================ */
+
+.separator {
+    -fx-background-color: #dcdcdc;
+}
+
+.separator .line {
+    -fx-border-color: #dcdcdc;
+}
+
+/* ============================================
+   TOOLTIP
+   ============================================ */
+
+.tooltip {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 8px;
+    -fx-background-radius: 5px;
+}
+

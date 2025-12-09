@@ -1,14 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="org.example.envahissementarmorique.controller.PlaceController"
+            prefHeight="700.0" prefWidth="900.0"
+            stylesheets="@../css/app-style.css">
 
-</AnchorPane>
+    <!-- Top: Place Info -->
+    <top>
+        <VBox spacing="10" styleClass="header-box">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="📍" styleClass="icon-label">
+                    <font>
+                        <Font size="32.0"/>
+                    </font>
+                </Label>
+                <VBox spacing="5">
+                    <Label fx:id="placeNameLabel" text="Place Name" styleClass="title">
+                        <font>
+                            <Font name="System Bold" size="28.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="placeTypeLabel" text="Type: Village" styleClass="subtitle">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="20" styleClass="info-box">
+                <VBox spacing="5">
+                    <Label text="Area" styleClass="info-label">
+                        <font>
+                            <Font size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="placeAreaLabel" text="1000 m²" styleClass="info-value">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <Separator orientation="VERTICAL"/>
+
+                <VBox spacing="5">
+                    <Label text="Chief" styleClass="info-label">
+                        <font>
+                            <Font size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="chiefNameLabel" text="No Chief" styleClass="info-value">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <Separator orientation="VERTICAL"/>
+
+                <VBox spacing="5">
+                    <Label text="Characters" styleClass="info-label">
+                        <font>
+                            <Font size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="charactersCountLabel" text="0" styleClass="info-value">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <Separator orientation="VERTICAL"/>
+
+                <VBox spacing="5">
+                    <Label text="Food Items" styleClass="info-label">
+                        <font>
+                            <Font size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="foodCountLabel" text="0" styleClass="info-value">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: Content -->
+    <center>
+        <SplitPane dividerPositions="0.5">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+
+            <!-- Left: Characters List -->
+            <VBox spacing="10" styleClass="content-box">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="👥 Characters" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="18.0"/>
+                    </font>
+                </Label>
+
+                <TableView fx:id="charactersTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+                        <TableColumn fx:id="factionColumn" text="Faction" prefWidth="100"/>
+                        <TableColumn fx:id="healthColumn" text="Health" prefWidth="70"/>
+                        <TableColumn fx:id="hungerColumn" text="Hunger" prefWidth="70"/>
+                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="80"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10">
+                    <Button fx:id="addCharacterButton" text="➕ Add" onAction="#handleAddCharacter"
+                            styleClass="primary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button fx:id="removeCharacterButton" text="➖ Remove" onAction="#handleRemoveCharacter"
+                            styleClass="danger-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button fx:id="viewCharacterButton" text="👁️ View" onAction="#handleViewCharacter"
+                            styleClass="secondary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </HBox>
+            </VBox>
+
+            <!-- Right: Food and Actions -->
+            <VBox spacing="15" styleClass="content-box">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <!-- Food List -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="🍖 Food Supplies" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+
+                    <ListView fx:id="foodListView" VBox.vgrow="ALWAYS"/>
+
+                    <HBox spacing="10">
+                        <Button text="➕ Add Food" onAction="#handleAddFood"
+                                styleClass="primary-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button text="➖ Remove" onAction="#handleRemoveFood"
+                                styleClass="danger-button" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Place Actions -->
+                <VBox spacing="10" styleClass="section-box">
+                    <Label text="⚡ Place Actions" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+
+                    <Button text="💊 Heal All Characters" onAction="#handleHealAll"
+                            styleClass="success-button" maxWidth="Infinity"/>
+                    <Button text="🍽️ Feed All Characters" onAction="#handleFeedAll"
+                            styleClass="success-button" maxWidth="Infinity"/>
+                    <Button text="🧹 Remove Dead" onAction="#handleRemoveDead"
+                            styleClass="warning-button" maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <!-- Bottom: Action Buttons -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" styleClass="footer-box">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Button text="🔄 Refresh" onAction="#handleRefresh" styleClass="secondary-button" prefWidth="120"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="✖️ Close" onAction="#handleClose" styleClass="danger-button" prefWidth="120"/>
+        </HBox>
+    </bottom>
+</BorderPane>
