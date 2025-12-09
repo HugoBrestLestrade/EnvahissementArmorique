@@ -131,8 +131,38 @@ public class GameCharacter implements Fighter {
         if (this.health > this.maxHealth) {
             this.health = this.maxHealth;
         }
+    }
 
+    /**
+     * Makes the character eat food.
+     * Uses Food.consume() to apply proper effects.
+     *
+     * @param food The food to eat.
+     */
+    public void ToEat(Food food) {
+        if (this.health <= 0) {
+            System.out.println(name + " is dead and cannot eat.");
+            return;
+        }
 
+        // Use Food.consume() method which handles rotten food logic
+        food.consume(this);
+    }
+
+    /**
+     * Makes the character drink a potion.
+     * Uses Potion.drink() to apply potion effects.
+     *
+     * @param potion The potion to drink.
+     */
+    public void ToDrinkPotion(org.example.envahissementarmorique.model.item.Potion potion) {
+        if (this.health <= 0) {
+            System.out.println(name + " is dead and cannot drink potion.");
+            return;
+        }
+
+        // Use Potion.drink() method which handles all potion effects
+        potion.drink(this);
     }
 //    public boolean canEat(Food food) {
 //        if (this.health <= 0) return false;

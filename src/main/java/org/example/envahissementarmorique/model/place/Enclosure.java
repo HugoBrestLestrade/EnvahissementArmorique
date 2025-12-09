@@ -142,13 +142,12 @@ public class Enclosure extends Place {
         int fed = 0;
         for (GameCharacter c : characters) {
             if (c.isDead()) continue;
-            if (c.getHunger() > 40) {
-                Food food = findSuitableFood(c);
+            if (c.getHunger() < 100) {
+                Food food = findSuitableFoodForCreature(c);
                 if (food != null) {
-                    c.eat(food);
+                    c.ToEat(food);
                     foods.remove(food);
                     fed++;
-                    System.out.println("  - " + c.getName() + " a mangé " + food.getName());
                 }
             }
         }
@@ -170,7 +169,7 @@ public class Enclosure extends Place {
         int healed = 0;
         for (GameCharacter c : characters) {
             if (!c.isDead() && c.getHealth() < 100) {
-                c.heal(amount);
+                c.ToHeal(amount);
                 healed++;
                 System.out.println("  - " + c.getName() + " a été soigné");
             }
@@ -214,9 +213,10 @@ public class Enclosure extends Place {
         this.maxCapacity = maxCapacity;
     }
 
-    private Food findSuitableFood(GameCharacter c) {
-        for (Food food : foods) {
-            if (c.canEat(food)) return food;
+    private Food findSuitableFoodForCreature(GameCharacter c) {
+        // Return the first available food for creatures
+        if (!foods.isEmpty()) {
+            return foods.get(0);
         }
         return null;
     }

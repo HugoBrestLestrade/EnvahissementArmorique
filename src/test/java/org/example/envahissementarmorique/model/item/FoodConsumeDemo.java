@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
  * Classe de démonstration pour tester la méthode consume de Food.
@@ -8,7 +8,7 @@ import org.example.envahissementarmorique.model.character.base.Character;
 public class FoodConsumeDemo {
     public static void main(String[] args) {
         // Créer un personnage de test
-        Character hero = new Character(
+        GameCharacter hero = new GameCharacter(
             "Astérix", "Male", "Gaul", 1.65, 35,
             80, 70, 100, 20, 60, 0
         );

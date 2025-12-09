@@ -124,7 +124,7 @@ public abstract class Place {
     public void healAll(int amount) {
         for (GameCharacter c : characters) {
             if (!c.isDead()) {
-                c.heal(amount);
+                c.ToHeal(amount);
             }
         }
     }
@@ -132,19 +132,20 @@ public abstract class Place {
     // ============== NOURRITURE ==============
     public void feedAll() {
         for (GameCharacter c : characters) {
-            if (c.needsFood()) {
-                Food food = findSuitableFood(c);
+            if (!c.isDead() && c.getHunger() < 100) {
+                Food food = findSuitableFood();
                 if (food != null) {
-                    c.consume(food);
+                    c.ToEat(food);
                     foods.remove(food);
                 }
             }
         }
     }
 
-    private Food findSuitableFood(GameCharacter c) {
-        for (Food food : foods) {
-            if (c.canEat(food)) return food;
+    private Food findSuitableFood() {
+        // Return the first available food
+        if (!foods.isEmpty()) {
+            return foods.get(0);
         }
         return null;
     }

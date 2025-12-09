@@ -70,24 +70,31 @@ public final class Food extends Consumable {
      * Food improves the hunger indicator based on its nutritional value.
      * Eating rotten food is bad for health.
      *
+     * Logic:
+     * - If rotten: lose 1/5 of health and lose 1/3 of hunger
+     * - Otherwise: hunger = hunger + nutrition value
+     *
      * @param consumer The character consuming the food.
      */
     @Override
     public void consume(GameCharacter consumer) {
         if (freshness == Freshness.ROTTEN) {
-
+            // Rotten food: lose 1/5 of health
             int healthLoss = consumer.getHealth() / 5;
             consumer.setHealth(consumer.getHealth() - healthLoss);
 
+            // Rotten food: lose 1/3 of hunger
             int hungerLoss = consumer.getHunger() / 3;
             consumer.setHunger(consumer.getHunger() - hungerLoss);
-        } else if (consumer.getHunger() < 100) {
+
+            System.out.println(consumer.getName() + " ate rotten " + getName() + " and lost " + healthLoss + " health and " + hungerLoss + " hunger!");
+        } else {
+            // Fresh or okay food: hunger = hunger + nutrition
             int newHunger = consumer.getHunger() + foods.getNutrition();
             consumer.setHunger(newHunger);
-        } else {
-            System.out.println(consumer.getName() + " is already full and cannot eat more !");
-        }
 
+            System.out.println(consumer.getName() + " ate " + getName() + " and gained " + foods.getNutrition() + " hunger!");
+        }
     }
 
     @Override

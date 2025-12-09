@@ -1,6 +1,6 @@
 package org.example.envahissementarmorique.model.item;
 
-import org.example.envahissementarmorique.model.character.base.Character;
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class FoodTest {
 
     private Food food;
-    private Character testCharacter;
+    private GameCharacter testCharacter;
 
     @BeforeEach
     void setUp() {
         // Create a test character for consumption tests
-        testCharacter = new Character(
+        testCharacter = new GameCharacter(
             "Test", "Male", "Gaul", 1.75, 30,
             50, 50, 100, 100, 50, 0
         );

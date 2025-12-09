@@ -100,9 +100,9 @@ public class GaulishVillage extends Place {
         if (!characters.isEmpty()) {
             System.out.println("\nHabitants présents :");
             for (GameCharacter c : characters) {
-                String status = c.isDead() ? " [MORT]" : " [Santé: " + c.getHealth() + ", Potion: " + c.getMagicPotionLevel() + "]";
+                String status = c.isDead() ? " [MORT]" : " [Santé: " + c.getHealth() + ", Potion: " + c.getMagicpotion() + "]";
                 String type = getCharacterType(c);
-                System.out.println("  • " + c.toString() + type + status);
+                System.out.println("  • " + c.getName() + type + status);
             }
         } else {
             System.out.println("  (Village déserté)");
@@ -267,10 +267,10 @@ public class GaulishVillage extends Place {
         for (GameCharacter c : characters) {
             if (distributed >= numberOfDoses) break;
 
-            if (!c.isDead() && c instanceof Gaulois && c.getMagicPotionLevel() < 100) {
+            if (!c.isDead() && c instanceof Gaulois && c.getMagicpotion() < 100) {
                 if (!potions.isEmpty()) {
                     Potion potion = potions.remove(0);
-                    c.drinkMagicPotion(potion);
+                    c.ToDrinkPotion(potion);
                     distributed++;
                     System.out.println("  - " + c.getName() + " boit une dose de potion magique");
                 }
@@ -369,8 +369,12 @@ public class GaulishVillage extends Place {
             return;
         }
 
-        Druid druid = (Druid) druids.get(0);
-        Potion potion = druid.concoctPotion();
+        // TODO: Implement concoctPotion() method in Druid class
+        // Druid druid = (Druid) druids.get(0);
+        // Potion potion = druid.concoctPotion();
+
+        // For now, create a potion manually
+        Potion potion = new Potion(org.example.envahissementarmorique.model.item.Foods.SECRET_INGREDIENT, 10);
 
         if (potion != null) {
             addPotion(potion);

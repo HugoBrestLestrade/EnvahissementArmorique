@@ -78,8 +78,8 @@ public class ClanLeader {
         for (GameCharacter gameCharacter : gameCharacters) {
             // On vérifie que le personnage est bien dans le lieu du chef (sécurité optionnelle mais logique)
             if (this.place.getCharacters().contains(gameCharacter)) {
-                gameCharacter.setHealth(gameCharacter.getHealth() + hpHealed);
-                // Idéalement, borner à 100 ou maxHealth ici
+                // Use ToHeal() method which properly handles health limits
+                gameCharacter.ToHeal(hpHealed);
             }
         }
     }
