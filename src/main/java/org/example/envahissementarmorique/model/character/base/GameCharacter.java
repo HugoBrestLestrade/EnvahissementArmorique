@@ -4,21 +4,93 @@ import org.example.envahissementarmorique.model.character.interfaces.Fighter;
 import org.example.envahissementarmorique.model.item.Food;
 import org.example.envahissementarmorique.model.place.Place;
 
+/**
+ * Represents a game character with various attributes and abilities.
+ * This is the base class for all character types in the simulation.
+ * <p>
+ * A character has health, hunger, strength, endurance and can fight, eat, and drink potions.
+ * Characters can belong to different factions (Gaulois, Roman, etc.).
+ * </p>
+ *
+ * @author Envahissement Armorique Team
+ * @version 1.0
+ */
 public class GameCharacter implements Fighter {
+    /**
+     * The name of the character.
+     */
     private String name;
+
+    /**
+     * The gender of the character.
+     */
     private String genre;
+
+    /**
+     * The faction the character belongs to (Gaulois, Roman, etc.).
+     */
     private String faction;
+
+    /**
+     * The height of the character in meters.
+     */
     private double height;
+
+    /**
+     * The age of the character in years.
+     */
     private int age;
+
+    /**
+     * The strength level of the character.
+     */
     private int strength;
+
+    /**
+     * The endurance level of the character.
+     */
     private int endurance;
+
+    /**
+     * The current health points of the character.
+     */
     private int health;
+
+    /**
+     * The current hunger level of the character.
+     */
     private int hunger;
+
+    /**
+     * The belligerence level of the character (affects combat).
+     */
     private int belligerence;
+
+    /**
+     * The magic potion level of the character.
+     */
     private int magicpotion;
+
+    /**
+     * The maximum health points the character can have.
+     */
     protected int maxHealth;
 
-
+    /**
+     * Creates a new GameCharacter with the specified attributes.
+     *
+     * @param name The name of the character
+     * @param genre The gender of the character
+     * @param faction The faction the character belongs to
+     * @param height The height of the character in meters
+     * @param age The age of the character in years
+     * @param strength The strength level
+     * @param endurance The endurance level
+     * @param health The initial health points
+     * @param hunger The initial hunger level
+     * @param belligerence The belligerence level
+     * @param magicpotion The initial magic potion level
+     */
     public GameCharacter(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         this.name = name;
         this.genre = genre;
@@ -298,6 +370,11 @@ public class GameCharacter implements Fighter {
         System.out.println("------------------");
     }
 
+    /**
+     * Checks if the character is still alive.
+     *
+     * @return true if the character's health is greater than 0
+     */
     public boolean stillAlive(){
         return this.getHealth() > 0;
     }

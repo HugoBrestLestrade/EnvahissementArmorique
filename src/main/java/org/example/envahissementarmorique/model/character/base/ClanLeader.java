@@ -113,9 +113,7 @@ public class ClanLeader {
 
         if (isBattlefield || isEnclosure) {
             for (GameCharacter gameCharacter : gameCharacters) {
-                // Retirer du lieu actuel
                 this.place.removeCharacter(gameCharacter);
-                // Ajouter au nouveau lieu
                 destination.addCharacter(gameCharacter);
                 System.out.println(gameCharacter.getName() + " transféré vers " + destination.getName());
             }

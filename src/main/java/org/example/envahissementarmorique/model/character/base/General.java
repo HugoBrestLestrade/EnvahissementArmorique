@@ -2,8 +2,31 @@ package org.example.envahissementarmorique.model.character.base;
 
 import org.example.envahissementarmorique.model.character.interfaces.TypeCombat;
 
+/**
+ * Represents a General (Roman military commander) character.
+ * Generals are high-ranking Roman officers who lead armies.
+ * They have special combat abilities.
+ *
+ * @author Envahissement Armorique Team
+ * @version 1.0
+ */
 public class General extends GameCharacter implements TypeCombat {
 
+    /**
+     * Creates a new General character.
+     *
+     * @param name the character's name
+     * @param genre the character's gender
+     * @param faction the character's faction
+     * @param height the character's height in meters
+     * @param age the character's age in years
+     * @param strength the character's strength level
+     * @param endurance the character's endurance level
+     * @param health the character's initial health points
+     * @param hunger the character's initial hunger level
+     * @param belligerence the character's belligerence level
+     * @param magicpotion the character's initial magic potion level
+     */
     public General(String name, String genre, String faction, double height, int age,
                    int strength, int endurance, int health, int hunger,
                    int belligerence, int magicpotion) {
