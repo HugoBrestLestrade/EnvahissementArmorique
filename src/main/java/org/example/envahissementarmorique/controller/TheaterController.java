@@ -146,8 +146,7 @@ public class TheaterController {
     private void handleAddPlace() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/org/example/envahissementarmorique/view/place-dialog.fxml")
-            );
+                    getClass().getResource("/org/example/envahissementarmorique/view/place-dialog.fxml")            );
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Create New Place");
