@@ -11,6 +11,10 @@
             prefHeight="600.0" prefWidth="500.0"
             stylesheets="@../css/app-style.css">
 
+    <fx:define>
+        <ToggleGroup fx:id="genderToggleGroup"/>
+    </fx:define>
+
     <!-- Top: Title -->
     <top>
         <VBox spacing="10" styleClass="header-box">
@@ -73,7 +77,6 @@
                             </font>
                         </Label>
                         <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <ToggleGroup fx:id="genderToggleGroup"/>
                             <RadioButton text="Male" selected="true" toggleGroup="$genderToggleGroup"/>
                             <RadioButton text="Female" toggleGroup="$genderToggleGroup"/>
                         </HBox>
