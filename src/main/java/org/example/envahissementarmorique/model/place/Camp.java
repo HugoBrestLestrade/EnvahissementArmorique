@@ -14,7 +14,7 @@ import java.util.List;
 
  * Camp retranché romain - ne peut contenir que des combattants romains et des créatures fantastiques
  */
-public class Camp extends Place {
+public final class Camp extends Place {
 
     public Camp(String name, float area, ClanLeader chief) {
         super(name, area, chief);

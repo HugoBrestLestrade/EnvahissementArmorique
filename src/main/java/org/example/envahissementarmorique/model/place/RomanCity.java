@@ -10,7 +10,7 @@ import org.example.envahissementarmorique.model.character.base.ClanLeader;
  * Ville romaine
  * Ne peut contenir que des combattants romains et des créatures fantastiques
  */
-public class RomanCity extends Place {
+public final class RomanCity extends Place {
 
     public RomanCity(String name, float area, ClanLeader chief) {
         super(name, area, chief);

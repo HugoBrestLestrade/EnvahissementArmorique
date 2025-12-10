@@ -9,7 +9,7 @@ import org.example.envahissementarmorique.model.item.Food;
  * Enclos - ne peut contenir que des créatures fantastiques
  * N'a pas de chef de clan
  */
-public class Enclosure extends Place {
+public final class Enclosure extends Place {
 
     private int maxCapacity; // Capacité maximale de créatures
 

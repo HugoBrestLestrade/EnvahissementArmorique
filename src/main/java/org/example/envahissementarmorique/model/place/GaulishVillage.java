@@ -14,7 +14,7 @@ import java.util.List;
  * Village gaulois - ne peut contenir que des Gaulois et des créatures fantastiques
  * Bastion de la résistance gauloise contre l'envahisseur romain
  */
-public class GaulishVillage extends Place {
+public final class GaulishVillage extends Place {
 
     private int resistanceLevel;      // Niveau de résistance (0-100)
     private int moraleLevel;          // Moral des habitants (0-100)

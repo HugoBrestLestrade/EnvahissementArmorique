@@ -12,7 +12,7 @@ import java.util.List;
  * Bourgade gallo-romaine - ne peut contenir que des Gaulois et des Romains
  * Zone de cohabitation et d'échanges entre les deux peuples
  */
-public class GalloRomanTown extends Place {
+public final class GalloRomanTown extends Place {
 
     private int peacefulnessLevel; // Niveau de paix (0-100)
     private int commerceLevel;     // Niveau de commerce (0-100)

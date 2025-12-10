@@ -14,7 +14,7 @@ import java.util.List;
  * Champ de bataille - peut contenir tous les types de personnages
  * N'a pas de chef de clan
  */
-public class Battlefield extends Place {
+public final class Battlefield extends Place {
 
     public Battlefield(String name, float area) {
         super(name, area, null); // Pas de chef pour un champ de bataille

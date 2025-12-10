@@ -10,7 +10,7 @@ import org.example.envahissementarmorique.model.character.base.ClanLeader;
  * Camp retranché romain
  * Ne peut contenir que des combattants romains et des créatures fantastiques
  */
-public class RomanCamp extends Place {
+public final class RomanCamp extends Place {
 
     public RomanCamp(String name, float area, ClanLeader chief) {
         super(name, area, chief);

@@ -9,7 +9,7 @@ import org.example.envahissementarmorique.model.character.base.FantasticCreature
  * Village gaulois
  * Ne peut contenir que des Gaulois et des créatures fantastiques
  */
-public class Village extends Place {
+public final class Village extends Place {
 
     public Village(String name, float area, ClanLeader chief) {
         super(name, area, chief);

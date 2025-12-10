@@ -7,7 +7,7 @@ import org.example.envahissementarmorique.model.character.base.ClanLeader;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Place {
+public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRomanTown, GaulishVillage, RomanCamp, RomanCity, Village {
 
     protected String name;
     protected float area;
