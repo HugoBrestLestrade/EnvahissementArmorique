@@ -11,26 +11,51 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for GameCharacter class.
- * Tests health, hunger, combat, and consumption logic.
+ * Tests unitaires pour la classe {@link GameCharacter}.
+ * <p>
+ * Cette classe vérifie le bon fonctionnement des différentes méthodes
+ * et comportements d'un personnage de jeu, incluant :
+ * <ul>
+ *     <li>La gestion de la santé et du soin.</li>
+ *     <li>La détection de la mort et de la vie.</li>
+ *     <li>Les combats et l'application de dégâts.</li>
+ *     <li>La consommation de nourriture et de potions.</li>
+ *     <li>Les getters et setters des attributs.</li>
+ * </ul>
+ * </p>
+ * Chaque méthode de test est annotée avec {@link Test} et possède une description
+ * via {@link DisplayName} pour une meilleure lisibilité dans les rapports de test.
+ *
+ * @author Envahissement
+ * @version 1.0
  */
-@DisplayName("GameCharacter Tests")
+@DisplayName("Tests de la classe GameCharacter")
 class GameCharacterTest {
 
+    /** Instance du personnage de test. */
     private GameCharacter character;
 
+    /**
+     * Initialisation avant chaque test.
+     * <p>
+     * Crée un personnage "Astérix" avec des valeurs prédéfinies pour tous les attributs.
+     * </p>
+     */
     @BeforeEach
     void setUp() {
         character = new GameCharacter(
-            "Astérix", "M", "Gaulois",
-            1.65, 35, 50, 30, 100, 100, 60, 0
+                "Astérix", "M", "Gaulois",
+                1.65, 35, 50, 30, 100, 100, 60, 0
         );
     }
 
-    // ========== Health Tests ==========
+    // ================= Tests santé =================
 
+    /**
+     * Vérifie que le personnage est correctement initialisé avec les attributs passés au constructeur.
+     */
     @Test
-    @DisplayName("Should initialize character with correct attributes")
+    @DisplayName("Initialisation correcte du personnage")
     void testCharacterInitialization() {
         assertEquals("Astérix", character.getName());
         assertEquals("M", character.getGenre());
@@ -45,8 +70,11 @@ class GameCharacterTest {
         assertEquals(0, character.getMagicpotion());
     }
 
+    /**
+     * Vérifie que la méthode de soin augmente correctement la santé.
+     */
     @Test
-    @DisplayName("Should heal character correctly")
+    @DisplayName("Soin du personnage")
     void testToHeal() {
         character.setHealth(50);
         character.ToHeal(30);
@@ -54,8 +82,11 @@ class GameCharacterTest {
         assertEquals(80, character.getHealth());
     }
 
+    /**
+     * Vérifie que la santé ne dépasse pas la valeur maximale lors du soin.
+     */
     @Test
-    @DisplayName("Should not exceed maxHealth when healing")
+    @DisplayName("Soin ne dépassant pas la santé maximale")
     void testToHealNotExceedMax() {
         character.setHealth(90);
         character.ToHeal(50);
@@ -63,8 +94,11 @@ class GameCharacterTest {
         assertEquals(100, character.getHealth());
     }
 
+    /**
+     * Vérifie que le soin avec une valeur négative ou nulle n'affecte pas la santé.
+     */
     @Test
-    @DisplayName("Should not heal with negative or zero amount")
+    @DisplayName("Soin avec valeur négative ou nulle")
     void testToHealNegativeAmount() {
         int initialHealth = character.getHealth();
         character.ToHeal(-10);
@@ -75,10 +109,13 @@ class GameCharacterTest {
         assertEquals(initialHealth, character.getHealth());
     }
 
-    // ========== Death Tests ==========
+    // ================= Tests mort et vie =================
 
+    /**
+     * Vérifie la détection correcte de la mort du personnage.
+     */
     @Test
-    @DisplayName("Should detect when character is dead")
+    @DisplayName("Détection de la mort")
     void testIsDead() {
         assertFalse(character.isDead());
 
@@ -89,8 +126,11 @@ class GameCharacterTest {
         assertTrue(character.isDead());
     }
 
+    /**
+     * Vérifie la détection correcte si le personnage est toujours en vie.
+     */
     @Test
-    @DisplayName("Should detect when character is alive")
+    @DisplayName("Détection de la vie")
     void testStillAlive() {
         assertTrue(character.stillAlive());
 
@@ -101,10 +141,13 @@ class GameCharacterTest {
         assertFalse(character.stillAlive());
     }
 
-    // ========== Combat Tests ==========
+    // ================= Tests combat =================
 
+    /**
+     * Vérifie si le personnage est détecté comme belliqueux.
+     */
     @Test
-    @DisplayName("Should detect belligerent character")
+    @DisplayName("Détection du caractère belliqueux")
     void testIsBelligerent() {
         assertTrue(character.isBelligerent());
 
@@ -115,8 +158,11 @@ class GameCharacterTest {
         assertFalse(character.isBelligerent());
     }
 
+    /**
+     * Vérifie l'application correcte des dégâts.
+     */
     @Test
-    @DisplayName("Should apply damage in combat")
+    @DisplayName("Application des dégâts")
     void testTakeDamage() {
         int initialHealth = character.getHealth();
         character.takeDamage(20);
@@ -124,12 +170,15 @@ class GameCharacterTest {
         assertEquals(initialHealth - 20, character.getHealth());
     }
 
+    /**
+     * Vérifie que le combat réduit la santé de l'adversaire.
+     */
     @Test
-    @DisplayName("Should fight opponent and deal damage")
+    @DisplayName("Combat avec un adversaire vivant")
     void testFight() {
         GameCharacter opponent = new GameCharacter(
-            "Romain", "M", "Roman",
-            1.75, 30, 40, 25, 100, 100, 50, 0
+                "Romain", "M", "Roman",
+                1.75, 30, 40, 25, 100, 100, 50, 0
         );
 
         int opponentInitialHealth = opponent.getHealth();
@@ -138,12 +187,15 @@ class GameCharacterTest {
         assertTrue(opponent.getHealth() < opponentInitialHealth);
     }
 
+    /**
+     * Vérifie que le personnage ne peut pas combattre un adversaire déjà mort.
+     */
     @Test
-    @DisplayName("Should not fight dead opponent")
+    @DisplayName("Combat avec adversaire mort")
     void testFightDeadOpponent() {
         GameCharacter deadOpponent = new GameCharacter(
-            "Mort", "M", "Roman",
-            1.75, 30, 40, 25, 0, 100, 50, 0
+                "Mort", "M", "Roman",
+                1.75, 30, 40, 25, 0, 100, 50, 0
         );
 
         int characterInitialHealth = character.getHealth();
@@ -153,10 +205,13 @@ class GameCharacterTest {
         assertEquals(characterInitialHealth, character.getHealth());
     }
 
-    // ========== Eating Tests ==========
+    // ================= Tests alimentation =================
 
+    /**
+     * Vérifie que le personnage peut manger de la nourriture fraîche.
+     */
     @Test
-    @DisplayName("Should eat fresh food")
+    @DisplayName("Manger de la nourriture fraîche")
     void testToEatFreshFood() {
         character.setHunger(50);
         Food boar = new Food(Foods.BOAR, Freshness.FRESH);
@@ -166,8 +221,11 @@ class GameCharacterTest {
         assertEquals(100, character.getHunger());
     }
 
+    /**
+     * Vérifie qu'un personnage mort ne peut pas manger.
+     */
     @Test
-    @DisplayName("Should not eat when dead")
+    @DisplayName("Impossible de manger quand mort")
     void testToEatWhenDead() {
         character.setHealth(0);
         Food boar = new Food(Foods.BOAR, Freshness.FRESH);
@@ -178,8 +236,11 @@ class GameCharacterTest {
         assertEquals(initialHunger, character.getHunger());
     }
 
+    /**
+     * Vérifie que la consommation de nourriture pourrie réduit la santé.
+     */
     @Test
-    @DisplayName("Should lose health eating rotten food")
+    @DisplayName("Perte de santé en mangeant de la nourriture pourrie")
     void testToEatRottenFood() {
         Food rottenFish = new Food(Foods.FRESH_FISH, Freshness.ROTTEN);
         int initialHealth = character.getHealth();
@@ -189,10 +250,13 @@ class GameCharacterTest {
         assertTrue(character.getHealth() < initialHealth);
     }
 
-    // ========== Potion Tests ==========
+    // ================= Tests potions =================
 
+    /**
+     * Vérifie que boire une potion augmente correctement la force.
+     */
     @Test
-    @DisplayName("Should drink potion")
+    @DisplayName("Boire une potion")
     void testToDrinkPotion() {
         Potion potion = new Potion(Foods.SECRET_INGREDIENT, 1);
         int initialStrength = character.getStrength();
@@ -202,8 +266,11 @@ class GameCharacterTest {
         assertTrue(character.getStrength() > initialStrength);
     }
 
+    /**
+     * Vérifie qu'un personnage mort ne peut pas boire de potion.
+     */
     @Test
-    @DisplayName("Should not drink potion when dead")
+    @DisplayName("Impossible de boire une potion quand mort")
     void testToDrinkPotionWhenDead() {
         character.setHealth(0);
         Potion potion = new Potion(Foods.SECRET_INGREDIENT, 1);
@@ -214,10 +281,13 @@ class GameCharacterTest {
         assertEquals(initialStrength, character.getStrength());
     }
 
-    // ========== Attribute Tests ==========
+    // ================= Tests des setters =================
 
+    /**
+     * Vérifie que les setters mettent correctement à jour les attributs.
+     */
     @Test
-    @DisplayName("Should update attributes correctly")
+    @DisplayName("Mise à jour des attributs")
     void testSetters() {
         character.setName("Obélix");
         assertEquals("Obélix", character.getName());
@@ -241,4 +311,3 @@ class GameCharacterTest {
         assertEquals(10, character.getMagicpotion());
     }
 }
-

@@ -1,6 +1,5 @@
 package org.example.envahissementarmorique.model.character.base;
 
-
 import org.example.envahissementarmorique.model.character.base.Gaulish.Druid;
 import org.example.envahissementarmorique.model.item.Potion;
 import org.example.envahissementarmorique.model.place.Place;
@@ -8,6 +7,16 @@ import org.example.envahissementarmorique.model.item.Food;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a clan leader in the game.
+ * <p>
+ * A ClanLeader can manage characters, examine their place, feed and heal the team,
+ * transfer characters between places, and request druids to make potions.
+ * </p>
+ *
+ * @author Envahissement Armorique Team
+ * @version 1.0
+ */
 public class ClanLeader {
 
     private String name;
@@ -15,13 +24,23 @@ public class ClanLeader {
     private int age;
     private Place place;
 
+    /**
+     * Creates a new ClanLeader.
+     *
+     * @param name the leader's name
+     * @param genre the leader's gender
+     * @param age the leader's age
+     * @param place the Place assigned to the leader
+     */
     public ClanLeader(String name, String genre, int age, Place place) {
         this.name = name;
         this.genre = genre;
         this.age = age;
         this.place = place;
     }
-    //Getters et Setters
+
+    // ------------------ Getters and Setters ------------------
+
     public String getName() {
         return name;
     }
@@ -54,8 +73,12 @@ public class ClanLeader {
         this.place = place;
     }
 
+    // ------------------ Actions ------------------
+
+    /**
+     * Examines the current place and prints its characteristics and characters.
+     */
     public void examinePlace() {
-        // Le chef examine son lieu (affiche caractéristiques + listes) [cite: 86]
         if (this.place != null) {
             System.out.println(this.place.toString());
         } else {
@@ -63,51 +86,82 @@ public class ClanLeader {
         }
     }
 
+    /**
+     * Creates a new GameCharacter and adds it to the leader's place.
+     *
+     * @param name the character's name
+     * @param genre the character's gender
+     * @param faction the character's faction
+     * @param height the character's height in meters
+     * @param age the character's age
+     * @param strength the character's strength
+     * @param endurance the character's endurance
+     * @param health the character's initial health points
+     * @param hunger the character's initial hunger level
+     * @param belligerence the character's belligerence level
+     * @param magicPotion the character's initial magic potion level
+     */
     public void createCharacter(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicPotion){
-        // Création du personnage
         GameCharacter newGameCharacter = new GameCharacter(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicPotion);
 
-        // IMPORTANT : Il faut ajouter ce nouveau personnage au lieu du chef [cite: 87]
         if (this.place != null) {
             this.place.addCharacter(newGameCharacter);
             System.out.println(name + " a rejoint " + this.place.getName());
         }
     }
 
+    /**
+     * Heals a list of GameCharacters by a given HP amount.
+     *
+     * @param gameCharacters the characters to heal
+     * @param hpHealed the amount of health points to restore
+     */
     public void healTeam(ArrayList<GameCharacter> gameCharacters, int hpHealed){
-        // Soigner les personnages [cite: 88]
         for (GameCharacter gameCharacter : gameCharacters) {
-            // On vérifie que le personnage est bien dans le lieu du chef (sécurité optionnelle mais logique)
             if (this.place.getCharacters().contains(gameCharacter)) {
-                // Use ToHeal() method which properly handles health limits
                 gameCharacter.ToHeal(hpHealed);
             }
         }
     }
 
+    /**
+     * Feeds a list of GameCharacters with a given Food item.
+     *
+     * @param gameCharacters the characters to feed
+     * @param food the Food item
+     */
     public void feedTeam(ArrayList<GameCharacter> gameCharacters, Food food){
         for (GameCharacter gameCharacter : gameCharacters) {
             gameCharacter.setHunger(gameCharacter.getHunger() + food.getNutritionalValue());
-
-            // Logique supplémentaire suggérée : vérifier si la nourriture est "pas fraiche"
-            // "Manger du poisson pas frais est mauvais pour la santé" [cite: 46]
         }
     }
 
+    /**
+     * Requests a Druid to create a potion at the leader's place.
+     *
+     * @param druid the Druid to make the potion
+     */
     public void askToMakePotion(Druid druid){
-//        if (this.place.getCharacters().contains(druid)) {
-//            druid.createPotion(this.place);
-//        } else {
-//            System.out.println("Ce Druid n'est pas dans le lieu !");
-//        }
+        // Implementation can be added later
     }
 
+    /**
+     * Makes the team drink a magic potion.
+     *
+     * @param potion the Potion to drink
+     * @param gameCharacters the characters who drink it
+     */
     public void drinkMagicPotion(Potion potion, ArrayList<GameCharacter> gameCharacters){
-//        for (GameCharacter gameCharacter : gameCharacters) {
-//            gameCharacter.drinkPotion(potion);
-//        }
+        // Implementation can be added later
     }
 
+    /**
+     * Transfers a list of GameCharacters to another Place.
+     * Only works if the destination is a battlefield or an enclosure.
+     *
+     * @param destination the destination Place
+     * @param gameCharacters the characters to transfer
+     */
     public void transferCharacter(Place destination, ArrayList<GameCharacter> gameCharacters){
         boolean isBattlefield = destination.getName().toLowerCase().contains("bataille");
         boolean isEnclosure = destination.getName().toLowerCase().contains("enclos");

@@ -7,111 +7,143 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Représente une meute de lycanthropes avec un couple alpha et des membres.
+ *
+ * Une meute dispose :
+ * <ul>
+ *     <li>D'un nom</li>
+ *     <li>D'un couple alpha (male et female)</li>
+ *     <li>De membres lycanthropes</li>
+ * </ul>
+ *
+ * Cette classe permet :
+ * <ul>
+ *     <li>Ajouter ou retirer un membre</li>
+ *     <li>Gérer le couple alpha lors d'une domination ou transformation en humain</li>
+ *     <li>Afficher les informations de la meute</li>
+ * </ul>
+ */
 public class Pack {
 
-    private String nom;
-    private CoupleAlpha coupleAlpha;
-    private List<Lycanthropes> membres = new ArrayList<>();
+    /** Nom de la meute */
+    private String name;
 
-    public Pack(String nom, Lycanthropes maleAlpha, Lycanthropes femelleAlpha) {
-        this.nom = nom;
-        this.coupleAlpha = new CoupleAlpha(maleAlpha, femelleAlpha);
+    /** Couple alpha (male + female) */
+    private CoupleAlpha alphaCouple;
 
-        ajouterLycanthrope(maleAlpha);
-        ajouterLycanthrope(femelleAlpha);
+    /** Liste des membres de la meute */
+    private List<Lycanthropes> members = new ArrayList<>();
+
+    /**
+     * Crée une nouvelle meute avec un couple alpha initial.
+     *
+     * @param name          nom de la meute
+     * @param maleAlpha     lycanthrope mâle alpha
+     * @param femaleAlpha   lycanthrope femelle alpha
+     */
+    public Pack(String name, Lycanthropes maleAlpha, Lycanthropes femaleAlpha) {
+        this.name = name;
+        this.alphaCouple = new CoupleAlpha(maleAlpha, femaleAlpha);
+
+        addLycanthrope(maleAlpha);
+        addLycanthrope(femaleAlpha);
     }
 
-    public String getNom() {
-        return nom;
-    }
+    /** @return le nom de la meute */
+    public String getName() { return name; }
 
-    public CoupleAlpha getCoupleAlpha() {
-        return coupleAlpha;
-    }
+    /** @return le couple alpha */
+    public CoupleAlpha getAlphaCouple() { return alphaCouple; }
 
-    public List<Lycanthropes> getMembres() {
-        return membres;
-    }
+    /** @return la liste des membres */
+    public List<Lycanthropes> getMembers() { return members; }
 
     /* ------------------- AJOUT / RETRAIT ------------------- */
 
-    public void ajouterLycanthrope(Lycanthropes l) {
-        if (!membres.contains(l)) {
-            membres.add(l);
-            l.setMeute(this);
+    /**
+     * Ajoute un lycanthrope à la meute.
+     *
+     * @param l lycanthrope à ajouter
+     */
+    public void addLycanthrope(Lycanthropes l) {
+        if (!members.contains(l)) {
+            members.add(l);
+            l.setPack(this);
         }
     }
 
-    public void retirerLycanthrope(Lycanthropes l) {
-        membres.remove(l);
+    /**
+     * Retire un lycanthrope de la meute.
+     *
+     * @param l lycanthrope à retirer
+     */
+    public void removeLycanthrope(Lycanthropes l) {
+        members.remove(l);
     }
 
     /* ------------------- GESTION ALPHA ------------------- */
 
     /**
-     * Appelé quand un mâle alpha est dominé.
-     * Le nouvel alpha est celui qui a dominé le précédent.
+     * Reconstitue le couple alpha lorsqu'un mâle alpha est dominé.
+     *
+     * @param newMaleAlpha le nouveau mâle alpha
      */
-    public void reconstituerCoupleAlpha(Lycanthropes nouveauMaleAlpha) {
+    public void rebuildAlphaCouple(Lycanthropes newMaleAlpha) {
+        if (alphaCouple == null) return;
 
-        if (coupleAlpha == null) return;
-
-        Lycanthropes femelle = coupleAlpha.getFemelle();
-
-        coupleAlpha = new CoupleAlpha(nouveauMaleAlpha, femelle);
+        Lycanthropes female = alphaCouple.getFemale();
+        alphaCouple = new CoupleAlpha(newMaleAlpha, female);
 
         System.out.printf(
                 ">>> Nouveau couple alpha dans le pack %s : %s (M) + %s (F)%n",
-                nom,
-                nouveauMaleAlpha.getIdentifiant(),
-                femelle.getIdentifiant()
+                name, newMaleAlpha.getIdentifier(), female.getIdentifier()
         );
     }
 
     /**
-     * Appelé quand un alpha devient humain.
-     * Il faut sélectionner un nouveau mâle ou une nouvelle femelle.
+     * Gère la destitution d'un alpha devenu humain.
+     * Sélectionne un nouveau mâle ou une nouvelle femelle alpha.
+     *
+     * @param removedSexe le sexe de l'alpha destitué
      */
-    public void gererDestitutionAlpha(Sexe sexeDestitue) {
-
+    public void manageAlphaRemoval(Sexe removedSexe) {
         System.out.printf("⚠ Alpha %s destitué dans le pack %s%n",
-                sexeDestitue == Sexe.MALE ? "mâle" : "femelle",
-                nom);
+                removedSexe == Sexe.MALE ? "male" : "female", name);
 
-        // On cherche un remplaçant parmi les membres les plus puissants
-        Lycanthropes nouveau = membres.stream()
-                .filter(l -> l.getSexe() == sexeDestitue)
-                .filter(l -> !l.estHumain())
-                .sorted(Comparator.comparingDouble(Lycanthropes::calculerNiveau).reversed())
+        Lycanthropes newAlpha = members.stream()
+                .filter(l -> l.getSexe() == removedSexe)
+                .filter(l -> !l.isHuman())
+                .sorted(Comparator.comparingDouble(Lycanthropes::computeLevel).reversed())
                 .findFirst()
                 .orElse(null);
 
-        if (nouveau == null) {
+        if (newAlpha == null) {
             System.out.println("→ Aucun remplaçant possible !");
             return;
         }
 
-        if (sexeDestitue == Sexe.MALE) {
-            coupleAlpha = new CoupleAlpha(nouveau, coupleAlpha.getFemelle());
+        if (removedSexe == Sexe.MALE) {
+            alphaCouple = new CoupleAlpha(newAlpha, alphaCouple.getFemale());
         } else {
-            coupleAlpha = new CoupleAlpha(coupleAlpha.getMale(), nouveau);
+            alphaCouple = new CoupleAlpha(alphaCouple.getMale(), newAlpha);
         }
 
         System.out.printf(
                 ">>> Nouveau %s alpha : %s%n",
-                sexeDestitue == Sexe.MALE ? "mâle" : "femelle",
-                nouveau.getIdentifiant()
+                removedSexe == Sexe.MALE ? "male" : "female", newAlpha.getIdentifier()
         );
     }
 
     /* ------------------- AFFICHAGE ------------------- */
 
-    public void afficher() {
-        System.out.println("=== Pack " + nom + " ===");
-        coupleAlpha.afficher();
-        System.out.println("Membres :");
-        for (Lycanthropes l : membres) {
-            System.out.println(" - " + l.getIdentifiant() + " (rang " + l.getRang() + ")");
+    /** Affiche les informations du pack et de ses membres */
+    public void display() {
+        System.out.println("=== Pack " + name + " ===");
+        alphaCouple.display();
+        System.out.println("Members :");
+        for (Lycanthropes l : members) {
+            System.out.println(" - " + l.getIdentifier() + " (rank " + l.getRank() + ")");
         }
     }
 }

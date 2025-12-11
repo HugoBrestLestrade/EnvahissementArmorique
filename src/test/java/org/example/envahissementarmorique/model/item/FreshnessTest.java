@@ -6,14 +6,37 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the Freshness enum.
- * Tests freshness degradation logic.
+ * Tests unitaires pour l’énumération {@link Freshness}.
+ * <p>
+ * Cette classe teste la logique de dégradation de la fraîcheur des aliments.
+ * </p>
+ *
+ * <p>
+ * Les tests incluent :
+ * <ul>
+ *     <li>La dégradation progressive des valeurs FRESH → OKAY → ROTTEN.</li>
+ *     <li>La conservation de l’état ROTTEN lorsqu’on tente de le dégrader davantage.</li>
+ *     <li>La vérification des étiquettes (labels) associées à chaque valeur.</li>
+ *     <li>La vérification de l’accès à toutes les valeurs de l’énumération.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Chaque méthode de test est annotée avec {@link Test} et possède une description
+ * via {@link DisplayName} pour une meilleure lisibilité dans les rapports de test.
+ * </p>
+ *
+ * @author Boud
+ * @version 1.0
  */
-@DisplayName("Freshness Enum Tests")
+@DisplayName("Tests de l’énumération Freshness")
 class FreshnessTest {
 
+    /**
+     * Vérifie que la dégradation passe de FRESH à OKAY.
+     */
     @Test
-    @DisplayName("Should degrade from FRESH to OKAY")
+    @DisplayName("Doit dégrader FRESH vers OKAY")
     void testDegradeFreshToOkay() {
         Freshness fresh = Freshness.FRESH;
         Freshness degraded = fresh.degrade();
@@ -21,8 +44,11 @@ class FreshnessTest {
         assertEquals(Freshness.OKAY, degraded);
     }
 
+    /**
+     * Vérifie que la dégradation passe de OKAY à ROTTEN.
+     */
     @Test
-    @DisplayName("Should degrade from OKAY to ROTTEN")
+    @DisplayName("Doit dégrader OKAY vers ROTTEN")
     void testDegradeOkayToRotten() {
         Freshness okay = Freshness.OKAY;
         Freshness degraded = okay.degrade();
@@ -30,8 +56,11 @@ class FreshnessTest {
         assertEquals(Freshness.ROTTEN, degraded);
     }
 
+    /**
+     * Vérifie que ROTTEN reste ROTTEN après une tentative de dégradation.
+     */
     @Test
-    @DisplayName("Should stay ROTTEN when already ROTTEN")
+    @DisplayName("Doit rester ROTTEN si déjà ROTTEN")
     void testDegradeRottenStaysRotten() {
         Freshness rotten = Freshness.ROTTEN;
         Freshness degraded = rotten.degrade();
@@ -40,38 +69,47 @@ class FreshnessTest {
         assertSame(rotten, degraded.degrade());
     }
 
+    /**
+     * Vérifie que les étiquettes (labels) des valeurs sont correctes.
+     */
     @Test
-    @DisplayName("Should have correct labels")
+    @DisplayName("Doit avoir des labels corrects")
     void testLabels() {
         assertEquals("Fresh", Freshness.FRESH.getLabel());
         assertEquals("Quite Fresh", Freshness.OKAY.getLabel());
         assertEquals("Rotten", Freshness.ROTTEN.getLabel());
     }
 
+    /**
+     * Vérifie la dégradation multiple successive.
+     */
     @Test
-    @DisplayName("Should degrade multiple times correctly")
+    @DisplayName("Doit dégrader plusieurs fois correctement")
     void testMultipleDegradations() {
         Freshness current = Freshness.FRESH;
 
-        // First degradation: FRESH -> OKAY
+        // Première dégradation : FRESH -> OKAY
         current = current.degrade();
         assertEquals(Freshness.OKAY, current);
 
-        // Second degradation: OKAY -> ROTTEN
+        // Deuxième dégradation : OKAY -> ROTTEN
         current = current.degrade();
         assertEquals(Freshness.ROTTEN, current);
 
-        // Third degradation: ROTTEN -> ROTTEN
+        // Troisième dégradation : ROTTEN -> ROTTEN
         current = current.degrade();
         assertEquals(Freshness.ROTTEN, current);
 
-        // Fourth degradation: still ROTTEN
+        // Quatrième dégradation : toujours ROTTEN
         current = current.degrade();
         assertEquals(Freshness.ROTTEN, current);
     }
 
+    /**
+     * Vérifie que toutes les valeurs de l’énumération sont accessibles et correctes.
+     */
     @Test
-    @DisplayName("All enum values should be accessible")
+    @DisplayName("Toutes les valeurs de l’énumération doivent être accessibles")
     void testEnumValues() {
         Freshness[] values = Freshness.values();
 
@@ -81,4 +119,3 @@ class FreshnessTest {
         assertEquals(Freshness.ROTTEN, values[2]);
     }
 }
-

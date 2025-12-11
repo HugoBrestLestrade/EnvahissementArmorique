@@ -5,19 +5,31 @@ import org.example.envahissementarmorique.model.character.base.ClanLeader;
 import org.example.envahissementarmorique.model.character.base.FantasticCreature;
 
 /**
-
- * Village gaulois
- * Ne peut contenir que des Gaulois et des créatures fantastiques
+ * Représente un village gaulois.
+ * <p>
+ * Ce lieu est réservé aux Gaulois et aux créatures fantastiques.
+ * Un village peut contenir un chef de village et un stock de nourriture.
  */
 public final class Village extends Place {
 
+    /**
+     * Crée un nouveau village gaulois.
+     *
+     * @param name  Nom du village
+     * @param area  Superficie en m²
+     * @param chief Chef du village (peut être null)
+     */
     public Village(String name, float area, ClanLeader chief) {
         super(name, area, chief);
     }
 
     /**
-
-     * Vérifie si le personnage peut entrer dans le village
+     * Vérifie si un personnage peut entrer dans le village.
+     * <p>
+     * Seuls les Gaulois et les créatures fantastiques sont autorisés.
+     *
+     * @param c Personnage à tester
+     * @return true si le personnage peut entrer, false sinon
      */
     @Override
     protected boolean canAddCharacter(GameCharacter c) {
@@ -25,8 +37,10 @@ public final class Village extends Place {
     }
 
     /**
-
-     * Ajout d'un personnage dans le village
+     * Ajoute un personnage dans le village si autorisé.
+     *
+     * @param c Personnage à ajouter
+     * @return true si le personnage a été ajouté, false sinon
      */
     @Override
     public boolean addCharacter(GameCharacter c) {
@@ -47,8 +61,9 @@ public final class Village extends Place {
     }
 
     /**
-
-     * Affichage du village
+     * Affiche les informations détaillées du village.
+     * <p>
+     * Comprend le nom, la superficie, le chef, les habitants présents et la nourriture disponible.
      */
     @Override
     public void display() {

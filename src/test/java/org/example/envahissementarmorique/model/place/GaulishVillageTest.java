@@ -12,16 +12,38 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for GaulishVillage class.
- * Tests Gaulois-specific rules and potion management.
+ * Tests unitaires pour la classe {@link GaulishVillage}.
+ * <p>
+ * Cette classe teste les règles spécifiques aux Gaulois ainsi que la gestion des potions
+ * dans un village gaulois.
+ * </p>
+ *
+ * <p>Les tests incluent notamment :</p>
+ * <ul>
+ *     <li>L’initialisation du village avec les bons attributs et niveaux de résistance et de morale.</li>
+ *     <li>L’ajout et le rejet de personnages selon qu’ils sont Gaulois, Romains ou créatures fantastiques.</li>
+ *     <li>La gestion des niveaux de résistance et de morale (augmentation, diminution, limites).</li>
+ *     <li>La gestion des potions : ajout, récupération de la liste et comptage.</li>
+ *     <li>Le comptage et la récupération des Gaulois dans le village.</li>
+ *     <li>L’affichage des informations du village sans erreur.</li>
+ * </ul>
+ *
+ * <p>Chaque méthode de test est annotée avec {@link Test} et {@link DisplayName} pour
+ * une meilleure lisibilité.</p>
+ *
+ * @author
+ * @version 1.0
  */
-@DisplayName("GaulishVillage Tests")
+@DisplayName("Tests de la classe GaulishVillage")
 class GaulishVillageTest {
 
     private GaulishVillage village;
     private GameCharacter gaulois;
     private GameCharacter roman;
 
+    /**
+     * Initialise un village et des personnages avant chaque méthode de test.
+     */
     @BeforeEach
     void setUp() {
         ClanLeader chief = new ClanLeader("Abraracourcix", "M", 50, null);
@@ -32,10 +54,11 @@ class GaulishVillageTest {
         roman = new Roman("Centurion", "M", 1.75, 30, 50, 40, 100, 100, 60, 0);
     }
 
-    // ========== Initialization Tests ==========
-
+    /**
+     * Vérifie l’initialisation du village avec les bons attributs.
+     */
     @Test
-    @DisplayName("Should initialize Gaulish village with correct attributes")
+    @DisplayName("Doit initialiser le village gaulois avec les bons attributs")
     void testVillageInitialization() {
         assertEquals("Village des Irréductibles", village.getName());
         assertEquals(2000f, village.getArea());
@@ -45,8 +68,11 @@ class GaulishVillageTest {
         assertEquals(0, village.getPotionCount());
     }
 
+    /**
+     * Vérifie l’initialisation personnalisée avec niveaux de résistance et de morale.
+     */
     @Test
-    @DisplayName("Should initialize with custom resistance and morale")
+    @DisplayName("Doit initialiser avec résistance et morale personnalisées")
     void testVillageCustomInitialization() {
         ClanLeader chief = new ClanLeader("Chief", "M", 45, null);
         GaulishVillage customVillage = new GaulishVillage("Custom", 1000f, chief, 80, 75);
@@ -55,10 +81,11 @@ class GaulishVillageTest {
         assertEquals(75, customVillage.getMoraleLevel());
     }
 
-    // ========== Character Addition Rules Tests ==========
-
+    /**
+     * Vérifie l’acceptation d’un personnage Gaulois.
+     */
     @Test
-    @DisplayName("Should accept Gaulois character")
+    @DisplayName("Doit accepter un personnage Gaulois")
     void testAcceptGaulois() {
         boolean added = village.addCharacter(gaulois);
 
@@ -67,8 +94,11 @@ class GaulishVillageTest {
         assertTrue(village.getCharacters().contains(gaulois));
     }
 
+    /**
+     * Vérifie le rejet d’un personnage Romain.
+     */
     @Test
-    @DisplayName("Should reject Roman character")
+    @DisplayName("Doit rejeter un personnage Romain")
     void testRejectRoman() {
         boolean added = village.addCharacter(roman);
 
@@ -76,8 +106,11 @@ class GaulishVillageTest {
         assertEquals(0, village.getNumberOfCharacters());
     }
 
+    /**
+     * Vérifie l’acceptation d’une créature fantastique.
+     */
     @Test
-    @DisplayName("Should accept FantasticCreature")
+    @DisplayName("Doit accepter une créature fantastique")
     void testAcceptFantasticCreature() {
         FantasticCreature creature = new FantasticCreature("Idéfix", "M", 0.5, 5, 10, 20, 50, 100, 30, 0);
         boolean added = village.addCharacter(creature);
@@ -86,10 +119,11 @@ class GaulishVillageTest {
         assertTrue(village.getCharacters().contains(creature));
     }
 
-    // ========== Resistance and Morale Tests ==========
-
+    /**
+     * Vérifie l’augmentation du niveau de résistance.
+     */
     @Test
-    @DisplayName("Should increase resistance level")
+    @DisplayName("Doit augmenter le niveau de résistance")
     void testIncreaseResistance() {
         village.setResistanceLevel(70);
         village.increaseResistance(20);
@@ -97,8 +131,11 @@ class GaulishVillageTest {
         assertEquals(90, village.getResistanceLevel());
     }
 
+    /**
+     * Vérifie que le niveau de résistance ne dépasse pas le maximum.
+     */
     @Test
-    @DisplayName("Should not exceed max resistance")
+    @DisplayName("Doit limiter le niveau de résistance au maximum")
     void testResistanceMaxCap() {
         village.setResistanceLevel(95);
         village.increaseResistance(20);
@@ -106,16 +143,22 @@ class GaulishVillageTest {
         assertEquals(100, village.getResistanceLevel());
     }
 
+    /**
+     * Vérifie la diminution du niveau de résistance.
+     */
     @Test
-    @DisplayName("Should decrease resistance level")
+    @DisplayName("Doit diminuer le niveau de résistance")
     void testDecreaseResistance() {
         village.decreaseResistance(30);
 
         assertEquals(70, village.getResistanceLevel());
     }
 
+    /**
+     * Vérifie que le niveau de résistance ne descend pas en dessous du minimum.
+     */
     @Test
-    @DisplayName("Should not go below min resistance")
+    @DisplayName("Doit limiter le niveau de résistance au minimum")
     void testResistanceMinCap() {
         village.setResistanceLevel(10);
         village.decreaseResistance(20);
@@ -123,8 +166,11 @@ class GaulishVillageTest {
         assertEquals(0, village.getResistanceLevel());
     }
 
+    /**
+     * Vérifie l’augmentation du niveau de morale.
+     */
     @Test
-    @DisplayName("Should increase morale level")
+    @DisplayName("Doit augmenter le niveau de morale")
     void testIncreaseMorale() {
         village.setMoraleLevel(60);
         village.increaseMorale(25);
@@ -132,8 +178,11 @@ class GaulishVillageTest {
         assertEquals(85, village.getMoraleLevel());
     }
 
+    /**
+     * Vérifie que le niveau de morale ne dépasse pas le maximum.
+     */
     @Test
-    @DisplayName("Should not exceed max morale")
+    @DisplayName("Doit limiter le niveau de morale au maximum")
     void testMoraleMaxCap() {
         village.setMoraleLevel(95);
         village.increaseMorale(20);
@@ -141,16 +190,22 @@ class GaulishVillageTest {
         assertEquals(100, village.getMoraleLevel());
     }
 
+    /**
+     * Vérifie la diminution du niveau de morale.
+     */
     @Test
-    @DisplayName("Should decrease morale level")
+    @DisplayName("Doit diminuer le niveau de morale")
     void testDecreaseMorale() {
         village.decreaseMorale(20);
 
         assertEquals(70, village.getMoraleLevel());
     }
 
+    /**
+     * Vérifie que le niveau de morale ne descend pas en dessous du minimum.
+     */
     @Test
-    @DisplayName("Should not go below min morale")
+    @DisplayName("Doit limiter le niveau de morale au minimum")
     void testMoraleMinCap() {
         village.setMoraleLevel(5);
         village.decreaseMorale(10);
@@ -158,10 +213,11 @@ class GaulishVillageTest {
         assertEquals(0, village.getMoraleLevel());
     }
 
-    // ========== Potion Management Tests ==========
-
+    /**
+     * Vérifie l’ajout d’une potion au village.
+     */
     @Test
-    @DisplayName("Should add potion to village")
+    @DisplayName("Doit ajouter une potion au village")
     void testAddPotion() {
         Potion potion = new Potion(Foods.SECRET_INGREDIENT, 10);
         village.addPotion(potion);
@@ -169,8 +225,11 @@ class GaulishVillageTest {
         assertEquals(1, village.getPotionCount());
     }
 
+    /**
+     * Vérifie l’ajout de plusieurs potions.
+     */
     @Test
-    @DisplayName("Should add multiple potions")
+    @DisplayName("Doit ajouter plusieurs potions")
     void testAddMultiplePotions() {
         Potion potion1 = new Potion(Foods.SECRET_INGREDIENT, 10);
         Potion potion2 = new Potion(Foods.SECRET_INGREDIENT, 5);
@@ -181,8 +240,11 @@ class GaulishVillageTest {
         assertEquals(2, village.getPotionCount());
     }
 
+    /**
+     * Vérifie la récupération de la liste des potions.
+     */
     @Test
-    @DisplayName("Should get potions list")
+    @DisplayName("Doit récupérer la liste des potions")
     void testGetPotions() {
         Potion potion = new Potion(Foods.SECRET_INGREDIENT, 10);
         village.addPotion(potion);
@@ -192,10 +254,11 @@ class GaulishVillageTest {
         assertTrue(village.getPotions().contains(potion));
     }
 
-    // ========== Population Count Tests ==========
-
+    /**
+     * Vérifie l’ajout de plusieurs Gaulois et le comptage correct.
+     */
     @Test
-    @DisplayName("Should accept multiple Gaulois")
+    @DisplayName("Doit accepter plusieurs Gaulois")
     void testAcceptMultipleGaulois() {
         GameCharacter gaulois1 = new Gaulois("Astérix", "M", 1.65, 35, 70, 50, 100, 100, 80, 0);
         GameCharacter gaulois2 = new Gaulois("Obélix", "M", 1.85, 35, 90, 60, 120, 100, 70, 0);
@@ -208,10 +271,11 @@ class GaulishVillageTest {
         assertTrue(village.getCharacters().contains(gaulois2));
     }
 
-    // ========== Village Status Tests ==========
-
+    /**
+     * Vérifie que les niveaux de résistance et de morale sont maintenus.
+     */
     @Test
-    @DisplayName("Should maintain resistance and morale levels")
+    @DisplayName("Doit maintenir les niveaux de résistance et de morale")
     void testMaintainLevels() {
         village.setMoraleLevel(90);
         village.setResistanceLevel(95);
@@ -220,8 +284,11 @@ class GaulishVillageTest {
         assertEquals(95, village.getResistanceLevel());
     }
 
+    /**
+     * Vérifie la récupération de la liste des Gaulois.
+     */
     @Test
-    @DisplayName("Should get Gaulois list")
+    @DisplayName("Doit récupérer la liste des Gaulois")
     void testGetGaulois() {
         GameCharacter gaulois1 = new Gaulois("Astérix", "M", 1.65, 35, 70, 50, 100, 100, 80, 0);
         GameCharacter gaulois2 = new Gaulois("Obélix", "M", 1.85, 35, 90, 60, 120, 100, 70, 0);
@@ -232,13 +299,13 @@ class GaulishVillageTest {
         assertEquals(2, village.getGaulois().size());
     }
 
-    // ========== Display Tests ==========
-
+    /**
+     * Vérifie l’affichage du village sans générer d’erreur.
+     */
     @Test
-    @DisplayName("Should display village information without errors")
+    @DisplayName("Doit afficher les informations du village sans erreur")
     void testDisplay() {
         village.addCharacter(gaulois);
         assertDoesNotThrow(() -> village.display());
     }
 }
-

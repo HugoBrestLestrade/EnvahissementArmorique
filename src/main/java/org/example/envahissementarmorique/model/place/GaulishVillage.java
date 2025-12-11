@@ -7,23 +7,31 @@ import org.example.envahissementarmorique.model.character.base.FantasticCreature
 import org.example.envahissementarmorique.model.character.base.ClanLeader;
 import org.example.envahissementarmorique.model.item.Food;
 import org.example.envahissementarmorique.model.item.Potion;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Village gaulois - ne peut contenir que des Gaulois et des créatures fantastiques
- * Bastion de la résistance gauloise contre l'envahisseur romain
+ * Village gaulois.
+ *
+ * <p>Ne peut contenir que des Gaulois et des créatures fantastiques.
+ * Bastion de la résistance gauloise contre l'envahisseur romain.</p>
  */
 public final class GaulishVillage extends Place {
 
-    private int resistanceLevel;      // Niveau de résistance (0-100)
-    private int moraleLevel;          // Moral des habitants (0-100)
-    private List<Potion> potions; // Stock de potions magiques
+    /** Niveau de résistance du village (0-100) */
+    private int resistanceLevel;
+
+    /** Moral des habitants (0-100) */
+    private int moraleLevel;
+
+    /** Stock de potions magiques */
+    private List<Potion> potions;
 
     public GaulishVillage(String name, float area, ClanLeader chief) {
         super(name, area, chief);
-        this.resistanceLevel = 100; // Résistance maximale par défaut
-        this.moraleLevel = 90;      // Moral élevé par défaut
+        this.resistanceLevel = 100;
+        this.moraleLevel = 90;
         this.potions = new ArrayList<>();
     }
 
@@ -36,455 +44,150 @@ public final class GaulishVillage extends Place {
 
     @Override
     protected boolean canAddCharacter(GameCharacter c) {
-        // Accepte uniquement les Gaulois et les créatures fantastiques
         return (c instanceof Gaulois || c instanceof FantasticCreature);
     }
 
     @Override
     public boolean addCharacter(GameCharacter c) {
         if (c == null) {
-            System.out.println("Erreur : personnage null");
+            System.out.println("Error: null character");
             return false;
         }
 
         if (!(c instanceof Gaulois || c instanceof FantasticCreature)) {
-            System.out.println("❌ " + c.getName() + " ne peut pas entrer dans ce village gaulois !");
-            System.out.println("   (Seuls les Gaulois et créatures fantastiques sont acceptés)");
+            System.out.println("❌ " + c.getName() + " cannot enter this Gaulish village");
             return false;
         }
 
         if (canAddCharacter(c)) {
             characters.add(c);
-            System.out.println("🛡️ " + c.getName() + " entre dans le village " + name);
+            System.out.println("🛡️ " + c.getName() + " enters the village " + name);
 
-            // Améliorer le moral si un druide arrive
             if (c instanceof Druid) {
-                System.out.println("   ✨ L'arrivée d'un druide remonte le moral du village !");
+                System.out.println("   ✨ A druid boosts village morale!");
                 increaseMorale(10);
             }
 
             return true;
         }
-
         return false;
     }
 
     @Override
     public void display() {
         System.out.println("\n========================================");
-        System.out.println("🛡️  VILLAGE GAULOIS : " + name);
-        System.out.println("Superficie : " + area + " m²");
+        System.out.println("🛡️ GAULISH VILLAGE: " + name);
+        System.out.println("Area: " + area + " m²");
 
-        if (chief != null) {
-            System.out.println("Chef : " + chief.getName() + " (irréductible)");
-        } else {
-            System.out.println("Chef : Aucun");
-        }
+        System.out.println("Chief: " + (chief != null ? chief.getName() : "None"));
 
-        // Indicateurs du village
-        System.out.println("\n⚔️ Indicateurs :");
-        System.out.println("  Résistance : " + getResistanceBar() + " (" + resistanceLevel + "%)");
-        System.out.println("  Moral : " + getMoraleBar() + " (" + moraleLevel + "%)");
-        System.out.println("  Potions magiques : " + potions.size() + " dose(s)");
+        System.out.println("\n⚔️ Indicators:");
+        System.out.println("  Resistance: " + getResistanceBar() + " (" + resistanceLevel + "%)");
+        System.out.println("  Morale: " + getMoraleBar() + " (" + moraleLevel + "%)");
+        System.out.println("  Magic potions: " + potions.size());
 
-        // Composition de la population
-        int gauloisCount = countGaulois();
-        int druidsCount = countDruids();
-        int creaturesCount = countCreatures();
-
-        System.out.println("\n👥 Population : " + characters.size() + " habitant(s)");
-        System.out.println("  - Gaulois : " + gauloisCount);
-        System.out.println("  - Druides : " + druidsCount);
-        System.out.println("  - Créatures : " + creaturesCount);
+        System.out.println("\n👥 Population: " + characters.size());
+        System.out.println("  - Gauls: " + countGaulois());
+        System.out.println("  - Druids: " + countDruids());
+        System.out.println("  - Creatures: " + countCreatures());
 
         if (!characters.isEmpty()) {
-            System.out.println("\nHabitants présents :");
+            System.out.println("\nResidents:");
             for (GameCharacter c : characters) {
-                String status = c.isDead() ? " [MORT]" : " [Santé: " + c.getHealth() + ", Potion: " + c.getMagicpotion() + "]";
-                String type = getCharacterType(c);
-                System.out.println("  • " + c.getName() + type + status);
+                String status = c.isDead() ? " [DEAD]" : " [Health: " + c.getHealth() + ", Potion: " + c.getMagicpotion() + "]";
+                System.out.println("  • " + c.getName() + getCharacterType(c) + status);
             }
         } else {
-            System.out.println("  (Village déserté)");
+            System.out.println("  (Village deserted)");
         }
 
-        System.out.println("\nNourriture disponible : " + foods.size());
-        if (!foods.isEmpty()) {
-            System.out.println("Provisions :");
-            for (Food f : foods) {
-                System.out.println("  • " + f.toString());
-            }
-        } else {
-            System.out.println("  (Garde-manger vide)");
-        }
+        System.out.println("\nFood available: " + foods.size());
+        if (!foods.isEmpty()) for (Food f : foods) System.out.println("  • " + f);
 
-        System.out.println("\nÉtat du village : " + getVillageStatus());
-
-        if (isUnderThreat()) {
-            System.out.println("⚠️ ALERTE : Le village est menacé !");
-        }
-
+        System.out.println("\nVillage status: " + getVillageStatus());
+        if (isUnderThreat()) System.out.println("⚠️ ALERT: Village under threat!");
         System.out.println("========================================\n");
     }
 
-    /**
-     * Obtient le type de personnage pour l'affichage
-     */
     private String getCharacterType(GameCharacter c) {
-        if (c instanceof Druid) {
-            return " [Druide]";
-        } else if (c instanceof FantasticCreature) {
-            return " [Créature]";
-        } else if (c instanceof Gaulois) {
-            String className = c.getClass().getSimpleName();
-            return " [" + className + "]";
-        }
+        if (c instanceof Druid) return " [Druid]";
+        if (c instanceof FantasticCreature) return " [Creature]";
+        if (c instanceof Gaulois) return " [Gaul]";
         return "";
     }
 
-    /**
-     * Compte le nombre de Gaulois
-     */
-    private int countGaulois() {
-        int count = 0;
-        for (GameCharacter c : characters) {
-            if (c instanceof Gaulois && !c.isDead()) {
-                count++;
-            }
-        }
-        return count;
-    }
+    private int countGaulois() { return (int) characters.stream().filter(c -> c instanceof Gaulois && !c.isDead()).count(); }
+    private int countDruids() { return (int) characters.stream().filter(c -> c instanceof Druid && !c.isDead()).count(); }
+    private int countCreatures() { return (int) characters.stream().filter(c -> c instanceof FantasticCreature && !c.isDead()).count(); }
 
-    /**
-     * Compte le nombre de Druides
-     */
-    private int countDruids() {
-        int count = 0;
-        for (GameCharacter c : characters) {
-            if (c instanceof Druid && !c.isDead()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * Compte le nombre de créatures
-     */
-    private int countCreatures() {
-        int count = 0;
-        for (GameCharacter c : characters) {
-            if (c instanceof FantasticCreature && !c.isDead()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * Obtient tous les Gaulois du village
-     */
     public List<GameCharacter> getGaulois() {
-        List<GameCharacter> gaulois = new ArrayList<>();
-        for (GameCharacter c : characters) {
-            if (c instanceof Gaulois) {
-                gaulois.add(c);
-            }
-        }
-        return gaulois;
+        List<GameCharacter> list = new ArrayList<>();
+        for (GameCharacter c : characters) if (c instanceof Gaulois) list.add(c);
+        return list;
     }
 
-    /**
-     * Obtient tous les Druides du village
-     */
     public List<GameCharacter> getDruids() {
-        List<GameCharacter> druids = new ArrayList<>();
-        for (GameCharacter c : characters) {
-            if (c instanceof Druid) {
-                druids.add(c);
-            }
-        }
-        return druids;
+        List<GameCharacter> list = new ArrayList<>();
+        for (GameCharacter c : characters) if (c instanceof Druid) list.add(c);
+        return list;
     }
 
-    /**
-     * Vérifie si le village a un druide
-     */
-    public boolean hasDruid() {
-        return countDruids() > 0;
-    }
+    public boolean hasDruid() { return countDruids() > 0; }
 
-    /**
-     * Vérifie si le village est menacé
-     */
     public boolean isUnderThreat() {
-        // Village menacé si :
-        // - Résistance faible
-        // - Moral bas
-        // - Peu de combattants
-        // - Pas de potion magique
-
-        if (resistanceLevel < 30 || moraleLevel < 30) {
-            return true;
-        }
-
-        int fighters = 0;
-        for (GameCharacter c : characters) {
-            if (!c.isDead() && c.getStrength() > 30) {
-                fighters++;
-            }
-        }
-
-        if (fighters < 3 && potions.isEmpty()) {
-            return true;
-        }
-
-        return false;
+        if (resistanceLevel < 30 || moraleLevel < 30) return true;
+        int fighters = (int) characters.stream().filter(c -> !c.isDead() && c.getStrength() > 30).count();
+        return fighters < 3 && potions.isEmpty();
     }
 
-    /**
-     * Ajoute une potion magique au stock
-     */
     public void addPotion(Potion potion) {
         potions.add(potion);
-        System.out.println("✨ Une potion magique a été ajoutée au stock du village !");
         increaseMorale(5);
         increaseResistance(5);
+        System.out.println("✨ Magic potion added to village stock!");
     }
 
-    /**
-     * Distribue des potions aux habitants
-     */
-    public void distributePotions(int numberOfDoses) {
-        if (potions.isEmpty()) {
-            System.out.println("❌ Aucune potion disponible dans le village !");
-            return;
-        }
-
-        System.out.println("\n✨ Distribution de potion magique à " + name);
-
+    public void distributePotions(int doses) {
+        if (potions.isEmpty()) { System.out.println("❌ No potion available!"); return; }
         int distributed = 0;
         for (GameCharacter c : characters) {
-            if (distributed >= numberOfDoses) break;
-
+            if (distributed >= doses) break;
             if (!c.isDead() && c instanceof Gaulois && c.getMagicpotion() < 100) {
-                if (!potions.isEmpty()) {
-                    Potion potion = potions.remove(0);
-                    c.ToDrinkPotion(potion);
-                    distributed++;
-                    System.out.println("  - " + c.getName() + " boit une dose de potion magique");
-                }
+                c.ToDrinkPotion(potions.remove(0));
+                distributed++;
             }
         }
-
-        if (distributed == 0) {
-            System.out.println("  Personne n'a eu besoin de potion");
-        } else {
-            System.out.println("  " + distributed + " dose(s) distribuée(s)");
-            increaseMorale(10);
-        }
+        if (distributed > 0) increaseMorale(10);
+        System.out.println("Distributed " + distributed + " potion dose(s)");
     }
 
-    /**
-     * Organise un banquet avec sangliers
-     */
-    public void organizeBanquet() {
-        System.out.println("\n🍖 Organisation d'un banquet au village " + name + " !");
+    public void organizeBanquet() { increaseMorale(20); increaseResistance(10); feedAll(); }
+    public void prepareDefense() { increaseResistance(15); characters.forEach(c -> { if (!c.isDead() && c instanceof Gaulois) c.setBelligerence(Math.min(100, c.getBelligerence()+20)); }); }
+    public void organizeAssembly() { increaseMorale(15); if (hasDruid()) increaseResistance(10); }
+    public void requestMagicPotion() { addPotion(new Potion(org.example.envahissementarmorique.model.item.Foods.SECRET_INGREDIENT,10)); }
 
-        if (foods.size() < characters.size()) {
-            System.out.println("  ⚠️ Pas assez de nourriture pour tout le monde...");
-            decreaseMorale(10);
-            return;
-        }
+    public void increaseResistance(int amount) { resistanceLevel = Math.min(100, resistanceLevel + amount); }
+    public void decreaseResistance(int amount) { resistanceLevel = Math.max(0, resistanceLevel - amount); }
+    public void increaseMorale(int amount) { moraleLevel = Math.min(100, moraleLevel + amount); }
+    public void decreaseMorale(int amount) { moraleLevel = Math.max(0, moraleLevel - amount); }
 
-        // Nourrir tout le monde
-        feedAll();
+    private String getResistanceBar() { return getBar(resistanceLevel); }
+    private String getMoraleBar() { return getBar(moraleLevel); }
+    private String getBar(int value) { StringBuilder bar = new StringBuilder("["); for(int i=0;i<10;i++) bar.append(i<value/10?"█":"░"); bar.append("]"); return bar.toString(); }
 
-        // Améliorer le moral
-        increaseMorale(20);
-        increaseResistance(10);
-
-        System.out.println("  Le banquet remonte le moral des troupes !");
-        System.out.println("  Résistance : +" + 10 + "% | Moral : +" + 20 + "%");
-    }
-
-    /**
-     * Prépare le village pour la défense
-     */
-    public void prepareDefense() {
-        System.out.println("\n🛡️ Préparation de la défense du village " + name);
-
-        int fighters = 0;
-        for (GameCharacter c : characters) {
-            if (!c.isDead() && c instanceof Gaulois) {
-                c.setBelligerence(Math.min(100, c.getBelligerence() + 20));
-                fighters++;
-                System.out.println("  - " + c.getName() + " se prépare au combat");
-            }
-        }
-
-        if (fighters == 0) {
-            System.out.println("  ⚠️ Aucun combattant disponible !");
-            decreaseResistance(20);
-        } else {
-            System.out.println("  " + fighters + " guerrier(s) prêt(s) à défendre le village !");
-            increaseResistance(15);
-        }
-    }
-
-    /**
-     * Organise une assemblée du village
-     */
-    public void organizeAssembly() {
-        System.out.println("\n🗣️ Assemblée du village " + name);
-
-        if (characters.size() < 3) {
-            System.out.println("  Pas assez d'habitants pour tenir une assemblée");
-            return;
-        }
-
-        System.out.println("  Les habitants se rassemblent pour discuter de la résistance");
-
-        // Améliorer le moral et la cohésion
-        increaseMorale(15);
-
-        // Les druides motivent les troupes
-        if (hasDruid()) {
-            System.out.println("  Les druides encouragent la résistance contre Rome !");
-            increaseResistance(10);
-        }
-
-        System.out.println("  L'assemblée renforce l'unité du village");
-    }
-
-    /**
-     * Demande au druide de concocter une potion
-     */
-    public void requestMagicPotion() {
-        System.out.println("\n🧪 Demande de confection de potion magique...");
-
-        List<GameCharacter> druids = getDruids();
-        if (druids.isEmpty()) {
-            System.out.println("  ❌ Aucun druide disponible dans le village !");
-            return;
-        }
-
-        // TODO: Implement concoctPotion() method in Druid class
-        // Druid druid = (Druid) druids.get(0);
-        // Potion potion = druid.concoctPotion();
-
-        // For now, create a potion manually
-        Potion potion = new Potion(org.example.envahissementarmorique.model.item.Foods.SECRET_INGREDIENT, 10);
-
-        if (potion != null) {
-            addPotion(potion);
-            System.out.println("  ✅ Potion magique concoctée avec succès !");
-        } else {
-            System.out.println("  ❌ Échec de la confection de la potion");
-        }
-    }
-
-    /**
-     * Augmente le niveau de résistance
-     */
-    public void increaseResistance(int amount) {
-        resistanceLevel = Math.min(100, resistanceLevel + amount);
-    }
-
-    /**
-     * Diminue le niveau de résistance
-     */
-    public void decreaseResistance(int amount) {
-        resistanceLevel = Math.max(0, resistanceLevel - amount);
-    }
-
-    /**
-     * Augmente le moral
-     */
-    public void increaseMorale(int amount) {
-        moraleLevel = Math.min(100, moraleLevel + amount);
-    }
-
-    /**
-     * Diminue le moral
-     */
-    public void decreaseMorale(int amount) {
-        moraleLevel = Math.max(0, moraleLevel - amount);
-    }
-
-    /**
-     * Barre visuelle pour la résistance
-     */
-    private String getResistanceBar() {
-        int bars = resistanceLevel / 10;
-        StringBuilder bar = new StringBuilder("[");
-        for (int i = 0; i < 10; i++) {
-            if (i < bars) {
-                bar.append("█");
-            } else {
-                bar.append("░");
-            }
-        }
-        bar.append("]");
-        return bar.toString();
-    }
-
-    /**
-     * Barre visuelle pour le moral
-     */
-    private String getMoraleBar() {
-        int bars = moraleLevel / 10;
-        StringBuilder bar = new StringBuilder("[");
-        for (int i = 0; i < 10; i++) {
-            if (i < bars) {
-                bar.append("█");
-            } else {
-                bar.append("░");
-            }
-        }
-        bar.append("]");
-        return bar.toString();
-    }
-
-    /**
-     * Détermine l'état du village
-     */
     private String getVillageStatus() {
-        int avgLevel = (resistanceLevel + moraleLevel) / 2;
-
-        if (avgLevel >= 80) {
-            return "🟢 Irréductible - Résiste encore et toujours !";
-        } else if (avgLevel >= 60) {
-            return "🟡 Combatif - Continue la résistance";
-        } else if (avgLevel >= 40) {
-            return "🟠 Affaibli - Défense compromise";
-        } else {
-            return "🔴 Critique - Village en danger !";
-        }
+        int avg = (resistanceLevel+moraleLevel)/2;
+        if (avg >= 80) return "🟢 Unbreakable - still resisting!";
+        if (avg >= 60) return "🟡 Fighting - holding ground";
+        if (avg >= 40) return "🟠 Weakened - defense compromised";
+        return "🔴 Critical - village in danger!";
     }
 
-    // Getters et setters
-    public int getResistanceLevel() {
-        return resistanceLevel;
-    }
-
-    public void setResistanceLevel(int resistanceLevel) {
-        this.resistanceLevel = Math.max(0, Math.min(100, resistanceLevel));
-    }
-
-    public int getMoraleLevel() {
-        return moraleLevel;
-    }
-
-    public void setMoraleLevel(int moraleLevel) {
-        this.moraleLevel = Math.max(0, Math.min(100, moraleLevel));
-    }
-
-    public List<Potion> getPotions() {
-        return potions;
-    }
-
-    public int getPotionCount() {
-        return potions.size();
-    }
+    // Getters & setters
+    public int getResistanceLevel() { return resistanceLevel; }
+    public void setResistanceLevel(int resistanceLevel) { this.resistanceLevel = Math.max(0, Math.min(100, resistanceLevel)); }
+    public int getMoraleLevel() { return moraleLevel; }
+    public void setMoraleLevel(int moraleLevel) { this.moraleLevel = Math.max(0, Math.min(100, moraleLevel)); }
+    public List<Potion> getPotions() { return potions; }
+    public int getPotionCount() { return potions.size(); }
 }

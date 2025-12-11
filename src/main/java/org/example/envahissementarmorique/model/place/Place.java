@@ -7,14 +7,50 @@ import org.example.envahissementarmorique.model.character.base.ClanLeader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe abstraite représentant un lieu dans le jeu.
+ *
+ * Un lieu possède :
+ * <ul>
+ *     <li>Un nom</li>
+ *     <li>Une superficie</li>
+ *     <li>Un chef (ClanLeader)</li>
+ *     <li>Une liste de personnages présents</li>
+ *     <li>Une liste d'aliments disponibles</li>
+ * </ul>
+ *
+ * Cette classe fournit des méthodes pour :
+ * <ul>
+ *     <li>Ajouter, retirer et filtrer des personnages</li>
+ *     <li>Gérer la nourriture et nourrir les personnages</li>
+ *     <li>Soigner tous les personnages</li>
+ *     <li>Afficher les informations du lieu</li>
+ * </ul>
+ */
 public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRomanTown, GaulishVillage, RomanCamp, RomanCity, Village {
 
+    /** Nom du lieu */
     protected String name;
+
+    /** Superficie du lieu en m² */
     protected float area;
+
+    /** Chef du lieu */
     protected ClanLeader chief;
+
+    /** Liste des personnages présents */
     protected List<GameCharacter> characters = new ArrayList<>();
+
+    /** Liste des aliments disponibles */
     protected List<Food> foods = new ArrayList<>();
 
+    /**
+     * Constructeur d'un lieu.
+     *
+     * @param name nom du lieu
+     * @param area superficie du lieu
+     * @param chief chef du lieu
+     */
     public Place(String name, float area, ClanLeader chief) {
         this.name = name;
         this.area = area;
@@ -22,15 +58,31 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
     }
 
     // ============== GETTERS / SETTERS ==============
+
+    /** @return le nom du lieu */
     public String getName() { return name; }
+
+    /** @return la superficie du lieu */
     public float getArea() { return area; }
+
+    /** @return le chef du lieu */
     public ClanLeader getChief() { return chief; }
+
+    /** Définit un nouveau chef pour le lieu */
     public void setChief(ClanLeader chief) { this.chief = chief; }
+
+    /** @return la liste des personnages présents */
     public List<GameCharacter> getCharacters() { return characters; }
+
+    /** @return la liste des aliments disponibles */
     public List<Food> getFoods() { return foods; }
+
+    /** @return le nombre de personnages présents */
     public int getNumberOfCharacters() { return characters.size(); }
 
     // ============== AFFICHAGE ==============
+
+    /** Affiche les informations du lieu, des personnages et des aliments */
     public void display() {
         System.out.println("\n========================================");
         System.out.println("Lieu : " + name + " (" + area + " m²)");
@@ -65,6 +117,13 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
     }
 
     // ============== PERSONNAGES ==============
+
+    /**
+     * Ajoute un personnage au lieu si possible.
+     *
+     * @param c personnage à ajouter
+     * @return true si l'ajout a réussi, false sinon
+     */
     public boolean addCharacter(GameCharacter c) {
         if (c == null) {
             System.out.println("Erreur : personnage null");
@@ -81,6 +140,12 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
         return false;
     }
 
+    /**
+     * Retire un personnage du lieu.
+     *
+     * @param c personnage à retirer
+     * @return true si le personnage a été retiré, false sinon
+     */
     public boolean removeCharacter(GameCharacter c) {
         if (characters.remove(c)) {
             System.out.println(c.getName() + " quitte " + name);
@@ -89,10 +154,17 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
         return false;
     }
 
+    /** Supprime tous les personnages morts du lieu */
     public void removeDeadCharacters() {
         characters.removeIf(GameCharacter::isDead);
     }
 
+    /**
+     * Recherche un personnage par son nom.
+     *
+     * @param name nom du personnage
+     * @return le personnage si trouvé, null sinon
+     */
     public GameCharacter getCharacterByName(String name) {
         for (GameCharacter c : characters) {
             if (c.getName().equals(name)) {
@@ -102,6 +174,12 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
         return null;
     }
 
+    /**
+     * Retourne la liste des personnages d'un certain type.
+     *
+     * @param type classe recherchée
+     * @return liste des personnages du type spécifié
+     */
     public List<GameCharacter> getCharactersByType(Class<?> type) {
         List<GameCharacter> result = new ArrayList<>();
         for (GameCharacter c : characters) {
@@ -112,6 +190,7 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
         return result;
     }
 
+    /** @return le nombre de personnages vivants */
     public int getAliveCharactersCount() {
         int count = 0;
         for (GameCharacter c : characters) {
@@ -121,6 +200,12 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
     }
 
     // ============== SOINS ==============
+
+    /**
+     * Soigne tous les personnages vivants du lieu.
+     *
+     * @param amount quantité de points de vie à restaurer
+     */
     public void healAll(int amount) {
         for (GameCharacter c : characters) {
             if (!c.isDead()) {
@@ -130,6 +215,8 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
     }
 
     // ============== NOURRITURE ==============
+
+    /** Nourrit tous les personnages vivants du lieu */
     public void feedAll() {
         for (GameCharacter c : characters) {
             if (!c.isDead() && c.getHunger() < 100) {
@@ -142,8 +229,8 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
         }
     }
 
+    /** Cherche un aliment disponible adapté */
     private Food findSuitableFood() {
-        // Return the first available food
         if (!foods.isEmpty()) {
             return foods.get(0);
         }
@@ -155,7 +242,14 @@ public abstract sealed class Place permits Battlefield, Camp, Enclosure, GalloRo
     public void removeFood(Food food) { foods.remove(food); }
     public void clearFoods() { foods.clear(); }
 
-    // ============== Filtrage par type de lieu ==============
-    protected abstract boolean canAddCharacter(GameCharacter c);
+    // ============== FILTRAGE PAR TYPE DE LIEU ==============
 
+    /**
+     * Vérifie si un personnage peut entrer dans ce lieu.
+     * Doit être implémenté par les classes concrètes.
+     *
+     * @param c personnage à tester
+     * @return true si le personnage peut entrer, false sinon
+     */
+    protected abstract boolean canAddCharacter(GameCharacter c);
 }

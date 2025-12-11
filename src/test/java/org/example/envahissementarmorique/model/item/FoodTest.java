@@ -8,52 +8,87 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the Food class.
- * Tests food creation, freshness degradation, and consumption logic.
+ * Tests unitaires pour la classe {@link Food}.
+ * <p>
+ * Cette classe teste la création de nourriture, la dégradation de la fraîcheur
+ * et la logique de consommation des aliments.
+ * </p>
  *
- * @author Boudhib Mohamed-Amine
+ * <p>
+ * Les tests incluent :
+ * <ul>
+ *     <li>La création de nourriture avec fraîcheur par défaut (FRESH) ou spécifiée.</li>
+ *     <li>La dégradation progressive de la fraîcheur (FRESH → OKAY → ROTTEN).</li>
+ *     <li>Le calcul correct de la valeur nutritionnelle selon le type de nourriture.</li>
+ *     <li>La modification des attributs du personnage lors de la consommation
+ *         (santé et faim).</li>
+ *     <li>La gestion spécifique des aliments pourris et du poisson pourri.</li>
+ *     <li>La cohérence du type de nourriture après plusieurs dégradations.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Chaque méthode de test est annotée avec {@link Test} et possède une description
+ * via {@link DisplayName} pour faciliter la lecture dans les rapports de test.
+ * </p>
+ *
+ * @author Boud
  * @version 1.0
  */
-@DisplayName("Food Class Tests")
+@DisplayName("Tests de la classe Food")
 class FoodTest {
 
+    /** Instance de nourriture utilisée pour les tests. */
     private Food food;
+
+    /** Personnage utilisé pour tester la consommation des aliments. */
     private GameCharacter testCharacter;
 
+    /**
+     * Initialisation avant chaque test.
+     * <p>
+     * Crée un personnage générique avec des attributs par défaut.
+     * </p>
+     */
     @BeforeEach
     void setUp() {
-        // Create a test character for consumption tests
         testCharacter = new GameCharacter(
-            "Test", "Male", "Gaul", 1.75, 30,
-            50, 50, 100, 100, 50, 0
+                "Test", "Male", "Gaul", 1.75, 30,
+                50, 50, 100, 100, 50, 0
         );
     }
 
+    /**
+     * Vérifie la création d’un aliment avec fraîcheur par défaut (FRESH).
+     */
     @Test
-    @DisplayName("Should create food with default FRESH freshness")
+    @DisplayName("Doit créer un aliment avec fraîcheur FRESH par défaut")
     void testCreateFoodWithDefaultFreshness() {
         food = new Food(Foods.BOAR);
-
         assertNotNull(food);
         assertEquals(Freshness.FRESH, food.getFreshness());
         assertEquals(Foods.BOAR, food.getFoods());
     }
 
+    /**
+     * Vérifie la création d’un aliment avec une fraîcheur spécifiée.
+     */
     @Test
-    @DisplayName("Should create food with specified freshness")
+    @DisplayName("Doit créer un aliment avec une fraîcheur spécifiée")
     void testCreateFoodWithSpecifiedFreshness() {
         food = new Food(Foods.FRESH_FISH, Freshness.ROTTEN);
-
         assertNotNull(food);
         assertEquals(Freshness.ROTTEN, food.getFreshness());
         assertEquals(Foods.FRESH_FISH, food.getFoods());
     }
 
+    /**
+     * Vérifie la dégradation progressive de la fraîcheur d’un aliment.
+     */
     @Test
-    @DisplayName("Should degrade food freshness")
+    @DisplayName("Doit dégrader la fraîcheur de l’aliment")
     void testDegradeFreshness() {
         food = new Food(Foods.BOAR);
-
         assertEquals(Freshness.FRESH, food.getFreshness());
 
         food.degrade();
@@ -63,11 +98,14 @@ class FoodTest {
         assertEquals(Freshness.ROTTEN, food.getFreshness());
 
         food.degrade();
-        assertEquals(Freshness.ROTTEN, food.getFreshness()); // Stays rotten
+        assertEquals(Freshness.ROTTEN, food.getFreshness()); // Reste pourri
     }
 
+    /**
+     * Vérifie le calcul correct de la valeur nutritionnelle.
+     */
     @Test
-    @DisplayName("Should return correct nutritional value")
+    @DisplayName("Doit retourner la valeur nutritionnelle correcte")
     void testGetNutritionalValue() {
         food = new Food(Foods.BOAR);
         assertEquals(50, food.getNutritionalValue());
@@ -79,8 +117,11 @@ class FoodTest {
         assertEquals(0, food.getNutritionalValue());
     }
 
+    /**
+     * Vérifie le nom de l’aliment via {@link Food#getName()}.
+     */
     @Test
-    @DisplayName("Should return correct name")
+    @DisplayName("Doit retourner le nom correct de l’aliment")
     void testGetName() {
         food = new Food(Foods.BOAR);
         assertEquals("Boar", food.getName());
@@ -89,8 +130,11 @@ class FoodTest {
         assertEquals("Wine", food.getName());
     }
 
+    /**
+     * Vérifie la méthode {@link Food#toString()} avec la fraîcheur.
+     */
     @Test
-    @DisplayName("Should return correct toString with freshness")
+    @DisplayName("Doit retourner un toString correct avec la fraîcheur")
     void testToString() {
         food = new Food(Foods.BOAR);
         assertEquals("Boar (Fresh)", food.toString());
@@ -102,15 +146,21 @@ class FoodTest {
         assertEquals("Boar (Rotten)", food.toString());
     }
 
+    /**
+     * Vérifie que la consommation d’un aliment ne lance pas d’exception.
+     */
     @Test
-    @DisplayName("Should consume food without throwing exception")
+    @DisplayName("Doit consommer un aliment sans lancer d’exception")
     void testConsumeFood() {
         food = new Food(Foods.BOAR);
         assertDoesNotThrow(() -> food.consume(testCharacter));
     }
 
+    /**
+     * Vérifie que la consommation d’un aliment frais augmente la faim.
+     */
     @Test
-    @DisplayName("Should increase hunger when consuming fresh food")
+    @DisplayName("Doit augmenter la faim lors de la consommation d’un aliment frais")
     void testConsumeFreshFood() {
         food = new Food(Foods.BOAR, Freshness.FRESH);
         int initialHunger = testCharacter.getHunger();
@@ -121,8 +171,11 @@ class FoodTest {
         assertEquals(initialHunger + nutritionalValue, testCharacter.getHunger());
     }
 
+    /**
+     * Vérifie que la consommation d’un aliment pourri diminue santé et faim.
+     */
     @Test
-    @DisplayName("Should decrease health and hunger when consuming rotten food")
+    @DisplayName("Doit diminuer la santé et la faim lors de la consommation d’un aliment pourri")
     void testConsumeRottenFood() {
         food = new Food(Foods.BOAR, Freshness.ROTTEN);
         int initialHealth = testCharacter.getHealth();
@@ -130,15 +183,15 @@ class FoodTest {
 
         food.consume(testCharacter);
 
-        // Vérifie que la santé a diminué de 1/5
         assertEquals(initialHealth - (initialHealth / 5), testCharacter.getHealth());
-
-        // Vérifie que la faim a diminué de 1/3
         assertEquals(initialHunger - (initialHunger / 3), testCharacter.getHunger());
     }
 
+    /**
+     * Vérifie la consommation spécifique du poisson pourri.
+     */
     @Test
-    @DisplayName("Should handle rotten fish consumption")
+    @DisplayName("Doit gérer la consommation du poisson pourri")
     void testRottenFishConsumption() {
         food = new Food(Foods.FRESH_FISH, Freshness.ROTTEN);
         int initialHealth = testCharacter.getHealth();
@@ -146,13 +199,15 @@ class FoodTest {
 
         food.consume(testCharacter);
 
-        // Vérifie que la santé et la faim ont diminué
         assertTrue(testCharacter.getHealth() < initialHealth);
         assertTrue(testCharacter.getHunger() < initialHunger);
     }
 
+    /**
+     * Vérifie que la consommation d’un aliment OKAY augmente correctement la faim.
+     */
     @Test
-    @DisplayName("Should increase hunger when consuming OKAY food")
+    @DisplayName("Doit augmenter la faim lors de la consommation d’un aliment OKAY")
     void testConsumeOkayFood() {
         food = new Food(Foods.CARROT, Freshness.OKAY);
         int initialHunger = testCharacter.getHunger();
@@ -160,55 +215,58 @@ class FoodTest {
 
         food.consume(testCharacter);
 
-        // La nourriture OKAY n'est pas pourrie, donc augmente la faim
         assertEquals(initialHunger + nutritionalValue, testCharacter.getHunger());
     }
 
+    /**
+     * Vérifie le type de Foods associé à un aliment.
+     */
     @Test
-    @DisplayName("Should get correct Foods type")
+    @DisplayName("Doit retourner le type de Foods correct")
     void testGetFoods() {
         food = new Food(Foods.LOBSTER);
         assertEquals(Foods.LOBSTER, food.getFoods());
         assertEquals(FoodType.MEATS, food.getFoods().getType());
     }
 
+    /**
+     * Vérifie la création d’aliments de différents types (viande, légume, liquide, épice).
+     */
     @Test
-    @DisplayName("Should create different types of food")
+    @DisplayName("Doit créer différents types d’aliments")
     void testDifferentFoodTypes() {
-        // Meat
-        Food meat = new Food(Foods.BOAR);
-        assertEquals(FoodType.MEATS, meat.getFoods().getType());
-
-        // Vegetable
-        Food vegetable = new Food(Foods.CARROT);
-        assertEquals(FoodType.VEGETABLES, vegetable.getFoods().getType());
-
-        // Liquid
-        Food liquid = new Food(Foods.WINE);
-        assertEquals(FoodType.LIQUIDS, liquid.getFoods().getType());
-
-        // Spice
-        Food spice = new Food(Foods.SALT);
-        assertEquals(FoodType.SPICES, spice.getFoods().getType());
+        assertEquals(FoodType.MEATS, new Food(Foods.BOAR).getFoods().getType());
+        assertEquals(FoodType.VEGETABLES, new Food(Foods.CARROT).getFoods().getType());
+        assertEquals(FoodType.LIQUIDS, new Food(Foods.WINE).getFoods().getType());
+        assertEquals(FoodType.SPICES, new Food(Foods.SALT).getFoods().getType());
     }
 
+    /**
+     * Vérifie la gestion de la fraîcheur OKAY.
+     */
     @Test
-    @DisplayName("Should handle food with OKAY freshness")
+    @DisplayName("Doit gérer la fraîcheur OKAY")
     void testOkayFreshness() {
         food = new Food(Foods.STRAWBERRY, Freshness.OKAY);
         assertEquals(Freshness.OKAY, food.getFreshness());
         assertEquals("Strawberries (Quite Fresh)", food.toString());
     }
 
+    /**
+     * Vérifie que Food est bien une sous-classe de Consumable.
+     */
     @Test
-    @DisplayName("Should verify food is consumable")
+    @DisplayName("Doit vérifier que l’aliment est consommable")
     void testFoodIsConsumable() {
         food = new Food(Foods.MEAD);
         assertTrue(food instanceof Consumable);
     }
 
+    /**
+     * Vérifie la dégradation sur plusieurs cycles successifs.
+     */
     @Test
-    @DisplayName("Should test multiple degradation cycles")
+    @DisplayName("Doit tester plusieurs cycles de dégradation")
     void testMultipleDegradationCycles() {
         food = new Food(Foods.HONEY);
 
@@ -216,12 +274,14 @@ class FoodTest {
             food.degrade();
         }
 
-        // After multiple degradations, should stay ROTTEN
         assertEquals(Freshness.ROTTEN, food.getFreshness());
     }
 
+    /**
+     * Vérifie que le type et le nom de l’aliment restent corrects après dégradation.
+     */
     @Test
-    @DisplayName("Should maintain food type after degradation")
+    @DisplayName("Doit maintenir le type de l’aliment après dégradation")
     void testFoodTypeMaintainedAfterDegradation() {
         food = new Food(Foods.BOAR);
         Foods originalFood = food.getFoods();
@@ -233,4 +293,3 @@ class FoodTest {
         assertEquals("Boar", food.getName());
     }
 }
-

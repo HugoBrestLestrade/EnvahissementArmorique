@@ -6,190 +6,244 @@ import org.example.envahissementarmorique.model.Yell.Yell;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Lycanthropes  {
+/**
+ * Représente un lycanthrope (loup-garou) dans la simulation.
+ *
+ * Un lycanthrope possède un sexe, une catégorie d'âge, une force, un facteur de domination
+ * ainsi qu'un rang au sein d'une meute. Il peut hurler, vieillir, défier d'autres lycans,
+ * tenter de se transformer en humain ou encore se séparer de sa meute.
+ *
+ * Chaque lycanthrope dispose notamment de :
+ * <ul>
+ *     <li>Un identifiant unique</li>
+ *     <li>Un rang représenté par une lettre grecque (α à ω)</li>
+ *     <li>Une éventuelle appartenance à une meute</li>
+ *     <li>Un facteur d'impétuosité influençant son comportement</li>
+ * </ul>
+ *
+ * Cette classe gère également les interactions intra-meute telles que les défis
+ * de domination, la réaction aux hurlements, la transformation en humain ainsi
+ * que le vieillissement progressif du personnage.
+ *
+ * @author Envahissement Armorique
+ * @version 1.0
+ */
+public class Lycanthropes {
 
-    private static final String[] RANGS = {"α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω"};
+    private static final String[] GREEK_RANKS = {
+            "α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω"
+    };
+
     private static int idCounter = 1;
 
-    private  int id;
+    private int id;
     private Sexe sexe;
-    private CategorieAge categorie;
-    private int force;
-    private int facteurDomination;
-    private int rangIndex;
-    private double facteurImpetuosite;
+    private CategorieAge ageCategory;
+    private int strength;
+    private int dominationFactor;
+    private int rankIndex;
+    private double impulsivenessFactor;
     private Pack pack;
-    private boolean estHumain = false;
+    private boolean isHuman = false;
     private Random rnd = ThreadLocalRandom.current();
 
-    public Lycanthropes(Sexe sexe, CategorieAge cat, int force, double impetuosite, int rangIndex) {
+    /**
+     * Construit un nouveau lycanthrope.
+     *
+     * @param sexe           le sexe du lycanthrope
+     * @param cat            la catégorie d'âge
+     * @param strength       la force initiale
+     * @param impulsiveness  le facteur d'impétuosité
+     * @param rankIndex      l'indice du rang
+     */
+    public Lycanthropes(Sexe sexe, CategorieAge cat, int strength, double impulsiveness, int rankIndex) {
         this.id = idCounter++;
         this.sexe = sexe;
-        this.categorie = cat;
-        this.force = force;
-        this.facteurImpetuosite = Math.max(0.0, Math.min(1.0, impetuosite));
-        this.rangIndex = Math.max(0, Math.min(RANGS.length - 1, rangIndex));
-        this.facteurDomination = 0;
-    }
-    public String getRang() {
-        if (pack == null) return "solitaire";
-        return RANGS[Math.min(rangIndex, RANGS.length - 1)];
+        this.ageCategory = cat;
+        this.strength = strength;
+        this.impulsivenessFactor = Math.max(0.0, Math.min(1.0, impulsiveness));
+        this.rankIndex = Math.max(0, Math.min(GREEK_RANKS.length - 1, rankIndex));
+        this.dominationFactor = 0;
     }
 
-    public String getIdentifiant() {
+    /** Retourne le rang grec ou "solitaire" */
+    public String getRank() {
+        if (pack == null) return "solitaire";
+        return GREEK_RANKS[Math.min(rankIndex, GREEK_RANKS.length - 1)];
+    }
+
+    /** Identifiant formaté (ex : M#3) */
+    public String getIdentifier() {
         return String.format("%s#%d", sexe == Sexe.MALE ? "M" : "F", id);
     }
 
-    public boolean estOmega() { return pack != null && getRang().equals("ω"); }
-    public boolean estAlpha() { return pack != null && getRang().equals("α"); }
-    public boolean estSolitaire() { return pack == null && !estHumain; }
-    public boolean estHumain() { return estHumain; }
+    /** @return true si oméga */
+    public boolean isOmega() { return pack != null && getRank().equals("ω"); }
 
-    public void setMeute(Pack p) { this.pack = p; }
-    public Pack getMeute() { return pack; }
+    /** @return true si alpha */
+    public boolean isAlpha() { return pack != null && getRank().equals("α"); }
+
+    /** @return true si solitaire */
+    public boolean isLone() { return pack == null && !isHuman; }
+
+    /** @return true si humain */
+    public boolean isHuman() { return isHuman; }
+
+    public void setPack(Pack p) { this.pack = p; }
+    public Pack getPack() { return pack; }
 
     public Sexe getSexe() { return sexe; }
-    public CategorieAge getCategorie() { return categorie; }
-    public int getForce() { return force; }
-    public int getRangIndex() { return rangIndex; }
-    public int getFacteurDomination() { return facteurDomination; }
+    public CategorieAge getAgeCategory() { return ageCategory; }
+    public int getStrength() { return strength; }
+    public int getRankIndex() { return rankIndex; }
+    public int getDominationFactor() { return dominationFactor; }
 
-    public void setRangIndex(int idx) {
-        this.rangIndex = Math.max(0, Math.min(RANGS.length - 1, idx));
-    }
-    public void ajusterFacteurDomination(int delta) {
-        this.facteurDomination += delta;
+    public void setRankIndex(int idx) {
+        this.rankIndex = Math.max(0, Math.min(GREEK_RANKS.length - 1, idx));
     }
 
-    /* -------- Calcul du niveau -------- */
-    public double calculerNiveau() {
-        double ageScore = switch(categorie) {
-            case JEUNE -> 0.8;
-            case ADULTE -> 1.0;
-            case VIEUX -> 0.6;
+    public void adjustDominationFactor(int delta) {
+        this.dominationFactor += delta;
+    }
+
+    /**
+     * Calcule le niveau global du lycanthrope.
+     */
+    public double computeLevel() {
+        double ageScore = switch(ageCategory) {
+            case YOUNG -> 0.8;
+            case ADULT -> 1.0;
+            case OLD -> 0.6;
         };
-        double forceScore = Math.log(1 + force);
-        double rangScore = pack != null ? 1.0 / (1 + rangIndex) : 0.5;
-        double domScore = Math.tanh(facteurDomination / 10.0) + 1.0;
-        return 2.0 * ageScore + 1.5 * forceScore + 2.0 * rangScore + 1.0 * domScore;
+
+        double strengthScore = Math.log(1 + strength);
+        double rankScore = pack != null ? 1.0 / (1 + rankIndex) : 0.5;
+        double dominationScore = Math.tanh(dominationFactor / 10.0) + 1.0;
+
+        return 2.0 * ageScore + 1.5 * strengthScore + 2.0 * rankScore + 1.0 * dominationScore;
     }
 
-    /* -------- Affichage -------- */
-    public void afficher() {
-        String statut = estSolitaire() ? "(solitaire)" : "";
-        System.out.printf("%s | sexe=%s age=%s force=%d rang=%s fd=%d imp=%.2f niveau=%.2f %s%n",
-                getIdentifiant(), sexe, categorie, force, getRang(),
-                facteurDomination, facteurImpetuosite, calculerNiveau(), statut);
-    }
-    /* -------- Hurlements -------- */
-    public Yell hurler(YellType type, String message) {
-        Yell h = new Yell(this, type, message);
-        h.afficher();
-        return h;
+    /** Affiche les infos du lycan */
+    public void display() {
+        String status = isLone() ? "(solitaire)" : "";
+        System.out.printf("%s | sexe=%s age=%s strength=%d rank=%s dom=%d imp=%.2f lvl=%.2f %s%n",
+                getIdentifier(), sexe, ageCategory, strength, getRank(),
+                dominationFactor, impulsivenessFactor, computeLevel(), status);
     }
 
-    public void entendreHurlement(Yell h) {
-        if (estHumain || this == h.emetteur) return;
+    /** Hurle un message */
+    public Yell yell(YellType type, String message) {
+        Yell y = new Yell(this, type, message);
+        y.display();
+        return y;
+    }
 
-        if (h.type == YellType.APPARTENANCE && !h.estDejaRepete()) {
-            if (pack != null && pack == h.emetteur.getMeute()) {
-                h.marquerRepete();
-                hurler(YellType.APPARTENANCE, "réponse à la meute");
-            } else if (pack != null && pack != h.emetteur.getMeute()) {
+    /** Réagit à un hurlement */
+    public void hearYell(Yell y) {
+        if (isHuman || this == y.emitter) return;
+
+        if (y.type == YellType.BELONGING && !y.isAlreadyRepeated()) {
+            if (pack != null && pack == y.emitter.getPack()) {
+                y.markRepeated();
+                yell(YellType.BELONGING, "réponse à la meute");
+            } else if (pack != null && pack != y.emitter.getPack()) {
                 if (rnd.nextDouble() < 0.3) {
-                    hurler(YellType.APPARTENANCE, "marquage de territoire");
+                    yell(YellType.BELONGING, "marquage de territoire");
                 }
             }
         }
     }
-    /* -------- Domination -------- */
-    public boolean tenterDominer(Lycanthropes cible) {
-        if (this == cible || this.estHumain || cible.estHumain) return false;
-        if (pack == null || cible.getMeute() != pack) return false;
-        if (cible.estAlpha() && cible.sexe == Sexe.FEMELLE) return false;
 
-        double seuilForce = this.force * (1.0 + this.facteurImpetuosite);
-        if (cible.force > seuilForce) {
-            cible.hurler(YellType.AGRESSIVITE, "repoussé l'agression");
-            this.ajusterFacteurDomination(-1);
+    /** Tente une domination */
+    public boolean tryDominate(Lycanthropes target) {
+        if (this == target || this.isHuman || target.isHuman) return false;
+        if (pack == null || target.getPack() != pack) return false;
+        if (target.isAlpha() && target.sexe == Sexe.FEMALE) return false;
+
+        double attackThreshold = this.strength * (1.0 + this.impulsivenessFactor);
+        if (target.strength > attackThreshold) {
+            target.yell(YellType.AGRESSIVITY, "repoussé l'agression");
+            adjustDominationFactor(-1);
             return false;
         }
 
-        double niveauThis = this.calculerNiveau();
-        double niveauCible = cible.calculerNiveau();
+        double myLevel = computeLevel();
+        double targetLevel = target.computeLevel();
 
-        if (niveauThis > niveauCible || cible.estOmega()) {
-            int oldRang = this.rangIndex;
-            this.rangIndex = cible.rangIndex;
-            cible.rangIndex = oldRang;
-            this.ajusterFacteurDomination(2);
-            cible.ajusterFacteurDomination(-1);
-            hurler(YellType.DOMINATION, "domination réussie");
-            cible.hurler(YellType.SOUMISSION, "soumission");
+        if (myLevel > targetLevel || target.isOmega()) {
+            int oldRank = this.rankIndex;
+            this.rankIndex = target.rankIndex;
+            target.rankIndex = oldRank;
 
-            // Vérifier si le mâle α a été dominé
-            if (pack != null && cible.estAlpha() && cible.sexe == Sexe.MALE) {
-                pack.reconstituerCoupleAlpha(this);
+            adjustDominationFactor(2);
+            target.adjustDominationFactor(-1);
+
+            yell(YellType.DOMINATION, "domination réussie");
+            target.yell(YellType.SOUMBISSION, "soumission");
+
+            if (pack != null && target.isAlpha() && target.sexe == Sexe.MALE) {
+                pack.rebuildAlphaCouple(this);
             }
             return true;
         } else {
-            cible.hurler(YellType.AGRESSIVITE, "défense réussie");
-            this.ajusterFacteurDomination(-2);
-            cible.ajusterFacteurDomination(1);
+            target.yell(YellType.AGRESSIVITY, "défense réussie");
+            adjustDominationFactor(-2);
+            target.adjustDominationFactor(1);
             return false;
         }
     }
 
-    /* -------- Vieillissement -------- */
-    public void vieillir() {
-        if (categorie == CategorieAge.JEUNE) {
-            categorie = CategorieAge.ADULTE;
-        } else if (categorie == CategorieAge.ADULTE) {
-            categorie = CategorieAge.VIEUX;
+    /** Vieillit le lycan */
+    public void age() {
+        if (ageCategory == CategorieAge.YOUNG) {
+            ageCategory = CategorieAge.ADULT;
+        } else if (ageCategory == CategorieAge.ADULT) {
+            ageCategory = CategorieAge.OLD;
         }
-        force = Math.max(1, force + rnd.nextInt(-2, 3));
+        strength = Math.max(1, strength + rnd.nextInt(-2, 3));
     }
 
-    /* -------- Transformation -------- */
-    public boolean tenterSeTransformerEnHumain() {
-        double probabilite = Math.min(0.5, Math.max(0.01, calculerNiveau() / 20.0));
-        if (rnd.nextDouble() < probabilite) {
-            estHumain = true;
-            boolean etaitAlpha = estAlpha();
-            Sexe sexeAlpha = this.sexe;
+    /** Tente une transformation en humain */
+    public boolean tryTransformToHuman() {
+        double probability = Math.min(0.5, Math.max(0.01, computeLevel() / 20.0));
+
+        if (rnd.nextDouble() < probability) {
+            isHuman = true;
+            boolean wasAlpha = isAlpha();
+            Sexe alphaSex = this.sexe;
 
             if (pack != null) {
-                Pack ancienneMeute = pack;     // garder référence avant de nuller
-                ancienneMeute.retirerLycanthrope(this);
-                pack = null;                   // <-- essentiel pour que getMeute() soit null
-                if (etaitAlpha) {
-                    ancienneMeute.gererDestitutionAlpha(sexeAlpha);
+                Pack oldPack = pack;
+                oldPack.removeLycanthrope(this);
+                pack = null;
+
+                if (wasAlpha) {
+                    oldPack.manageAlphaRemoval(alphaSex);
                 }
             }
 
-            System.out.printf("%s s'est transformé en humain et quitte la simulation.%n",
-                    getIdentifiant());
+            System.out.printf("%s s'est transformé en humain et quitte la simulation.%n", getIdentifier());
             return true;
         }
         return false;
     }
-    // procedure pour le test
-    public void transformerEnHumainPourTest() {
-        estHumain = true;
+
+    /** Transformation directe (test uniquement) */
+    public void forceTransformHumanForTest() {
+        isHuman = true;
         if (pack != null) {
-            Pack ancienneMeute = pack;
-            ancienneMeute.retirerLycanthrope(this);
+            Pack oldPack = pack;
+            oldPack.removeLycanthrope(this);
             pack = null;
         }
     }
 
-    /* -------- Séparation -------- */
-    public void seSeparer() {
+    /** Quitte volontairement la meute */
+    public void leavePack() {
         if (pack != null) {
-            pack.retirerLycanthrope(this);
+            pack.removeLycanthrope(this);
             pack = null;
-            System.out.printf("%s devient solitaire.%n", getIdentifiant());
+            System.out.printf("%s devient solitaire.%n", getIdentifier());
         }
     }
-
 }

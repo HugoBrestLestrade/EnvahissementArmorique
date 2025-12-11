@@ -100,10 +100,12 @@ public class GameCharacter implements Fighter {
         this.strength = strength;
         this.endurance = endurance;
         this.health = health;
-        this.hunger = 100;
+        this.maxHealth = health;
+        this.hunger = hunger;
         this.belligerence = belligerence;
-        this.magicpotion = 0;
+        this.magicpotion = magicpotion;
     }
+
 
     // Getters
     public String getName() {
