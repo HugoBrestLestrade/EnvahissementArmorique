@@ -1,0 +1,34 @@
+# EnvahissementArmorique 
+
+## Le Projet : 
+
+Notre projet de simulation d'envahissement armorique est fait en Java, utilise maven pour les dépendances et le build, et il intègre aussi une interface graphique via JavaFX.
+Notre jeu, EnvahissementArmorique, permet de créer un grand nombre de zones, que ce soit des zones pour les Romains, les Gaulois, ou même un champ de bataille ou les différents camps peuvent se battre entre eux.
+
+### Lancer le jeu : 
+Pour lancer ce jeu via le terminal, il nous suffit donc de se positionner a la racine du projet, d'ouvrir un terminal à cet endroit, et d'effectuer les commandes qui suivent, mais uniquement si l'on a les bons prérequis.
+
+#### Prérequis pour lancer le jeu : 
+Pour lancer EnvahissementArmorique, il nous faut avoir ceci :
+* JDK 17 ou plus
+Le JDK (Java Development Kit), peut être installé avec "" si vous n'avez pas le JDK 17 ou une version ultérieure
+* Maven
+Si apache maven n'est pas installé sur votre ordinateur, il suffit sous linux de taper "sudo apt install maven"
+
+
+#### Lancement : 
+
+Une fois que l'on a tous les prérequis, il nous faut donc pour lancer le projet :  <br>
+Tout d'abord on effectue ``` mvn clear ``` <br>
+puis ``` mvn compile ``` <br>
+et enfin ``` mvn exec:java -Dexec.mainClass="org.example.envahissementarmorique.app.ArmoricaApplication" ``` <br>
+
+
+### Tests
+
+Pour le lancement des tests dans le terminal, on tape <br>
+``` mvn test ``` dans le terminal, et les test s'affichent.
+
+
+
+
