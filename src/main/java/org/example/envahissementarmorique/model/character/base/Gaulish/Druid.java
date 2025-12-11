@@ -3,9 +3,9 @@ package org.example.envahissementarmorique.model.character.base.Gaulish;
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Druid character.
- * Druids are wise Gaulois who can create magic potions.
- * They have special abilities related to potion making.
+ * Représente un personnage de type Druide.
+ * Les druides sont des Gaulois sages capables de fabriquer des potions magiques.
+ * Ils possèdent des capacités particulières liées à la création de potions.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
@@ -13,19 +13,19 @@ import org.example.envahissementarmorique.model.character.base.GameCharacter;
 public class Druid extends GameCharacter {
 
     /**
-     * Creates a new Druid character.
+     * Crée un nouveau personnage Druide.
      *
-     * @param name the character's name
-     * @param genre the character's gender
-     * @param faction the character's faction
-     * @param height the character's height in meters
-     * @param age the character's age in years
-     * @param strength the character's strength level
-     * @param endurance the character's endurance level
-     * @param health the character's initial health points
-     * @param hunger the character's initial hunger level
-     * @param belligerence the character's belligerence level
-     * @param magicpotion the character's initial magic potion level
+     * @param name          le nom du personnage
+     * @param genre         le genre du personnage
+     * @param faction       la faction du personnage
+     * @param height        la taille du personnage, en mètres
+     * @param age           l’âge du personnage, en années
+     * @param strength      le niveau de force du personnage
+     * @param endurance     le niveau d’endurance du personnage
+     * @param health        les points de vie initiaux
+     * @param hunger        le niveau de faim initial
+     * @param belligerence  le niveau de belligerance du personnage
+     * @param magicpotion   le niveau initial de potion magique
      */
     public Druid(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);

@@ -6,27 +6,35 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Represents a magic potion in the simulation.
+ * Représente une potion magique dans la simulation.
  * <p>
- * Recipe: gui (mistletoe), carottes, sel, trèfle à quatre feuilles frais,
+ * Recette de base : gui (mistletoe), carottes, sel, trèfle à quatre feuilles frais,
  * poisson passablement frais, huile de roche, miel, hydromel, ingrédient secret.
+ * </p>
  * <p>
- * Variants:
- * - Adding lobster or strawberries is nourishing
- * - Replacing rock oil with beet juice is also valid
- * - Adding two-headed unicorn milk grants duplication power
- * - Adding Idéfix's hair grants metamorphosis power
+ * Variantes possibles :
+ * <ul>
+ *   <li>Ajouter du homard ou des fraises rend la potion nourrissante</li>
+ *   <li>Remplacer l'huile de roche par du jus de betterave est également valide</li>
+ *   <li>Ajouter du lait de licorne à deux têtes confère un pouvoir de duplication</li>
+ *   <li>Ajouter des poils d'Idéfix confère un pouvoir de métamorphose</li>
+ * </ul>
+ * </p>
  * <p>
- * Effects:
- * - 1 dose: Temporary superhuman strength and invincibility
- * - 1 cauldron (marmite): Effects become permanent
- * - 2 cauldrons: Transforms into granite statue
+ * Effets principaux :
+ * <ul>
+ *   <li>1 dose : force surhumaine temporaire et invincibilité</li>
+ *   <li>1 marmite complète (≥10 doses) : effets permanents</li>
+ *   <li>2 marmites complètes (≥20 doses) : transformation en statue de granit</li>
+ * </ul>
+ * </p>
+ *
+ * @author Envahissement
+ * @version 1.0
  */
 public final class Potion extends Consumable {
 
-    /**
-     * Base recipe ingredients for the magic potion.
-     */
+    /** Ingrédients de la recette de base de la potion magique. */
     public static final Set<Foods> BASE_RECIPE = EnumSet.of(
             Foods.MISTLETOE,
             Foods.CARROT,
@@ -39,30 +47,22 @@ public final class Potion extends Consumable {
             Foods.SECRET_INGREDIENT
     );
 
-    /**
-     * Number of doses in a cauldron (marmite).
-     */
+    /** Nombre de doses par marmite. */
     public static final int DOSES_PER_CAULDRON = 10;
 
-    /**
-     * Strength boost given by one dose of potion.
-     */
+    /** Bonus de force par dose. */
     public static final int DOSE_STRENGTH_BOOST = 100;
 
-    /**
-     * Number of doses in this potion.
-     */
+    /** Nombre de doses de cette potion. */
     private int doses;
 
-    /**
-     * List of ingredients in this potion.
-     */
+    /** Liste des ingrédients présents dans cette potion. */
     private java.util.List<Foods> ingredients;
 
     /**
-     * Creates a new Potion with 1 dose.
+     * Crée une nouvelle potion avec 1 dose.
      *
-     * @param foods The type of potion ingredient.
+     * @param foods L'ingrédient principal de la potion.
      */
     public Potion(Foods foods) {
         super(foods);
@@ -72,10 +72,10 @@ public final class Potion extends Consumable {
     }
 
     /**
-     * Creates a new Potion with specified doses.
+     * Crée une nouvelle potion avec un nombre spécifique de doses.
      *
-     * @param foods The type of potion ingredient.
-     * @param doses The number of doses.
+     * @param foods L'ingrédient principal de la potion.
+     * @param doses Le nombre de doses.
      */
     public Potion(Foods foods, int doses) {
         super(foods);
@@ -85,18 +85,18 @@ public final class Potion extends Consumable {
     }
 
     /**
-     * Gets the number of doses.
+     * Récupère le nombre de doses de cette potion.
      *
-     * @return The number of doses.
+     * @return Le nombre de doses.
      */
     public int getDoses() {
         return doses;
     }
 
     /**
-     * Adds an ingredient to the potion.
+     * Ajoute un ingrédient à la potion.
      *
-     * @param ingredient The ingredient to add.
+     * @param ingredient L'ingrédient à ajouter.
      */
     public void addIngredient(Foods ingredient) {
         if (ingredient != null && !ingredients.contains(ingredient)) {
@@ -105,67 +105,67 @@ public final class Potion extends Consumable {
     }
 
     /**
-     * Gets the list of ingredients in this potion.
+     * Récupère la liste des ingrédients de cette potion.
      *
-     * @return The list of ingredients.
+     * @return Une liste des ingrédients.
      */
     public java.util.List<Foods> getIngredients() {
         return new java.util.ArrayList<>(ingredients);
     }
 
     /**
-     * Makes a character drink this potion.
-     * This is an alias for consume() to match UML specification.
+     * Permet à un personnage de boire cette potion.
+     * C'est un alias pour {@link #consume(GameCharacter)} afin de respecter la spécification UML.
      *
-     * @param character The character drinking the potion.
+     * @param character Le personnage qui boit la potion.
      */
     public void drink(GameCharacter character) {
         consume(character);
     }
 
     /**
-     * Applies the effect of this potion on the specified character.
-     * <p>
-     * Effects:
-     * - 1 dose: +100 strength, temporary invincibility
-     * - 1 cauldron (10+ doses): Effects become permanent
-     * - 2 cauldrons (20+ doses): Transforms into granite statue (health = 0)
+     * Applique les effets de cette potion sur le personnage consommateur.
+     * <ul>
+     *   <li>1 dose : +100 force, invincibilité temporaire</li>
+     *   <li>1 marmite (≥10 doses) : effets permanents</li>
+     *   <li>2 marmites (≥20 doses) : transformation en statue de granit</li>
+     * </ul>
      *
-     * @param consumer The character consuming the potion.
+     * @param consumer Le personnage consommant la potion.
      */
     @Override
     public void consume(GameCharacter consumer) {
         int currentPotionLevel = consumer.getMagicpotion();
         int newPotionLevel = currentPotionLevel + doses;
 
-        // Check if character will be transformed into granite statue (2+ cauldrons = 20+ doses)
+        // Transformation en statue de granit si 2 marmites ou plus
         if (newPotionLevel >= 2 * DOSES_PER_CAULDRON) {
             consumer.setHealth(0);
             consumer.setStrength(0);
             consumer.setEndurance(0);
             consumer.setMagicpotion(newPotionLevel);
-            System.out.println(consumer.getName() + " has been transformed into a granite statue!");
+            System.out.println(consumer.getName() + " a été transformé en statue de granit !");
             return;
         }
 
-        // Apply strength boost
+        // Augmentation de la force
         int strengthBoost = doses * DOSE_STRENGTH_BOOST;
         consumer.setStrength(consumer.getStrength() + strengthBoost);
 
-        // If consuming a full cauldron or more (10+ doses), effects become permanent
+        // Si 1 marmite ou plus (≥10 doses), effets permanents
         if (newPotionLevel >= DOSES_PER_CAULDRON) {
             consumer.setEndurance(consumer.getEndurance() + 1000);
-            System.out.println(consumer.getName() + " gains permanent superhuman strength and invincibility!");
+            System.out.println(consumer.getName() + " gagne une force surhumaine permanente et l'invincibilité !");
         } else {
-            System.out.println(consumer.getName() + " gains temporary superhuman strength!");
+            System.out.println(consumer.getName() + " gagne une force surhumaine temporaire !");
         }
 
-        // Update magic potion level
+        // Mise à jour du niveau de potion magique
         consumer.setMagicpotion(newPotionLevel);
     }
 
     @Override
     public String toString() {
-        return "Potion: " + foods.getLabel() + " (" + doses + " doses)";
+        return "Potion : " + foods.getLabel() + " (" + doses + " doses)";
     }
 }

@@ -3,25 +3,28 @@ package org.example.envahissementarmorique.model.item;
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a food item in the simulation.
+ * Représente un aliment dans la simulation.
  * <p>
- * According to the TD3 specifications:
+ * Selon les spécifications du TD3 :
  * <ul>
- * <li>Food improves the hunger indicator.</li>
- * <li>Food can be fresh or not fresh. Eating not fresh food (like fish) impacts health.</li>
- * <li>Food freshness changes over time.</li>
+ *   <li>Les aliments améliorent l'indicateur de faim.</li>
+ *   <li>Les aliments peuvent être frais ou non. Manger un aliment non frais (comme le poisson) impacte la santé.</li>
+ *   <li>La fraîcheur des aliments change avec le temps.</li>
  * </ul>
  * </p>
+ *
+ * @author Envahissement Armorique
+ * @version 1.0
  */
 public final class Food extends Consumable {
 
     private Freshness freshness;
 
     /**
-     * Creates a new Food item.
-     * By default, food appears fresh when created.
+     * Crée un nouvel aliment.
+     * Par défaut, l'aliment est frais lors de sa création.
      *
-     * @param foods The type of food (e.g., BOAR, FRESH_FISH, etc.).
+     * @param foods le type d'aliment (ex. : BOAR, FRESH_FISH, etc.)
      */
     public Food(Foods foods) {
         super(foods);
@@ -29,10 +32,10 @@ public final class Food extends Consumable {
     }
 
     /**
-     * Creates a new Food item with a specific freshness level.
+     * Crée un nouvel aliment avec un niveau de fraîcheur spécifique.
      *
-     * @param foods The type of food (e.g., BOAR, FRESH_FISH, etc.).
-     * @param freshness The initial freshness state of the food.
+     * @param foods le type d'aliment (ex. : BOAR, FRESH_FISH, etc.)
+     * @param freshness l'état initial de fraîcheur de l'aliment
      */
     public Food(Foods foods, Freshness freshness) {
         super(foods);
@@ -40,60 +43,63 @@ public final class Food extends Consumable {
     }
 
     /**
-     * Gets the current freshness of the food.
+     * Retourne l'état de fraîcheur actuel de l'aliment.
      *
-     * @return The freshness state.
+     * @return l'état de fraîcheur {@link Freshness}
      */
     public Freshness getFreshness() {
         return freshness;
     }
 
     /**
-     * Degrades the freshness of the food over time.
-     * FRESH -> OKAY -> ROTTEN -> ROTTEN
+     * Fait se dégrader la fraîcheur de l'aliment avec le temps.
+     * <p>
+     * Ordre : FRESH -> OKAY -> ROTTEN -> ROTTEN
+     * </p>
      */
     public void degrade() {
         this.freshness = this.freshness.degrade();
     }
 
     /**
-     * Gets the nutritional value of this food based on its type.
+     * Retourne la valeur nutritionnelle de l'aliment selon son type.
      *
-     * @return The nutritional value.
+     * @return la valeur nutritionnelle
      */
     public int getNutritionalValue() {
         return foods.getNutrition();
     }
 
     /**
-     * Applies the effect of this food on the specified character.
-     * Food improves the hunger indicator based on its nutritional value.
-     * Eating rotten food is bad for health.
+     * Applique l'effet de cet aliment sur le personnage spécifié.
+     * <p>
+     * - Les aliments frais ou corrects augmentent l'indicateur de faim selon leur valeur nutritionnelle.
+     * - Les aliments pourris diminuent la santé et la faim.
+     * </p>
      *
-     * Logic:
-     * - If rotten: lose 1/5 of health and lose 1/3 of hunger
-     * - Otherwise: hunger = hunger + nutrition value
+     * <p>Logique :</p>
+     * <ul>
+     *   <li>Si pourri : perte de 1/5 des PV et perte de 1/3 de la faim</li>
+     *   <li>Sinon : faim = faim + valeur nutritionnelle</li>
+     * </ul>
      *
-     * @param consumer The character consuming the food.
+     * @param consumer le personnage consommant l'aliment
      */
     @Override
     public void consume(GameCharacter consumer) {
         if (freshness == Freshness.ROTTEN) {
-            // Rotten food: lose 1/5 of health
             int healthLoss = consumer.getHealth() / 5;
             consumer.setHealth(consumer.getHealth() - healthLoss);
 
-            // Rotten food: lose 1/3 of hunger
             int hungerLoss = consumer.getHunger() / 3;
             consumer.setHunger(consumer.getHunger() - hungerLoss);
 
-            System.out.println(consumer.getName() + " ate rotten " + getName() + " and lost " + healthLoss + " health and " + hungerLoss + " hunger!");
+            System.out.println(consumer.getName() + " a mangé " + getName() + " pourri et a perdu " + healthLoss + " PV et " + hungerLoss + " de faim !");
         } else {
-            // Fresh or okay food: hunger = hunger + nutrition
             int newHunger = consumer.getHunger() + foods.getNutrition();
             consumer.setHunger(newHunger);
 
-            System.out.println(consumer.getName() + " ate " + getName() + " and gained " + foods.getNutrition() + " hunger!");
+            System.out.println(consumer.getName() + " a mangé " + getName() + " et a gagné " + foods.getNutrition() + " de faim !");
         }
     }
 

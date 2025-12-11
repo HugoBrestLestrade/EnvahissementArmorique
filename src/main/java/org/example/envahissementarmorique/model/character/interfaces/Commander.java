@@ -1,37 +1,39 @@
 package org.example.envahissementarmorique.model.character.interfaces;
 
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
-
 import java.util.List;
 
 /**
- * Interface for characters capable of commanding and leading others.
- * Commanders can give orders and manage groups of characters.
+ * Interface pour les personnages capables de commander et de diriger d'autres personnages.
+ * <p>
+ * Un commandant peut donner des ordres et gérer des groupes de personnages.
+ * </p>
  *
- * @author Envahissement Armorique Team
+ * @author Envahissement Armorique
  * @version 1.0
  */
 public interface Commander {
+
     /**
-     * Makes the commander lead a group of characters.
+     * Permet au commandant de diriger un groupe de personnages.
      *
-     * @param characters the list of characters to lead
+     * @param characters la liste des personnages à diriger
      */
     void lead(List<GameCharacter> characters);
 
     /**
-     * Makes the commander give an order to a subordinate.
+     * Permet au commandant de donner un ordre à un subordonné.
      *
-     * @param subordinate the character receiving the order
-     * @param order the order to give
+     * @param subordinate le personnage recevant l'ordre
+     * @param order l'ordre à donner
      */
     void giveOrder(GameCharacter subordinate, String order);
 
     /**
-     * Makes the commander organize a military formation.
+     * Permet au commandant d'organiser une formation militaire.
      *
-     * @param troops the troops to organize
-     * @return true if the organization was successful
+     * @param troops les troupes à organiser
+     * @return true si l'organisation a été réussie
      */
     boolean organizeFormation(List<GameCharacter> troops);
 }

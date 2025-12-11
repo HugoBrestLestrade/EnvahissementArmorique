@@ -1,28 +1,28 @@
 package org.example.envahissementarmorique.model.character.base.Lycan;
 
 /**
- * Represents the age category of a lycanthrope.
+ * Représente la catégorie d'âge d'un lycanthrope.
  * <p>
- * This enum is used to determine the lycanthrope's physical development,
- * strength, and social behavior within a pack.
+ * Cet enum est utilisé pour déterminer le développement physique,
+ * la force et le comportement social d'un lycan au sein d'une meute.
  * </p>
  *
  * <ul>
- *     <li>{@link #YOUNG} : young lycanthrope, still growing and less experienced.</li>
- *     <li>{@link #ADULT} : adult lycanthrope, fully developed and typically dominant.</li>
- *     <li>{@link #OLD} : old lycanthrope, whose strength and impetuosity may decrease.</li>
+ *     <li>{@link #YOUNG} : lycanthrope jeune, en croissance et encore inexpérimenté.</li>
+ *     <li>{@link #ADULT} : lycanthrope adulte, pleinement développé et généralement dominant.</li>
+ *     <li>{@link #OLD} : lycanthrope âgé, dont la force et l'impétuosité peuvent diminuer.</li>
  * </ul>
  *
- * @author Envahissement Armorique Team
+ * @author Envahissement Armorique
  * @version 1.0
  */
 public enum CategorieAge {
-    /** Young lycanthrope, still growing and gaining experience. */
+    /** Lycanthrope jeune, en croissance et en apprentissage. */
     YOUNG,
 
-    /** Adult lycanthrope, fully developed and potentially dominant. */
+    /** Lycanthrope adulte, pleinement développé et potentiellement dominant. */
     ADULT,
 
-    /** Old lycanthrope, may have reduced strength and influence. */
+    /** Lycanthrope âgé, pouvant avoir une force et une influence réduites. */
     OLD
 }

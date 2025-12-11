@@ -1,32 +1,35 @@
 package org.example.envahissementarmorique.model.character.interfaces;
 
 /**
- * Interface for characters capable of working and performing jobs.
- * Workers can perform various tasks related to their profession.
+ * Interface pour les personnages capables de travailler et d'exercer un métier.
+ * <p>
+ * Un travailleur peut réaliser différentes tâches liées à sa profession.
+ * </p>
  *
- * @author Envahissement Armorique Team
+ * @author Envahissement Armorique
  * @version 1.0
  */
 public interface Worker {
+
     /**
-     * Makes the worker perform their job.
+     * Permet au travailleur d'effectuer son métier.
      *
-     * @return true if the work was successful
+     * @return true si le travail a été effectué avec succès
      */
     boolean work();
 
     /**
-     * Gets the type of work this worker performs.
+     * Retourne le type de travail que ce travailleur effectue.
      *
-     * @return the work type as a string
+     * @return le type de travail sous forme de chaîne de caractères
      */
     String getWorkType();
 
     /**
-     * Makes the worker create or produce something.
+     * Permet au travailleur de créer ou produire quelque chose.
      *
-     * @param itemName the name of the item to produce
-     * @return true if the production was successful
+     * @param itemName le nom de l'objet à produire
+     * @return true si la production a été effectuée avec succès
      */
     boolean produce(String itemName);
 }

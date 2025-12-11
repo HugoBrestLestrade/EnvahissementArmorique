@@ -3,9 +3,9 @@ package org.example.envahissementarmorique.model.character.base.Gaulish;
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Gaulois character.
- * Gaulois are the Gallic people resisting Roman invasion.
- * They belong to the "Gaulois" faction.
+ * Représente un personnage de type Gaulois.
+ * Les Gaulois sont le peuple de Gaule résistant à l'invasion romaine.
+ * Ils appartiennent automatiquement à la faction "Gaulois".
  *
  * @author Envahissement Armorique Team
  * @version 1.0
@@ -13,19 +13,19 @@ import org.example.envahissementarmorique.model.character.base.GameCharacter;
 public class Gaulois extends GameCharacter {
 
     /**
-     * Creates a new Gaulois character.
-     * The faction is automatically set to "Gaulois".
+     * Crée un nouveau personnage Gaulois.
+     * La faction est automatiquement définie sur "Gaulois".
      *
-     * @param name the character's name
-     * @param genre the character's gender
-     * @param height the character's height in meters
-     * @param age the character's age in years
-     * @param strength the character's strength level
-     * @param endurance the character's endurance level
-     * @param health the character's initial health points
-     * @param hunger the character's initial hunger level
-     * @param belligerence the character's belligerence level
-     * @param magicpotion the character's initial magic potion level
+     * @param name          le nom du personnage
+     * @param genre         le genre du personnage
+     * @param height        la taille du personnage en mètres
+     * @param age           l’âge du personnage en années
+     * @param strength      le niveau de force du personnage
+     * @param endurance     le niveau d’endurance du personnage
+     * @param health        les points de vie initiaux
+     * @param hunger        le niveau de faim initial
+     * @param belligerence  le niveau de belligerence du personnage
+     * @param magicpotion   le niveau initial de potion magique
      */
     public Gaulois(String name, String genre, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, "Gaulois", height, age, strength, endurance, health, hunger, belligerence, magicpotion);

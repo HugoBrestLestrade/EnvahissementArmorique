@@ -3,23 +3,28 @@ package org.example.envahissementarmorique.model.item;
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents an item that can be consumed by a character in the simulation.
+ * Représente un objet pouvant être consommé par un personnage dans la simulation.
  * <p>
- * This class is sealed to strictly control the hierarchy: only Food and Potion
- * are allowed types of consumables, matching the TD3 specifications.
+ * Cette classe est scellée (sealed) pour contrôler strictement la hiérarchie :
+ * seuls {@link Food} et {@link Potion} sont des types autorisés de consommables,
+ * conformément aux spécifications du TD3.
  * </p>
+ *
+ * @author Envahissement Armorique
+ * @version 1.0
  */
 public abstract sealed class Consumable permits Food, Potion {
 
     /**
-     * The type of the food (e.g., BOAR, FRESH_FISH, WINE, etc.).
+     * Le type de l'aliment ou de la potion (ex. : BOAR, FRESH_FISH, WINE, etc.).
      */
     protected final Foods foods;
 
     /**
-     * Constructor for a consumable item.
+     * Constructeur d'un objet consommable.
      *
-     * @param foods The type of food (cannot be null).
+     * @param foods le type de nourriture ou potion (ne peut pas être null)
+     * @throws IllegalArgumentException si foods est null
      */
     public Consumable(Foods foods) {
         if (foods == null) {
@@ -29,34 +34,34 @@ public abstract sealed class Consumable permits Food, Potion {
     }
 
     /**
-     * Gets the type of the consumable.
+     * Retourne le type de consommable.
      *
-     * @return The Foods.
+     * @return le type {@link Foods}
      */
     public Foods getFoods() {
         return foods;
     }
 
     /**
-     * Gets the name of the consumable.
+     * Retourne le nom du consommable.
      *
-     * @return The name as a String.
+     * @return le nom sous forme de chaîne de caractères
      */
     public String getName() {
         return foods.getLabel();
     }
 
     /**
-     * Applies the effect of this consumable on the specified character.
+     * Applique l'effet de ce consommable sur le personnage spécifié.
      * <p>
-     * According to TD3:
+     * Selon le TD3 :
      * <ul>
-     * <li>Food improves the hunger indicator.</li>
-     * <li>Potion increases the magic potion level.</li>
+     *   <li>Les aliments améliorent l'indicateur de faim.</li>
+     *   <li>Les potions augmentent le niveau de potion magique.</li>
      * </ul>
      * </p>
      *
-     * @param consumer The character consuming the item.
+     * @param consumer le personnage consommant l'objet
      */
     public abstract void consume(GameCharacter consumer);
 

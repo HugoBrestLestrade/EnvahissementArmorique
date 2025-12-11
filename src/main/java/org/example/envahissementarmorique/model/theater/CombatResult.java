@@ -1,91 +1,71 @@
 package org.example.envahissementarmorique.model.theater;
 
 /**
- * Represents the result of a combat encounter between two characters.
- * Stores detailed information about the battle including participants,
- * damage dealt, and outcome.
+ * Représente le résultat d'un combat entre deux personnages.
+ * <p>
+ * Cette classe stocke les informations détaillées du combat,
+ * y compris les participants, les dégâts infligés et l'issue de la bataille.
+ * </p>
  *
- * @author Envahissement Armorique Team
+ * @author Envahissement
  * @version 1.0
  */
 public class CombatResult {
 
-    /**
-     * Name of the first fighter.
-     */
+    /** Nom du premier combattant. */
     private final String fighter1Name;
 
-    /**
-     * Name of the second fighter.
-     */
+    /** Nom du second combattant. */
     private final String fighter2Name;
 
-    /**
-     * Faction of the first fighter.
-     */
+    /** Faction du premier combattant. */
     private final String fighter1Faction;
 
-    /**
-     * Faction of the second fighter.
-     */
+    /** Faction du second combattant. */
     private final String fighter2Faction;
 
-    /**
-     * Damage dealt by fighter 1 to fighter 2.
-     */
+    /** Dégâts infligés par le combattant 1 au combattant 2. */
     private final int damageToFighter2;
 
-    /**
-     * Damage dealt by fighter 2 to fighter 1.
-     */
+    /** Dégâts infligés par le combattant 2 au combattant 1. */
     private final int damageToFighter1;
 
-    /**
-     * Health of fighter 1 after the battle.
-     */
+    /** Points de vie du combattant 1 après le combat. */
     private final int fighter1HealthAfter;
 
-    /**
-     * Health of fighter 2 after the battle.
-     */
+    /** Points de vie du combattant 2 après le combat. */
     private final int fighter2HealthAfter;
 
-    /**
-     * Whether fighter 1 died in this battle.
-     */
+    /** Indique si le combattant 1 est mort durant le combat. */
     private final boolean fighter1Died;
 
-    /**
-     * Whether fighter 2 died in this battle.
-     */
+    /** Indique si le combattant 2 est mort durant le combat. */
     private final boolean fighter2Died;
 
-    /**
-     * Location where the battle took place.
-     */
+    /** Lieu où le combat a eu lieu. */
     private final String battleLocation;
 
     /**
-     * Creates a new combat result.
+     * Crée un nouvel enregistrement de combat.
      *
-     * @param fighter1Name name of fighter 1
-     * @param fighter2Name name of fighter 2
-     * @param fighter1Faction faction of fighter 1
-     * @param fighter2Faction faction of fighter 2
-     * @param damageToFighter2 damage dealt to fighter 2
-     * @param damageToFighter1 damage dealt to fighter 1
-     * @param fighter1HealthAfter health of fighter 1 after battle
-     * @param fighter2HealthAfter health of fighter 2 after battle
-     * @param fighter1Died whether fighter 1 died
-     * @param fighter2Died whether fighter 2 died
-     * @param battleLocation location of the battle
+     * @param fighter1Name nom du combattant 1
+     * @param fighter2Name nom du combattant 2
+     * @param fighter1Faction faction du combattant 1
+     * @param fighter2Faction faction du combattant 2
+     * @param damageToFighter2 dégâts infligés au combattant 2
+     * @param damageToFighter1 dégâts infligés au combattant 1
+     * @param fighter1HealthAfter points de vie du combattant 1 après le combat
+     * @param fighter2HealthAfter points de vie du combattant 2 après le combat
+     * @param fighter1Died indique si le combattant 1 est mort
+     * @param fighter2Died indique si le combattant 2 est mort
+     * @param battleLocation lieu du combat
      */
     public CombatResult(String fighter1Name, String fighter2Name,
-                       String fighter1Faction, String fighter2Faction,
-                       int damageToFighter2, int damageToFighter1,
-                       int fighter1HealthAfter, int fighter2HealthAfter,
-                       boolean fighter1Died, boolean fighter2Died,
-                       String battleLocation) {
+                        String fighter1Faction, String fighter2Faction,
+                        int damageToFighter2, int damageToFighter1,
+                        int fighter1HealthAfter, int fighter2HealthAfter,
+                        boolean fighter1Died, boolean fighter2Died,
+                        String battleLocation) {
         this.fighter1Name = fighter1Name;
         this.fighter2Name = fighter2Name;
         this.fighter1Faction = fighter1Faction;
@@ -99,7 +79,7 @@ public class CombatResult {
         this.battleLocation = battleLocation;
     }
 
-    // Getters
+    // ------------------ Getters ------------------
 
     public String getFighter1Name() {
         return fighter1Name;
@@ -146,9 +126,9 @@ public class CombatResult {
     }
 
     /**
-     * Gets the winner of the battle, or null if both died or both survived.
+     * Récupère le vainqueur du combat.
      *
-     * @return name of the winner, or null
+     * @return le nom du vainqueur, ou null si égalité ou si les deux sont morts
      */
     public String getWinner() {
         if (fighter2Died && !fighter1Died) {
@@ -160,9 +140,9 @@ public class CombatResult {
     }
 
     /**
-     * Checks if anyone died in this battle.
+     * Vérifie si un combattant est mort durant le combat.
      *
-     * @return true if at least one fighter died
+     * @return true si au moins un combattant est mort
      */
     public boolean hasCasualty() {
         return fighter1Died || fighter2Died;
@@ -170,11 +150,10 @@ public class CombatResult {
 
     @Override
     public String toString() {
-        return String.format("%s (%s) vs %s (%s) at %s - Winner: %s",
+        return String.format("%s (%s) vs %s (%s) à %s - Vainqueur : %s",
                 fighter1Name, fighter1Faction,
                 fighter2Name, fighter2Faction,
                 battleLocation,
-                getWinner() != null ? getWinner() : "Draw");
+                getWinner() != null ? getWinner() : "Égalité");
     }
 }
-

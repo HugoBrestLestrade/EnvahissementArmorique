@@ -8,13 +8,14 @@ import org.example.envahissementarmorique.model.item.Food;
 import java.util.ArrayList;
 
 /**
- * Represents a clan leader in the game.
+ * Représente un chef de clan dans le jeu.
  * <p>
- * A ClanLeader can manage characters, examine their place, feed and heal the team,
- * transfer characters between places, and request druids to make potions.
+ * Un ClanLeader peut gérer des personnages, examiner leur lieu,
+ * nourrir et soigner l'équipe, transférer des personnages entre lieux
+ * et demander aux druides de fabriquer des potions.
  * </p>
  *
- * @author Envahissement Armorique Team
+ * @author Envahissement Armorique
  * @version 1.0
  */
 public class ClanLeader {
@@ -25,12 +26,12 @@ public class ClanLeader {
     private Place place;
 
     /**
-     * Creates a new ClanLeader.
+     * Crée un nouveau chef de clan.
      *
-     * @param name the leader's name
-     * @param genre the leader's gender
-     * @param age the leader's age
-     * @param place the Place assigned to the leader
+     * @param name le nom du chef
+     * @param genre le genre du chef
+     * @param age l'âge du chef
+     * @param place le lieu attribué au chef
      */
     public ClanLeader(String name, String genre, int age, Place place) {
         this.name = name;
@@ -39,44 +40,24 @@ public class ClanLeader {
         this.place = place;
     }
 
-    // ------------------ Getters and Setters ------------------
+    // ------------------ Getters et Setters ------------------
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getGenre() { return genre; }
+    public void setGenre(String genre) { this.genre = genre; }
 
-    public String getGenre() {
-        return genre;
-    }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Place getPlace() {
-        return place;
-    }
-
-    public void setPlace(Place place) {
-        this.place = place;
-    }
+    public Place getPlace() { return place; }
+    public void setPlace(Place place) { this.place = place; }
 
     // ------------------ Actions ------------------
 
     /**
-     * Examines the current place and prints its characteristics and characters.
+     * Examine le lieu actuel et affiche ses caractéristiques et ses personnages.
      */
     public void examinePlace() {
         if (this.place != null) {
@@ -87,19 +68,19 @@ public class ClanLeader {
     }
 
     /**
-     * Creates a new GameCharacter and adds it to the leader's place.
+     * Crée un nouveau GameCharacter et l'ajoute au lieu du chef.
      *
-     * @param name the character's name
-     * @param genre the character's gender
-     * @param faction the character's faction
-     * @param height the character's height in meters
-     * @param age the character's age
-     * @param strength the character's strength
-     * @param endurance the character's endurance
-     * @param health the character's initial health points
-     * @param hunger the character's initial hunger level
-     * @param belligerence the character's belligerence level
-     * @param magicPotion the character's initial magic potion level
+     * @param name le nom du personnage
+     * @param genre le genre du personnage
+     * @param faction la faction du personnage
+     * @param height la taille en mètres
+     * @param age l'âge du personnage
+     * @param strength la force du personnage
+     * @param endurance l'endurance du personnage
+     * @param health les points de vie initiaux
+     * @param hunger le niveau de faim initial
+     * @param belligerence le niveau de belliqueux
+     * @param magicPotion le niveau de potion magique initial
      */
     public void createCharacter(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicPotion){
         GameCharacter newGameCharacter = new GameCharacter(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicPotion);
@@ -111,10 +92,10 @@ public class ClanLeader {
     }
 
     /**
-     * Heals a list of GameCharacters by a given HP amount.
+     * Soigne une liste de GameCharacters d'un certain nombre de points de vie.
      *
-     * @param gameCharacters the characters to heal
-     * @param hpHealed the amount of health points to restore
+     * @param gameCharacters la liste des personnages à soigner
+     * @param hpHealed le nombre de points de vie à restaurer
      */
     public void healTeam(ArrayList<GameCharacter> gameCharacters, int hpHealed){
         for (GameCharacter gameCharacter : gameCharacters) {
@@ -125,10 +106,10 @@ public class ClanLeader {
     }
 
     /**
-     * Feeds a list of GameCharacters with a given Food item.
+     * Nourrit une liste de GameCharacters avec un aliment donné.
      *
-     * @param gameCharacters the characters to feed
-     * @param food the Food item
+     * @param gameCharacters la liste des personnages à nourrir
+     * @param food l'objet Food utilisé pour nourrir
      */
     public void feedTeam(ArrayList<GameCharacter> gameCharacters, Food food){
         for (GameCharacter gameCharacter : gameCharacters) {
@@ -137,30 +118,30 @@ public class ClanLeader {
     }
 
     /**
-     * Requests a Druid to create a potion at the leader's place.
+     * Demande à un Druide de fabriquer une potion sur le lieu du chef.
      *
-     * @param druid the Druid to make the potion
+     * @param druid le Druide qui fabriquera la potion
      */
     public void askToMakePotion(Druid druid){
-        // Implementation can be added later
+        // Implémentation possible ultérieurement
     }
 
     /**
-     * Makes the team drink a magic potion.
+     * Fait boire une potion magique à l'équipe.
      *
-     * @param potion the Potion to drink
-     * @param gameCharacters the characters who drink it
+     * @param potion la potion magique
+     * @param gameCharacters les personnages qui boivent la potion
      */
     public void drinkMagicPotion(Potion potion, ArrayList<GameCharacter> gameCharacters){
-        // Implementation can be added later
+        // Implémentation possible ultérieurement
     }
 
     /**
-     * Transfers a list of GameCharacters to another Place.
-     * Only works if the destination is a battlefield or an enclosure.
+     * Transfère une liste de GameCharacters vers un autre lieu.
+     * Le transfert n'est possible que si la destination est un champ de bataille ou un enclos.
      *
-     * @param destination the destination Place
-     * @param gameCharacters the characters to transfer
+     * @param destination le lieu de destination
+     * @param gameCharacters les personnages à transférer
      */
     public void transferCharacter(Place destination, ArrayList<GameCharacter> gameCharacters){
         boolean isBattlefield = destination.getName().toLowerCase().contains("bataille");

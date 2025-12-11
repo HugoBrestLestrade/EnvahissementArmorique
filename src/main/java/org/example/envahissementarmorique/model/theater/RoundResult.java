@@ -4,53 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the results of a complete simulation round.
- * Contains all combat results, food spawning events, and character state changes.
+ * Représente les résultats d'un tour complet de simulation.
+ * <p>
+ * Contient tous les résultats de combats, les événements d'apparition de nourriture
+ * et les changements d'état des personnages pour ce tour.
+ * </p>
  *
- * @author Envahissement Armorique Team
+ * @author
+ * Envahissement Armorique Team
  * @version 1.0
  */
 public class RoundResult {
 
-    /**
-     * The round number.
-     */
+    /** Numéro du tour. */
     private final int roundNumber;
 
-    /**
-     * List of all combat results in this round.
-     */
+    /** Liste de tous les résultats de combats de ce tour. */
     private final List<CombatResult> combatResults;
 
-    /**
-     * List of character state change messages.
-     */
+    /** Liste des messages de changement d'état des personnages. */
     private final List<String> stateChangeMessages;
 
-    /**
-     * List of food spawning messages.
-     */
+    /** Liste des messages d'apparition de nourriture. */
     private final List<String> foodSpawningMessages;
 
-    /**
-     * List of food degradation messages.
-     */
+    /** Liste des messages de dégradation de nourriture. */
     private final List<String> foodDegradationMessages;
 
-    /**
-     * Number of characters that died this round.
-     */
+    /** Nombre de personnages décédés lors de ce tour. */
     private int casualties;
 
-    /**
-     * Number of food items spawned this round.
-     */
+    /** Nombre d'objets alimentaires apparus lors de ce tour. */
     private int foodSpawned;
 
     /**
-     * Creates a new round result.
+     * Crée un nouveau résultat de tour.
      *
-     * @param roundNumber the round number
+     * @param roundNumber numéro du tour
      */
     public RoundResult(int roundNumber) {
         this.roundNumber = roundNumber;
@@ -62,46 +52,54 @@ public class RoundResult {
         this.foodSpawned = 0;
     }
 
-    // Getters
+    // ------------------ Getters ------------------
 
+    /** @return le numéro du tour */
     public int getRoundNumber() {
         return roundNumber;
     }
 
+    /** @return la liste des résultats de combats */
     public List<CombatResult> getCombatResults() {
         return new ArrayList<>(combatResults);
     }
 
+    /** @return la liste des messages de changement d'état */
     public List<String> getStateChangeMessages() {
         return new ArrayList<>(stateChangeMessages);
     }
 
+    /** @return la liste des messages d'apparition de nourriture */
     public List<String> getFoodSpawningMessages() {
         return new ArrayList<>(foodSpawningMessages);
     }
 
+    /** @return la liste des messages de dégradation de nourriture */
     public List<String> getFoodDegradationMessages() {
         return new ArrayList<>(foodDegradationMessages);
     }
 
+    /** @return le nombre de personnages décédés ce tour */
     public int getCasualties() {
         return casualties;
     }
 
+    /** @return le nombre d'objets alimentaires apparus ce tour */
     public int getFoodSpawned() {
         return foodSpawned;
     }
 
+    /** @return le nombre total de combats réalisés ce tour */
     public int getTotalBattles() {
         return combatResults.size();
     }
 
-    // Adders
+    // ------------------ Ajout d'événements ------------------
 
     /**
-     * Adds a combat result to this round.
+     * Ajoute un résultat de combat à ce tour.
      *
-     * @param result the combat result
+     * @param result le résultat de combat
      */
     public void addCombatResult(CombatResult result) {
         combatResults.add(result);
@@ -111,18 +109,18 @@ public class RoundResult {
     }
 
     /**
-     * Adds a state change message.
+     * Ajoute un message de changement d'état d'un personnage.
      *
-     * @param message the message
+     * @param message le message à ajouter
      */
     public void addStateChangeMessage(String message) {
         stateChangeMessages.add(message);
     }
 
     /**
-     * Adds a food spawning message.
+     * Ajoute un message d'apparition de nourriture.
      *
-     * @param message the message
+     * @param message le message à ajouter
      */
     public void addFoodSpawningMessage(String message) {
         foodSpawningMessages.add(message);
@@ -130,21 +128,23 @@ public class RoundResult {
     }
 
     /**
-     * Adds a food degradation message.
+     * Ajoute un message de dégradation de nourriture.
      *
-     * @param message the message
+     * @param message le message à ajouter
      */
     public void addFoodDegradationMessage(String message) {
         foodDegradationMessages.add(message);
     }
 
+    // ------------------ Résumé ------------------
+
     /**
-     * Gets a summary of this round.
+     * Retourne un résumé de ce tour.
      *
-     * @return summary string
+     * @return résumé sous forme de chaîne de caractères
      */
     public String getSummary() {
-        return String.format("Round %d: %d battles, %d casualties, %d food spawned",
+        return String.format("Tour %d : %d combats, %d morts, %d nourritures apparues",
                 roundNumber, getTotalBattles(), casualties, foodSpawned);
     }
 
@@ -153,4 +153,3 @@ public class RoundResult {
         return getSummary();
     }
 }
-
