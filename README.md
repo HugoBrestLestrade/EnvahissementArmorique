@@ -11,7 +11,6 @@ Pour lancer ce jeu via le terminal, il nous suffit donc de se positionner a la r
 #### Prérequis pour lancer le jeu : 
 Pour lancer EnvahissementArmorique, il nous faut avoir ceci :
 * JDK 17 ou plus
-Le JDK (Java Development Kit), peut être installé avec "" si vous n'avez pas le JDK 17 ou une version ultérieure
 * Maven
 Si apache maven n'est pas installé sur votre ordinateur, il suffit sous linux de taper "sudo apt install maven"
 
