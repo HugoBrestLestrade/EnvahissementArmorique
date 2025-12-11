@@ -69,7 +69,7 @@
 
     <!-- Center: Main Content -->
     <center>
-        <SplitPane dividerPositions="0.3">
+        <SplitPane dividerPositions="0.25, 0.55" orientation="HORIZONTAL">
             <BorderPane.margin>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </BorderPane.margin>
@@ -97,6 +97,66 @@
 
                 <Button fx:id="viewPlaceButton" text="👁️ View Details" onAction="#handleViewPlace"
                         styleClass="secondary-button" maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- Middle: Round Results Display -->
+            <VBox spacing="10" styleClass="content-box" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="⚔️ Round Results" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Label>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="currentRoundLabel" text="Round: 0" styleClass="round-indicator">
+                        <font>
+                            <Font name="System Bold" size="16.0"/>
+                        </font>
+                    </Label>
+                </HBox>
+
+                <Separator/>
+
+                <!-- Round Summary -->
+                <VBox spacing="8" styleClass="round-summary-box">
+                    <Label text="📊 Round Summary" styleClass="subsection-title">
+                        <font>
+                            <Font name="System Bold" size="14.0"/>
+                        </font>
+                    </Label>
+                    <GridPane hgap="15" vgap="8">
+                        <Label text="Battles:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="stat-label"/>
+                        <Label fx:id="battlesCountLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="stat-value-large"/>
+
+                        <Label text="Casualties:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="stat-label"/>
+                        <Label fx:id="casualtiesCountLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="stat-value-large"/>
+
+                        <Label text="Food Spawned:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="stat-label"/>
+                        <Label fx:id="foodSpawnedLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="stat-value-large"/>
+                    </GridPane>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Combat Details -->
+                <VBox spacing="5" VBox.vgrow="ALWAYS">
+                    <Label text="⚔️ Combat Log" styleClass="subsection-title">
+                        <font>
+                            <Font name="System Bold" size="14.0"/>
+                        </font>
+                    </Label>
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="combat-scroll">
+                        <VBox fx:id="combatLogContainer" spacing="8" styleClass="combat-log-container">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
             </VBox>
 
             <!-- Right: Details and Controls -->

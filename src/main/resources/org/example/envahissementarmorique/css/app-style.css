@@ -201,6 +201,144 @@
 }
 
 /* ============================================
+   COMBAT & ROUND DISPLAY
+   ============================================ */
+
+.round-indicator {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+}
+
+.round-summary-box {
+    -fx-background-color: linear-gradient(to bottom, #ecf0f1, #f8f9fa);
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 15px;
+}
+
+.subsection-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.stat-value-large {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e74c3c;
+}
+
+.combat-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.combat-scroll .viewport {
+    -fx-background-color: #fdfefe;
+}
+
+.combat-log-container {
+    -fx-background-color: #fdfefe;
+}
+
+.combat-entry {
+    -fx-background-color: white;
+    -fx-border-color: #ecf0f1;
+    -fx-border-width: 0 0 1px 4px;
+    -fx-border-radius: 3px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 3, 0, 0, 1);
+}
+
+.combat-entry-battle {
+    -fx-border-color: #e74c3c #ecf0f1 #ecf0f1 #e74c3c;
+}
+
+.combat-entry-death {
+    -fx-border-color: #c0392b #ecf0f1 #ecf0f1 #c0392b;
+    -fx-background-color: #fadbd8;
+}
+
+.combat-entry-event {
+    -fx-border-color: #3498db #ecf0f1 #ecf0f1 #3498db;
+}
+
+.combat-entry-food {
+    -fx-border-color: #27ae60 #ecf0f1 #ecf0f1 #27ae60;
+}
+
+.combat-entry-warning {
+    -fx-border-color: #f39c12 #ecf0f1 #ecf0f1 #f39c12;
+    -fx-background-color: #fef5e7;
+}
+
+.combat-text {
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 13px;
+}
+
+.combat-text-fighter {
+    -fx-text-fill: #e74c3c;
+    -fx-font-weight: bold;
+}
+
+.combat-text-death {
+    -fx-text-fill: #c0392b;
+    -fx-font-weight: bold;
+}
+
+.combat-text-damage {
+    -fx-text-fill: #e67e22;
+    -fx-font-weight: bold;
+}
+
+.combat-text-health {
+    -fx-text-fill: #27ae60;
+}
+
+.combat-icon {
+    -fx-font-size: 16px;
+}
+
+.separator-line {
+    -fx-background-color: #bdc3c7;
+    -fx-pref-height: 1px;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+.combat-entry-new {
+    -fx-opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { -fx-opacity: 0; -fx-translate-y: -10; }
+    to { -fx-opacity: 1; -fx-translate-y: 0; }
+}
+
+/* ============================================
+   TOOLTIPS
+   ============================================ */
+
+.tooltip {
+    -fx-background-color: rgba(44, 62, 80, 0.95);
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-font-size: 12px;
+    -fx-padding: 8px 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 2);
+}
+
+/* ============================================
    INPUT CONTROLS
    ============================================ */
 

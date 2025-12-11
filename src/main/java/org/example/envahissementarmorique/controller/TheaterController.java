@@ -5,8 +5,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.envahissementarmorique.model.character.base.ClanLeader;
@@ -42,12 +46,21 @@ public class TheaterController {
     @FXML private ProgressBar simulationProgressBar;
     @FXML private Label simulationStatusLabel;
     @FXML private TextArea consoleTextArea;
+    @FXML private Label currentRoundLabel;
+    @FXML private Label battlesCountLabel;
+    @FXML private Label casualtiesCountLabel;
+    @FXML private Label foodSpawnedLabel;
+    @FXML private VBox combatLogContainer;
 
     private InvasionTheater theater;
     private Stage primaryStage;
     private ObservableList<Place> placesObservableList;
     private ObservableList<ClanLeader> leadersObservableList;
     private boolean simulationRunning = false;
+    private int currentRound = 0;
+    private int totalBattles = 0;
+    private int totalCasualties = 0;
+    private int totalFoodSpawned = 0;
 
     /**
      * Sets the theater instance.
@@ -284,6 +297,12 @@ public class TheaterController {
         pauseSimulationButton.setDisable(false);
         stopSimulationButton.setDisable(false);
 
+        // Reset counters
+        currentRound = 0;
+        totalBattles = 0;
+        totalCasualties = 0;
+        totalFoodSpawned = 0;
+
         int intervals = intervalsSpinner.getValue();
         simulationStatusLabel.setText("Simulation running...");
         logToConsole("Starting simulation with " + intervals + " intervals");
@@ -294,33 +313,94 @@ public class TheaterController {
                     if (!simulationRunning) break;
 
                     final int currentInterval = i;
+                    currentRound = i;
+
                     Platform.runLater(() -> {
                         simulationProgressBar.setProgress((double) currentInterval / intervals);
                         simulationStatusLabel.setText("Interval " + currentInterval + " / " + intervals);
+                        currentRoundLabel.setText("Round: " + currentInterval);
                         logToConsole("=== INTERVAL " + currentInterval + " ===");
+
+                        // Add separator for new round (keep previous rounds in history)
+                        addCombatLogSeparator("ROUND " + currentInterval);
                     });
 
+                    // Conduct battles and capture results
                     logToConsole("Conducting battles...");
-                    theater.conductBattles();
+                    var combatResults = theater.conductBattles();
+
+                    Platform.runLater(() -> {
+                        int roundCasualties = 0;
+                        for (var result : combatResults) {
+                            addCombatEntry(result);
+                            if (result.hasCasualty()) {
+                                roundCasualties += (result.isFighter1Died() ? 1 : 0) + (result.isFighter2Died() ? 1 : 0);
+                            }
+                        }
+
+                        totalBattles += combatResults.size();
+                        totalCasualties += roundCasualties;
+
+                        battlesCountLabel.setText(String.valueOf(combatResults.size()));
+                        casualtiesCountLabel.setText(String.valueOf(roundCasualties));
+                    });
 
                     Thread.sleep(500);
 
+                    // Modify character states
                     logToConsole("Modifying character states...");
-                    theater.randomlyModifyCharacters();
+                    var stateChanges = theater.randomlyModifyCharacters();
+                    Platform.runLater(() -> {
+                        if (!stateChanges.isEmpty()) {
+                            addCombatLogSeparator("Character State Changes");
+                            for (String message : stateChanges) {
+                                addEventEntry(message, "warning");
+                            }
+                        }
+                    });
 
                     Thread.sleep(500);
 
+                    // Spawn food
                     logToConsole("Spawning food...");
-                    theater.spawnFood();
+                    var foodMessages = theater.spawnFood();
+                    Platform.runLater(() -> {
+                        totalFoodSpawned += foodMessages.size();
+                        foodSpawnedLabel.setText(String.valueOf(foodMessages.size()));
+
+                        if (!foodMessages.isEmpty()) {
+                            addCombatLogSeparator("Food Spawning");
+                            for (String message : foodMessages) {
+                                addEventEntry(message, "food");
+                            }
+                        }
+                    });
 
                     Thread.sleep(500);
 
+                    // Degrade food
                     logToConsole("Degrading food...");
-                    theater.degradeFood();
+                    var degradationMessages = theater.degradeFood();
+                    Platform.runLater(() -> {
+                        if (!degradationMessages.isEmpty()) {
+                            addCombatLogSeparator("Food Degradation");
+                            for (String message : degradationMessages) {
+                                addEventEntry(message, "event");
+                            }
+                        }
+                    });
 
                     Thread.sleep(1000);
 
-                    Platform.runLater(this::updateUI);
+                    Platform.runLater(() -> {
+                        updateUI();
+                        addCombatLogSeparator("End of Round " + currentInterval);
+                        logToConsole("Round " + currentInterval + " complete - Battles: " + combatResults.size() +
+                                    ", Casualties: " + (casualtiesCountLabel.getText()) +
+                                    ", Food: " + foodMessages.size());
+                    });
+
+                    Thread.sleep(500);
                 }
 
                 Platform.runLater(() -> {
@@ -330,6 +410,9 @@ public class TheaterController {
                     pauseSimulationButton.setDisable(true);
                     stopSimulationButton.setDisable(true);
                     logToConsole("Simulation completed successfully!");
+                    logToConsole("Total Statistics - Battles: " + totalBattles +
+                               ", Casualties: " + totalCasualties +
+                               ", Food Spawned: " + totalFoodSpawned);
                 });
 
             } catch (InterruptedException e) {
@@ -437,5 +520,167 @@ public class TheaterController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-}
 
+    /**
+     * Adds a combat entry to the combat log.
+     *
+     * @param result the combat result
+     */
+    private void addCombatEntry(org.example.envahissementarmorique.model.theater.CombatResult result) {
+        VBox entry = new VBox(5);
+        entry.getStyleClass().addAll("combat-entry", "combat-entry-battle");
+        entry.setPadding(new Insets(10));
+
+        // Combat header
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        Label icon = new Label("⚔️");
+        icon.getStyleClass().add("combat-icon");
+        icon.setStyle("-fx-font-size: 16px;");
+
+        Label fighters = new Label(result.getFighter1Name() + " (" + result.getFighter1Faction() + ") vs " +
+                                   result.getFighter2Name() + " (" + result.getFighter2Faction() + ")");
+        fighters.getStyleClass().addAll("combat-text", "combat-text-fighter");
+        fighters.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+
+        header.getChildren().addAll(icon, fighters);
+
+        // Health before combat
+        HBox beforeHealth = new HBox(20);
+        beforeHealth.setPadding(new Insets(5, 0, 0, 25));
+
+        int fighter1HealthBefore = result.getFighter1HealthAfter() + result.getDamageToFighter1();
+        int fighter2HealthBefore = result.getFighter2HealthAfter() + result.getDamageToFighter2();
+
+        Label beforeLabel = new Label("Before: " + result.getFighter1Name() + " [HP: " + fighter1HealthBefore + "] | " +
+                                     result.getFighter2Name() + " [HP: " + fighter2HealthBefore + "]");
+        beforeLabel.getStyleClass().add("combat-text");
+        beforeLabel.setStyle("-fx-font-style: italic; -fx-text-fill: #7f8c8d;");
+
+        beforeHealth.getChildren().add(beforeLabel);
+
+        // Combat details - damage dealt
+        HBox damageDealt = new HBox(20);
+        damageDealt.setPadding(new Insets(2, 0, 0, 25));
+
+        Label damageInfo = new Label("Damage: " + result.getFighter1Name() + " dealt " + result.getDamageToFighter2() + " HP | " +
+                                    result.getFighter2Name() + " dealt " + result.getDamageToFighter1() + " HP");
+        damageInfo.getStyleClass().add("combat-text");
+        damageInfo.setStyle("-fx-font-weight: bold; -fx-text-fill: #e74c3c;");
+
+        damageDealt.getChildren().add(damageInfo);
+
+        // Health after combat
+        HBox details = new HBox(20);
+        details.setPadding(new Insets(2, 0, 0, 25));
+
+        Label damage1 = new Label("After: " + result.getFighter1Name() + " → " +
+                                  result.getFighter1HealthAfter() + " HP");
+        damage1.getStyleClass().addAll("combat-text", result.isFighter1Died() ? "combat-text-death" : "combat-text-damage");
+        damage1.setStyle(result.isFighter1Died() ? "-fx-text-fill: #c0392b; -fx-font-weight: bold;" : "-fx-text-fill: #27ae60;");
+
+        Label damage2 = new Label(result.getFighter2Name() + " → " +
+                                  result.getFighter2HealthAfter() + " HP");
+        damage2.getStyleClass().addAll("combat-text", result.isFighter2Died() ? "combat-text-death" : "combat-text-damage");
+        damage2.setStyle(result.isFighter2Died() ? "-fx-text-fill: #c0392b; -fx-font-weight: bold;" : "-fx-text-fill: #27ae60;");
+
+        details.getChildren().addAll(damage1, damage2);
+
+        entry.getChildren().addAll(header, beforeHealth, damageDealt, details);
+
+        // Add death notification if applicable
+        if (result.hasCasualty()) {
+            HBox deathBox = new HBox(5);
+            deathBox.setPadding(new Insets(5, 0, 0, 25));
+            deathBox.setAlignment(Pos.CENTER_LEFT);
+
+            Label skullIcon = new Label("💀");
+            skullIcon.getStyleClass().add("combat-icon");
+            skullIcon.setStyle("-fx-font-size: 16px;");
+
+            StringBuilder deaths = new StringBuilder();
+            if (result.isFighter1Died()) {
+                deaths.append(result.getFighter1Name());
+            }
+            if (result.isFighter2Died()) {
+                if (!deaths.isEmpty()) deaths.append(" and ");
+                deaths.append(result.getFighter2Name());
+            }
+            deaths.append(" has fallen!");
+
+            Label deathLabel = new Label(deaths.toString());
+            deathLabel.getStyleClass().addAll("combat-text", "combat-text-death");
+            deathLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #c0392b; -fx-font-size: 13px;");
+
+            deathBox.getChildren().addAll(skullIcon, deathLabel);
+            entry.getChildren().add(deathBox);
+            entry.getStyleClass().add("combat-entry-death");
+        }
+
+        combatLogContainer.getChildren().add(entry);
+    }
+
+    /**
+     * Adds an event entry to the combat log.
+     *
+     * @param message the event message
+     * @param type the type of event (food, event, warning)
+     */
+    private void addEventEntry(String message, String type) {
+        HBox entry = new HBox(10);
+        entry.getStyleClass().add("combat-entry");
+        entry.setPadding(new Insets(8));
+        entry.setAlignment(Pos.CENTER_LEFT);
+
+        String icon;
+        String styleClass;
+        switch (type) {
+            case "food":
+                icon = "🍖";
+                styleClass = "combat-entry-food";
+                break;
+            case "warning":
+                icon = "⚠️";
+                styleClass = "combat-entry-warning";
+                break;
+            default:
+                icon = "ℹ️";
+                styleClass = "combat-entry-event";
+        }
+
+        entry.getStyleClass().add(styleClass);
+
+        Label iconLabel = new Label(icon);
+        iconLabel.getStyleClass().add("combat-icon");
+
+        Label messageLabel = new Label(message);
+        messageLabel.getStyleClass().add("combat-text");
+        messageLabel.setWrapText(true);
+
+        entry.getChildren().addAll(iconLabel, messageLabel);
+        combatLogContainer.getChildren().add(entry);
+    }
+
+    /**
+     * Adds a separator with text to the combat log.
+     *
+     * @param text the separator text
+     */
+    private void addCombatLogSeparator(String text) {
+        VBox separator = new VBox(5);
+        separator.setPadding(new Insets(15, 0, 10, 0));
+        separator.setAlignment(Pos.CENTER);
+        separator.setStyle("-fx-background-color: #ecf0f1; -fx-background-radius: 5;");
+
+        Label label = new Label("═══ " + text + " ═══");
+        label.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #2c3e50; -fx-padding: 5;");
+
+        Separator line = new Separator();
+        line.setMaxWidth(Double.MAX_VALUE);
+        line.setStyle("-fx-background-color: #3498db;");
+
+        separator.getChildren().addAll(line, label, new Separator());
+        combatLogContainer.getChildren().add(separator);
+    }
+}

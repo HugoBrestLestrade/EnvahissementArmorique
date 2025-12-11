@@ -249,8 +249,11 @@ public class InvasionTheater {
     /**
      * Makes belligerent characters fight on battlefields.
      * Characters return to their origin place if they survive.
+     *
+     * @return list of combat results
      */
-    public void conductBattles() {
+    public List<CombatResult> conductBattles() {
+        List<CombatResult> results = new ArrayList<>();
         System.out.println("\n=== CONDUCTING BATTLES ===");
 
         for (Place place : places) {
@@ -271,14 +274,42 @@ public class InvasionTheater {
                         if (!fighter1.getFaction().equals(fighter2.getFaction()) &&
                             fighter1.isBelligerent() && fighter2.isBelligerent()) {
 
-                            System.out.println("  " + fighter1.getName() + " fights " + fighter2.getName());
+                            // Store health before combat
+                            int fighter1HealthBefore = fighter1.getHealth();
+                            int fighter2HealthBefore = fighter2.getHealth();
+
+                            System.out.println("\n  ⚔️ COMBAT: " + fighter1.getName() + " (" + fighter1.getFaction() + ") vs " +
+                                             fighter2.getName() + " (" + fighter2.getFaction() + ")");
+                            System.out.println("     Before: " + fighter1.getName() + " [HP: " + fighter1HealthBefore + "] | " +
+                                             fighter2.getName() + " [HP: " + fighter2HealthBefore + "]");
+
                             fighter1.fight(fighter2);
 
+                            // Calculate damage
+                            int damageToFighter2 = fighter2HealthBefore - fighter2.getHealth();
+                            int damageToFighter1 = fighter1HealthBefore - fighter1.getHealth();
+
+                            System.out.println("     Damage: " + fighter1.getName() + " dealt " + damageToFighter2 + " damage | " +
+                                             fighter2.getName() + " dealt " + damageToFighter1 + " damage");
+                            System.out.println("     After:  " + fighter1.getName() + " [HP: " + fighter1.getHealth() + "] | " +
+                                             fighter2.getName() + " [HP: " + fighter2.getHealth() + "]");
+
+                            // Create combat result
+                            CombatResult result = new CombatResult(
+                                fighter1.getName(), fighter2.getName(),
+                                fighter1.getFaction(), fighter2.getFaction(),
+                                damageToFighter2, damageToFighter1,
+                                fighter1.getHealth(), fighter2.getHealth(),
+                                fighter1.isDead(), fighter2.isDead(),
+                                battlefield.getName()
+                            );
+                            results.add(result);
+
                             if (fighter2.isDead()) {
-                                System.out.println("    " + fighter2.getName() + " has fallen!");
+                                System.out.println("     💀 " + fighter2.getName() + " has fallen!");
                             }
                             if (fighter1.isDead()) {
-                                System.out.println("    " + fighter1.getName() + " has fallen!");
+                                System.out.println("     💀 " + fighter1.getName() + " has fallen!");
                                 break;
                             }
                         }
@@ -288,12 +319,17 @@ public class InvasionTheater {
                 battlefield.removeDeadCharacters();
             }
         }
+
+        return results;
     }
 
     /**
      * Randomly modifies character states (hunger, potion level, etc.).
+     *
+     * @return list of state change messages
      */
-    public void randomlyModifyCharacters() {
+    public List<String> randomlyModifyCharacters() {
+        List<String> messages = new ArrayList<>();
         System.out.println("\n=== RANDOM CHARACTER MODIFICATIONS ===");
 
         for (Place place : places) {
@@ -303,28 +339,39 @@ public class InvasionTheater {
                 if (random.nextDouble() < 0.3) {
                     int hungerDecrease = random.nextInt(20) + 10;
                     character.setHunger(Math.max(0, character.getHunger() - hungerDecrease));
-                    System.out.println(character.getName() + " is getting hungry (-" + hungerDecrease + " hunger)");
+                    String message = character.getName() + " is getting hungry (-" + hungerDecrease + " hunger)";
+                    System.out.println(message);
+                    messages.add(message);
                 }
 
                 if (random.nextDouble() < 0.2 && character.getMagicpotion() > 0) {
                     int potionDecrease = random.nextInt(3) + 1;
                     character.setMagicpotion(Math.max(0, character.getMagicpotion() - potionDecrease));
-                    System.out.println(character.getName() + "'s potion effect is wearing off (-" + potionDecrease + ")");
+                    String message = character.getName() + "'s potion effect is wearing off (-" + potionDecrease + ")";
+                    System.out.println(message);
+                    messages.add(message);
                 }
 
                 if (random.nextDouble() < 0.1) {
                     int healthLoss = random.nextInt(10) + 5;
                     character.setHealth(Math.max(0, character.getHealth() - healthLoss));
-                    System.out.println(character.getName() + " suffered minor injury (-" + healthLoss + " HP)");
+                    String message = character.getName() + " suffered minor injury (-" + healthLoss + " HP)";
+                    System.out.println(message);
+                    messages.add(message);
                 }
             }
         }
+
+        return messages;
     }
 
     /**
      * Makes food appear randomly in non-battlefield places.
+     *
+     * @return list of food spawning messages
      */
-    public void spawnFood() {
+    public List<String> spawnFood() {
+        List<String> messages = new ArrayList<>();
         System.out.println("\n=== FOOD SPAWNING ===");
 
         for (Place place : places) {
@@ -334,15 +381,22 @@ public class InvasionTheater {
                 Food newFood = new Food(randomFoodType, Freshness.FRESH);
 
                 place.addFood(newFood);
-                System.out.println("Fresh " + randomFoodType.getLabel() + " appeared at " + place.getName());
+                String message = "Fresh " + randomFoodType.getLabel() + " appeared at " + place.getName();
+                System.out.println(message);
+                messages.add(message);
             }
         }
+
+        return messages;
     }
 
     /**
      * Degrades fresh food to not fresh in all places.
+     *
+     * @return list of food degradation messages
      */
-    public void degradeFood() {
+    public List<String> degradeFood() {
+        List<String> messages = new ArrayList<>();
         System.out.println("\n=== FOOD DEGRADATION ===");
 
         for (Place place : places) {
@@ -352,11 +406,15 @@ public class InvasionTheater {
                 Freshness newFreshness = food.getFreshness();
 
                 if (oldFreshness != newFreshness) {
-                    System.out.println("Food at " + place.getName() + " degraded: " +
-                                     oldFreshness.getLabel() + " -> " + newFreshness.getLabel());
+                    String message = "Food at " + place.getName() + " degraded: " +
+                                     oldFreshness.getLabel() + " -> " + newFreshness.getLabel();
+                    System.out.println(message);
+                    messages.add(message);
                 }
             }
         }
+
+        return messages;
     }
 
     /**

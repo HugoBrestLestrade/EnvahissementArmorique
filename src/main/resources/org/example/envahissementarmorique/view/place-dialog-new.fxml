@@ -45,9 +45,7 @@
                 </Label>
 
                 <ComboBox fx:id="placeTypeComboBox" promptText="Select place type" maxWidth="Infinity">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
+
                 </ComboBox>
 
                 <Label fx:id="placeTypeDescriptionLabel" text="Select a place type to see its description"
@@ -122,9 +120,7 @@
 
                 <ComboBox fx:id="chiefComboBox" promptText="Select clan leader" maxWidth="Infinity"
                           disable="true">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
+
                 </ComboBox>
             </VBox>
         </VBox>

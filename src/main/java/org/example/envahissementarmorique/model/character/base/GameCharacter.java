@@ -276,11 +276,12 @@ public class GameCharacter implements Fighter {
     public void fight(GameCharacter opponent) {
         if (opponent == null || opponent.isDead()) return;
 
-        int damage = this.strength + (this.belligerence / 10);
+        // Reduced damage calculation for better balance - characters won't die in first round
+        int damage = Math.max(5, (this.strength / 4) + (this.belligerence / 20));
         opponent.takeDamage(damage);
 
         if (!opponent.isDead()) {
-            int counterDamage = opponent.getStrength() + (opponent.getBelligerence() / 10);
+            int counterDamage = Math.max(5, (opponent.getStrength() / 4) + (opponent.getBelligerence() / 20));
             this.takeDamage(counterDamage);
         }
     }
