@@ -4,10 +4,12 @@ import org.example.envahissementarmorique.model.PackAndAlpha.Pack;
 import org.example.envahissementarmorique.model.Yell.Yell;
 import org.example.envahissementarmorique.model.character.base.Lycan.CategorieAge;
 import org.example.envahissementarmorique.model.character.base.Lycan.Lycanthropes;
-import org.example.envahissementarmorique.model.character.base.Lycan.Sexe;
 import org.example.envahissementarmorique.model.character.base.Lycan.YellType;
 import org.junit.jupiter.api.Test;
 
+import static org.example.envahissementarmorique.model.character.base.Lycan.CategorieAge.ADULT;
+import static org.example.envahissementarmorique.model.character.base.Lycan.Sexe.FEMALE;
+import static org.example.envahissementarmorique.model.character.base.Lycan.Sexe.MALE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -34,10 +36,10 @@ class LycanthropesTest {
      * Teste la création d'un lycanthrope avec ses attributs de base.
      */
     @Test
-    void testCreationLycan() {
-        Lycanthropes l = new Lycanthropes(Sexe.MALE, CategorieAge.YOUNG, 10, 0.3, 2);
+    void testLycanCreation() {
+        Lycanthropes l = new Lycanthropes(MALE, CategorieAge.YOUNG, 10, 0.3, 2);
 
-        assertEquals(Sexe.MALE, l.getSexe());
+        assertEquals(MALE, l.getSexe());
         assertEquals(CategorieAge.YOUNG, l.getAgeCategory());
         assertEquals(10, l.getStrength());
         assertEquals("solitaire", l.getRank());
@@ -48,9 +50,9 @@ class LycanthropesTest {
      * Teste l'ajout des lycanthropes dans un pack.
      */
     @Test
-    void testAjoutMeute() {
-        Lycanthropes m = new Lycanthropes(Sexe.MALE, CategorieAge.ADULT, 15, 0.2, 0);
-        Lycanthropes f = new Lycanthropes(Sexe.FEMALE, CategorieAge.ADULT, 12, 0.2, 1);
+    void testLeavePack() {
+        Lycanthropes m = new Lycanthropes(MALE, ADULT, 15, 0.2, 0);
+        Lycanthropes f = new Lycanthropes(FEMALE, ADULT, 12, 0.2, 1);
 
         Pack p = new Pack("LuneRouge", m, f);
 
@@ -63,8 +65,8 @@ class LycanthropesTest {
      */
     @Test
     void testSeSeparer() {
-        Lycanthropes m = new Lycanthropes(Sexe.MALE, CategorieAge.ADULT, 15, 0.2, 0);
-        Lycanthropes f = new Lycanthropes(Sexe.FEMALE, CategorieAge.ADULT, 12, 0.2, 1);
+        Lycanthropes m = new Lycanthropes(MALE, ADULT, 15, 0.2, 0);
+        Lycanthropes f = new Lycanthropes(FEMALE, ADULT, 12, 0.2, 1);
 
         Pack p = new Pack("LuneRouge", m, f);
 
@@ -78,8 +80,8 @@ class LycanthropesTest {
      * Teste le hurlement d'un lycanthrope et la création d'un Yell.
      */
     @Test
-    void testHurlement() {
-        Lycanthropes m = new Lycanthropes(Sexe.MALE, CategorieAge.YOUNG, 10, 0.2, 1);
+    void testHowl() {
+        Lycanthropes m = new Lycanthropes(MALE, CategorieAge.YOUNG, 10, 0.2, 1);
         Yell y = m.yell(YellType.BELONGING, "Je suis là");
 
         assertNotNull(y);
@@ -91,13 +93,13 @@ class LycanthropesTest {
      * Teste la tentative de domination réussie sur un autre lycanthrope.
      */
     @Test
-    void testDominationReussie() {
-        Lycanthropes dominant = new Lycanthropes(Sexe.MALE, CategorieAge.ADULT, 18, 0.3, 2);
-        Lycanthropes femelleAlpha = new Lycanthropes(Sexe.FEMALE, CategorieAge.ADULT, 10, 0.2, 0);
+    void testSuccessfulDomination() {
+        Lycanthropes dominant = new Lycanthropes(MALE, ADULT, 18, 0.3, 2);
+        Lycanthropes femelleAlpha = new Lycanthropes(FEMALE, ADULT, 10, 0.2, 0);
 
         Pack p = new Pack("Meute1", dominant, femelleAlpha);
 
-        Lycanthropes cible = new Lycanthropes(Sexe.MALE, CategorieAge.YOUNG, 5, 0.1, 5);
+        Lycanthropes cible = new Lycanthropes(MALE, CategorieAge.YOUNG, 5, 0.1, 5);
         p.addLycanthrope(cible);
 
         boolean resultat = dominant.tryDominate(cible);
@@ -111,27 +113,27 @@ class LycanthropesTest {
      * Teste la transformation d'un lycanthrope en humain.
      */
     @Test
-    void testTransformationEnHumain() {
-        Lycanthropes alpha = new Lycanthropes(Sexe.MALE, CategorieAge.ADULT, 30, 0.5, 0);
-        Lycanthropes femelle = new Lycanthropes(Sexe.FEMALE, CategorieAge.ADULT, 20, 0.3, 1);
+    void testHumanTransformation() {
+        Lycanthropes alpha = new Lycanthropes(MALE, ADULT, 30, 0.5, 0);
+        Lycanthropes femelle = new Lycanthropes(FEMALE, ADULT, 20, 0.3, 1);
 
         Pack p = new Pack("Lune", alpha, femelle);
 
-        alpha.tryTransformToHuman();
+        alpha.forceTransformHumanForTest();
 
-        assertTrue(alpha.isHuman(), "Le lycan doit être devenu humain");
-        assertNull(alpha.getPack(), "Le lycan ne doit plus avoir de meute");
+        assertTrue(alpha.isHuman());
+        assertNull(alpha.getPack());
     }
 
     /**
      * Teste le vieillissement d'un lycanthrope et la progression de sa catégorie d'âge.
      */
     @Test
-    void testVieillissement() {
-        Lycanthropes l = new Lycanthropes(Sexe.FEMALE, CategorieAge.YOUNG, 10, 0.3, 2);
+    void testAging() {
+        Lycanthropes l = new Lycanthropes(FEMALE, CategorieAge.YOUNG, 10, 0.3, 2);
 
         l.age();
 
-        assertEquals(CategorieAge.ADULT, l.getAgeCategory());
+        assertEquals(ADULT, l.getAgeCategory());
     }
 }
