@@ -4,6 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.envahissementarmorique.model.character.base.*;
+import org.example.envahissementarmorique.model.character.base.Gaulish.*;
+import org.example.envahissementarmorique.model.character.base.Lycan.Lycanthropes;
+import org.example.envahissementarmorique.model.character.base.Roman.General;
+import org.example.envahissementarmorique.model.character.base.Roman.Legionnary;
+import org.example.envahissementarmorique.model.character.base.Roman.Prefect;
+import org.example.envahissementarmorique.model.character.base.Roman.Roman;
 
 /**
  * Controller for the character creation dialog.
@@ -206,13 +212,11 @@ public class CharacterDialogController {
             case "Merchant":
                 return new Merchant(name, gender, faction, height, age, strength, endurance, health, hunger, belligerence, 0);
             case "Legionnaire":
-                return new Legionnaire(name, gender, faction, height, age, strength, endurance, health, hunger, belligerence, 0);
+                return new Legionnary(name, gender, faction, height, age, strength, endurance, health, hunger, belligerence, 0);
             case "Prefect":
                 return new Prefect(name, gender, faction, height, age, strength, endurance, health, hunger, belligerence, 0);
             case "General":
                 return new General(name, gender, faction, height, age, strength, endurance, health, hunger, belligerence, 0);
-            case "Lycanthrope":
-                return new Lycanthropes(name, gender, faction, height, age, strength, endurance, health, hunger, belligerence, 0);
             case "Fantastic Creature":
                 return new FantasticCreature(name, gender, height, age, strength, endurance, health, hunger, belligerence, 0);
             default:

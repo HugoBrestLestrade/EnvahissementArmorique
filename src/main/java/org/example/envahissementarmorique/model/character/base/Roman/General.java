@@ -1,5 +1,6 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Roman;
 
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 import org.example.envahissementarmorique.model.character.interfaces.TypeCombat;
 
 /**

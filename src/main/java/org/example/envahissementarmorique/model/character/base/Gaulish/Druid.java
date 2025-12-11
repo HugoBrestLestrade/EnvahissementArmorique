@@ -1,16 +1,19 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Gaulish;
+
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Blacksmith character.
- * Blacksmiths are craftsmen who forge weapons and tools.
+ * Represents a Druid character.
+ * Druids are wise Gaulois who can create magic potions.
+ * They have special abilities related to potion making.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
  */
-public class BlackSmith extends GameCharacter {
+public class Druid extends GameCharacter {
 
     /**
-     * Creates a new Blacksmith character.
+     * Creates a new Druid character.
      *
      * @param name the character's name
      * @param genre the character's gender
@@ -24,7 +27,7 @@ public class BlackSmith extends GameCharacter {
      * @param belligerence the character's belligerence level
      * @param magicpotion the character's initial magic potion level
      */
-    public BlackSmith(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public Druid(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);
     }
 }

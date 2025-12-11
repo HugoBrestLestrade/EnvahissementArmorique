@@ -1,16 +1,18 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Roman;
+
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Lycanthrope (werewolf) character.
- * Lycanthropes are shape-shifters who can transform between human and wolf forms.
+ * Represents a Prefect (Roman administrator) character.
+ * Prefects are Roman officials who manage provinces and camps.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
  */
-public class Lycanthropes extends GameCharacter {
+public class Prefect extends GameCharacter {
 
     /**
-     * Creates a new Lycanthrope character.
+     * Creates a new Prefect character.
      *
      * @param name the character's name
      * @param genre the character's gender
@@ -24,7 +26,7 @@ public class Lycanthropes extends GameCharacter {
      * @param belligerence the character's belligerence level
      * @param magicpotion the character's initial magic potion level
      */
-    public Lycanthropes(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public Prefect(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);
     }
 }

@@ -1,16 +1,18 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Gaulish;
+
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Prefect (Roman administrator) character.
- * Prefects are Roman officials who manage provinces and camps.
+ * Represents an InnKeeper character.
+ * InnKeepers manage inns and provide food and shelter.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
  */
-public class Prefect extends GameCharacter {
+public class InnKeeper extends GameCharacter {
 
     /**
-     * Creates a new Prefect character.
+     * Creates a new InnKeeper character.
      *
      * @param name the character's name
      * @param genre the character's gender
@@ -24,7 +26,7 @@ public class Prefect extends GameCharacter {
      * @param belligerence the character's belligerence level
      * @param magicpotion the character's initial magic potion level
      */
-    public Prefect(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public InnKeeper(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);
     }
 }

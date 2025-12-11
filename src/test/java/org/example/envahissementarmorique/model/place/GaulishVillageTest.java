@@ -1,6 +1,8 @@
 package org.example.envahissementarmorique.model.place;
 
 import org.example.envahissementarmorique.model.character.base.*;
+import org.example.envahissementarmorique.model.character.base.Gaulish.Gaulois;
+import org.example.envahissementarmorique.model.character.base.Roman.Roman;
 import org.example.envahissementarmorique.model.item.Potion;
 import org.example.envahissementarmorique.model.item.Foods;
 import org.junit.jupiter.api.BeforeEach;

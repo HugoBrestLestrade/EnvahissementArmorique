@@ -17,4 +17,10 @@ module org.example.envahissementarmorique {
     exports org.example.envahissementarmorique.model.place;
     exports org.example.envahissementarmorique.model.item;
     exports org.example.envahissementarmorique.model.theater;
+    exports org.example.envahissementarmorique.model.character.base.Lycan;
+    opens org.example.envahissementarmorique.model.character.base.Lycan to javafx.base, javafx.fxml;
+    exports org.example.envahissementarmorique.model.character.base.Gaulish;
+    opens org.example.envahissementarmorique.model.character.base.Gaulish to javafx.base, javafx.fxml;
+    exports org.example.envahissementarmorique.model.character.base.Roman;
+    opens org.example.envahissementarmorique.model.character.base.Roman to javafx.base, javafx.fxml;
 }

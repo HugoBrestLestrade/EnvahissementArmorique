@@ -1,16 +1,18 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Gaulish;
+
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Legionnaire (Roman soldier) character.
- * Legionnaires are basic Roman military units.
+ * Represents a Blacksmith character.
+ * Blacksmiths are craftsmen who forge weapons and tools.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
  */
-public class Legionnaire extends GameCharacter {
+public class BlackSmith extends GameCharacter {
 
     /**
-     * Creates a new Legionnaire character.
+     * Creates a new Blacksmith character.
      *
      * @param name the character's name
      * @param genre the character's gender
@@ -24,7 +26,7 @@ public class Legionnaire extends GameCharacter {
      * @param belligerence the character's belligerence level
      * @param magicpotion the character's initial magic potion level
      */
-    public Legionnaire(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public BlackSmith(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);
     }
 }

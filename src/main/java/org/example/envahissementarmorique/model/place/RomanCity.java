@@ -3,7 +3,7 @@ package org.example.envahissementarmorique.model.place;
 
 import org.example.envahissementarmorique.model.character.base.GameCharacter;
 import org.example.envahissementarmorique.model.character.base.FantasticCreature;
-import org.example.envahissementarmorique.model.character.base.Roman;
+import org.example.envahissementarmorique.model.character.base.Roman.Roman;
 import org.example.envahissementarmorique.model.character.base.ClanLeader;
 
 /**

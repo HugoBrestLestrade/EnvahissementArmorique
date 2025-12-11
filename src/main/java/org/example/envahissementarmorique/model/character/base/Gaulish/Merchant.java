@@ -1,16 +1,18 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Gaulish;
+
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents an InnKeeper character.
- * InnKeepers manage inns and provide food and shelter.
+ * Represents a Merchant character.
+ * Merchants trade goods and manage commerce.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
  */
-public class InnKeeper extends GameCharacter {
+public class Merchant extends GameCharacter {
 
     /**
-     * Creates a new InnKeeper character.
+     * Creates a new Merchant character.
      *
      * @param name the character's name
      * @param genre the character's gender
@@ -24,7 +26,8 @@ public class InnKeeper extends GameCharacter {
      * @param belligerence the character's belligerence level
      * @param magicpotion the character's initial magic potion level
      */
-    public InnKeeper(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public Merchant(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);
     }
+
 }

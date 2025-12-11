@@ -1,16 +1,18 @@
-package org.example.envahissementarmorique.model.character.base;
+package org.example.envahissementarmorique.model.character.base.Roman;
+
+import org.example.envahissementarmorique.model.character.base.GameCharacter;
 
 /**
- * Represents a Merchant character.
- * Merchants trade goods and manage commerce.
+ * Represents a Legionnaire (Roman soldier) character.
+ * Legionnaires are basic Roman military units.
  *
  * @author Envahissement Armorique Team
  * @version 1.0
  */
-public class Merchant extends GameCharacter {
+public class Legionnary extends GameCharacter {
 
     /**
-     * Creates a new Merchant character.
+     * Creates a new Legionnaire character.
      *
      * @param name the character's name
      * @param genre the character's gender
@@ -24,8 +26,7 @@ public class Merchant extends GameCharacter {
      * @param belligerence the character's belligerence level
      * @param magicpotion the character's initial magic potion level
      */
-    public Merchant(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
+    public Legionnary(String name, String genre, String faction, double height, int age, int strength, int endurance, int health, int hunger, int belligerence, int magicpotion) {
         super(name, genre, faction, height, age, strength, endurance, health, hunger, belligerence, magicpotion);
     }
-
 }

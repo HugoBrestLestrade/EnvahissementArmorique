@@ -1,6 +1,7 @@
 package org.example.envahissementarmorique.model.place;
 
 import org.example.envahissementarmorique.model.character.base.*;
+import org.example.envahissementarmorique.model.character.base.Gaulish.Gaulois;
 import org.example.envahissementarmorique.model.item.Food;
 import org.example.envahissementarmorique.model.item.Foods;
 import org.example.envahissementarmorique.model.item.Freshness;
