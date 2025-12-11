@@ -18,9 +18,12 @@ Si apache maven n'est pas installé sur votre ordinateur, il suffit sous linux d
 #### Lancement : 
 Il faut tout d'abord clôner le répôt et se placer a la racine du projet.
 Une fois que l'on a tous les prérequis, il nous faut donc pour lancer le projet :  <br>
-Tout d'abord on effectue ``` mvn clear ``` <br>
-puis ``` mvn compile ``` <br>
-et enfin ``` mvn exec:java -Dexec.mainClass="org.example.envahissementarmorique.app.ArmoricaApplication" ``` <br>
+##### Un clean du maven : 
+Avec la commande  ``` mvn clear ``` <br>
+##### La compilation du projet : 
+Avec la commande ``` mvn compile ``` <br>
+##### Le lancement du jeu : 
+Avec la commande ``` mvn exec:java -Dexec.mainClass="org.example.envahissementarmorique.app.ArmoricaApplication" ``` <br>
 
 
 ### Tests
