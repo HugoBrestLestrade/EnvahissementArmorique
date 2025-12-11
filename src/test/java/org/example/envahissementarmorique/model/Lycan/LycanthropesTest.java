@@ -83,15 +83,12 @@ class LycanthropesTest {
 
         Pack p = new Pack("Lune", alpha, femelle);
 
-        // Forcer transformation pour le test
-        alpha.ajusterFacteurDomination(999);
+        alpha.transformerEnHumainPourTest();
 
-        boolean transfo = alpha.tenterSeTransformerEnHumain();
-
-        assertTrue(transfo);
-        assertTrue(alpha.estHumain());
-        assertNull(alpha.getMeute());
+        assertTrue(alpha.estHumain(), "Le lycan doit être devenu humain");
+        assertNull(alpha.getMeute(), "Le lycan ne doit plus avoir de meute");
     }
+
 
     @Test
     void testVieillissement() {

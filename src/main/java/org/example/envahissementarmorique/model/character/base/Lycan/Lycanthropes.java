@@ -173,6 +173,16 @@ public class Lycanthropes  {
         }
         return false;
     }
+    // procedure pour le test
+    public void transformerEnHumainPourTest() {
+        estHumain = true;
+        if (pack != null) {
+            Pack ancienneMeute = pack;
+            ancienneMeute.retirerLycanthrope(this);
+            pack = null;
+        }
+    }
+
     /* -------- Séparation -------- */
     public void seSeparer() {
         if (pack != null) {
